@@ -2,6 +2,7 @@ import React from "react";
 import { Navbar, Container, Row, Col } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./NavbarNoticias.css";
+import CustomUser from "../customUser/CustomUser";
 
 const NavbarNoticiasContacto = () => (
   <Navbar bg="white" expand="lg" className="shadow-sm py-1  " sticky="top">
@@ -20,13 +21,7 @@ const NavbarNoticiasContacto = () => (
           </Navbar.Brand>
         </Col>
         <Col xs={6} md={6} className="d-flex justify-content-end mb-2 mb-md-0 ">
-          <Navbar.Brand href="#">
-            <img
-              src="/user.jpg"
-              alt="Logo universidad galileo"
-              style={{ maxHeight: "50px" }}
-            />
-          </Navbar.Brand>
+          <CustomUser />
         </Col>
       </Row>
     </Container>

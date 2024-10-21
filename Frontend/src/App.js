@@ -7,25 +7,45 @@ import React, { useState } from "react"; /* el use stage es  de react */
 import NoticiasList from "./componentes/itemNoticiaList/noticiaList.jsx";
 import ButtonsList from "./componentes/buttonsList/buttonList.jsx";
 import { Row, Col, Container } from "react-bootstrap";
+import ButtonsListAdmin from "./componentes/buttonListAdmin/buttonListAdmin.jsx";
 
 function App() {
-  const noticiasEstado = useSelector((state) => state.noticias);
+  const userRol = useSelector((state) => state.userSlice.role);
   const [view, setView] = useState("noticias");
+  const [viewAdmin, setViewAdmin] = useState("noticiasAdmin");
+
   const handleNavClick = (selectedView) => {
     setView(selectedView);
+  };
+  const handleNavClickAdmin = (selectedViewAdmin) => {
+    setViewAdmin(selectedViewAdmin);
   };
   return (
     <div className="App ">
       <NavbarNoticiasContacto />
-      <ButtonsList onViewChange={handleNavClick} />
-
       <Container className="mt-1">
-        <Row>
-          <Col>
-            {view === "noticias" && <NoticiasList />}
-            {view === "contactos" && <ContactList />}
-          </Col>
-        </Row>
+        {userRol === "user" && (
+          <>
+            <ButtonsList onViewChange={handleNavClick} />
+            <Row>
+              <Col>
+                {view === "noticias" && <NoticiasList />}
+                {view === "contactos" && <ContactList />}
+              </Col>
+            </Row>
+          </>
+        )}
+        {userRol === "admin" && (
+          <>
+            <ButtonsListAdmin onViewChange={handleNavClickAdmin} />
+            <Row>
+              <Col>
+                {viewAdmin === "noticiasAdmin" && <NoticiasList />}
+                {viewAdmin === "contactosAdmin" && <ContactList />}
+              </Col>
+            </Row>
+          </>
+        )}
       </Container>
     </div>
   );
