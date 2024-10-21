@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./NavbarNoticias.css";
 
 const NavbarNoticiasContacto = () => (
-  <Navbar bg="white" expand="lg" className="shadow-sm py-2 " sticky="top">
+  <Navbar bg="white" expand="lg" className="shadow-sm py-1  " sticky="top">
     <Container fluid>
       <Row className="d-flex w-100 align-items-center">
         <Col

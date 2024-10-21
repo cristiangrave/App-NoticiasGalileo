@@ -13,7 +13,7 @@ let ContactsService = class ContactsService {
         this.contacts = [
             {
                 id: 1,
-                name: 'John Doe',
+                name: 'Mariana Montenegro',
                 email: 'john@example.com',
                 phone: '123456789',
                 carrera: 'Bases de Datos',
@@ -22,7 +22,7 @@ let ContactsService = class ContactsService {
             },
             {
                 id: 2,
-                name: 'John Doe',
+                name: 'Carlos Herrera',
                 email: 'john@example.com',
                 phone: '123456789',
                 carrera: 'Analisis de Datos ',
@@ -31,7 +31,7 @@ let ContactsService = class ContactsService {
             },
             {
                 id: 3,
-                name: 'Marisa Landivar',
+                name: 'Marisa Gonzalez',
                 email: 'MariL@example.com',
                 phone: '123456789',
                 carrera: 'Estadistica',

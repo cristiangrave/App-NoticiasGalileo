@@ -9,21 +9,16 @@ import ButtonsList from "./componentes/buttonsList/buttonList.jsx";
 import { Row, Col, Container } from "react-bootstrap";
 
 function App() {
-  const noticias = useSelector((state) => state.noticias);
+  const noticiasEstado = useSelector((state) => state.noticias);
   const [view, setView] = useState("noticias");
   const handleNavClick = (selectedView) => {
     setView(selectedView);
   };
   return (
-    <div className="App">
+    <div className="App ">
       <NavbarNoticiasContacto />
-      <Container sticky="top">
-        <Row>
-          <Col className="d-flex justify-content-center">
-            <ButtonsList onViewChange={handleNavClick} />
-          </Col>
-        </Row>
-      </Container>
+      <ButtonsList onViewChange={handleNavClick} />
+
       <Container className="mt-1">
         <Row>
           <Col>

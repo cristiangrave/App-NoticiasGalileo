@@ -15,7 +15,6 @@ const ItemNoticia = ({ titulo, descripcion, carrera, imagen, fecha }) => (
             className="img-fluid rounded" /* Clase para hacer la imagen responsiva y con bordes redondeados */
           />
         </Col>
-
         <Col xs={12} md={6} className="order-md-2 order-1 ps-2">
           <div className="d-flex justify-content-between align-items-center mb-2">
             <small className="text-muted">{fecha}</small>
@@ -24,7 +23,6 @@ const ItemNoticia = ({ titulo, descripcion, carrera, imagen, fecha }) => (
           <Card.Title className="mt-2 titulo-noticia">{carrera}</Card.Title>
         </Col>
       </Row>
-
       <Row>
         <Col>
           <Card.Body>
@@ -36,6 +34,7 @@ const ItemNoticia = ({ titulo, descripcion, carrera, imagen, fecha }) => (
             <p className="text-muted " style={{ fontSize: "0.9rem" }}>
               {carrera}
             </p>
+            {/* hay que mostrar los botones de editar para cada card dedependiendo del tipo de Usuario*/}
           </Card.Body>
         </Col>
       </Row>
