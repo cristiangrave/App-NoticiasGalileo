@@ -11,7 +11,7 @@ const NavbarNoticiasContacto = () => (
         <Col
           xs={6}
           md={6}
-          className="d-flex   justify-content-start mb-2 mb-md-0">
+          className="d-flex justify-content-start mb-2 mb-md-0">
           <Navbar.Brand href="#">
             <img
               src="/logo-noslogan.png"

@@ -7,7 +7,8 @@ import {
   Col,
   Navbar,
 } from "react-bootstrap";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCirclePlus, faPlus } from "@fortawesome/free-solid-svg-icons";
 const ButtonsListAdmin = ({ onViewChange }) => (
   <Navbar sticky="top">
     <Container
@@ -31,8 +32,9 @@ const ButtonsListAdmin = ({ onViewChange }) => (
           </ButtonGroup>
         </Col>
         <Col xs={6} md={6} className="text-end">
-          <Button variant="outline-secondary" className="NavbarButtons btn-lg">
+          <Button variant="outline" className="NavbarButtons btn-lg">
             Crear
+            <FontAwesomeIcon icon={faCirclePlus} className="ms-2" />
           </Button>
         </Col>
       </Row>
