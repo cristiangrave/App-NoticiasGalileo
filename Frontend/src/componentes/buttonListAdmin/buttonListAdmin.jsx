@@ -10,9 +10,11 @@ import {
 
 const ButtonsListAdmin = ({ onViewChange }) => (
   <Navbar sticky="top">
-    <Container className="justify-content-center align-items-center" fluid>
+    <Container
+      className="d-flex justify-content-center align-items-center"
+      fluid>
       <Row>
-        <Col xs={4} md={4} className="  mb-2 mb-md-0 ">
+        <Col xs={6} md={6} className="mb-2 mb-md-0">
           <ButtonGroup>
             <Button
               variant="outline-secondary"
@@ -26,12 +28,12 @@ const ButtonsListAdmin = ({ onViewChange }) => (
               onClick={() => onViewChange("contactosAdmin")}>
               Contactos
             </Button>
-            <Button
-              variant="outline-secondary"
-              className="NavbarButtons btn-lg">
-              crear
-            </Button>
           </ButtonGroup>
+        </Col>
+        <Col xs={6} md={6} className="text-end">
+          <Button variant="outline-secondary" className="NavbarButtons btn-lg">
+            Crear
+          </Button>
         </Col>
       </Row>
     </Container>
