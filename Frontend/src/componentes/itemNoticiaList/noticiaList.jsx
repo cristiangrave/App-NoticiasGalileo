@@ -3,7 +3,7 @@ import axios from "axios";
 import ItemNoticia from "../ItemNoticia/ItemNoticia";
 /* import { useDispatch } from "react-redux";
  */
-const NoticiasList = () => {
+const NoticiasList = ({ usuarioProp }) => {
   const [noticias, setNoticias] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -36,7 +36,11 @@ const NoticiasList = () => {
     <div className="container mt-2">
       <ul className="list-group">
         {noticias.map((dataNoticias) => (
-          <ItemNoticia key={dataNoticias.id} {...dataNoticias} />
+          <ItemNoticia
+            key={dataNoticias.id}
+            {...dataNoticias}
+            usuarioProp={usuarioProp}
+          />
         ))}
       </ul>
     </div>

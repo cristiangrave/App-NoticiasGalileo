@@ -40,8 +40,12 @@ function App() {
             <ButtonsListAdmin onViewChange={handleNavClickAdmin} />
             <Row>
               <Col>
-                {viewAdmin === "noticiasAdmin" && <NoticiasList />}
-                {viewAdmin === "contactosAdmin" && <ContactList />}
+                {viewAdmin === "noticiasAdmin" && (
+                  <NoticiasList usuarioProp={userRol} />
+                )}
+                {viewAdmin === "contactosAdmin" && (
+                  <ContactList userProp={userRol} />
+                )}
               </Col>
             </Row>
           </>

@@ -3,7 +3,7 @@ import axios from "axios";
 import "./ContactList.css";
 import ItemContacto from "../itemContacto/itemContacto";
 
-const ContactList = () => {
+const ContactList = ({ userProp }) => {
   const [contacts, setContacts] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -32,7 +32,7 @@ const ContactList = () => {
     <div className="container mt-2">
       <ul className="list-group">
         {contacts.map((contact) => (
-          <ItemContacto key={contact.id} {...contact} />
+          <ItemContacto key={contact.id} {...contact} userProp={userProp} />
         ))}
       </ul>
     </div>

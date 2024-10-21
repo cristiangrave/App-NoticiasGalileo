@@ -1,9 +1,16 @@
 import React from "react";
-import { Card, Row, Col, Badge } from "react-bootstrap";
+import { Card, Row, Col, Badge, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ItemNoticia.css";
 
-const ItemNoticia = ({ titulo, descripcion, carrera, imagen, fecha }) => (
+const ItemNoticia = ({
+  titulo,
+  descripcion,
+  carrera,
+  imagen,
+  fecha,
+  usuarioProp,
+}) => (
   <Row className="w-100 d-flex align-items-center justify-content-center">
     <Card className="p-4 my-1 tarjeta-noticia">
       <Row className="g-0">
@@ -34,8 +41,15 @@ const ItemNoticia = ({ titulo, descripcion, carrera, imagen, fecha }) => (
             <p className="text-muted " style={{ fontSize: "0.9rem" }}>
               {carrera}
             </p>
-            {/* hay que mostrar los botones de editar para cada card dedependiendo del tipo de Usuario*/}
           </Card.Body>
+
+          {usuarioProp === "admin" && (
+            <div className="d-flex justify-content-end">
+              <Button variant="secondary" className="btn-md">
+                Editar
+              </Button>
+            </div>
+          )}
         </Col>
       </Row>
     </Card>

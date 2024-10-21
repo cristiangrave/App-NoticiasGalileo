@@ -8,7 +8,7 @@ import {
   Navbar,
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faCirclePlus, faPlus } from "@fortawesome/free-solid-svg-icons";
+import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
 const ButtonsListAdmin = ({ onViewChange }) => (
   <Navbar sticky="top">
     <Container

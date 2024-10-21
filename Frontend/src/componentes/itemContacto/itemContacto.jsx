@@ -1,8 +1,16 @@
 import React from "react";
-import { Card, Row, Col } from "react-bootstrap";
+import { Card, Row, Col, Button } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const ItemContacto = ({ name, email, phone, carrera, puesto, imagen }) => (
+const ItemContacto = ({
+  name,
+  email,
+  phone,
+  carrera,
+  puesto,
+  imagen,
+  userProp,
+}) => (
   <Row className="w-100 d-flex align-items-center justify-content-center">
     <Card className="p-4 my-1 tarjeta-noticia">
       <Row className="g-0">
@@ -42,6 +50,13 @@ const ItemContacto = ({ name, email, phone, carrera, puesto, imagen }) => (
             Tel:
             {phone}
           </Card.Text>
+          {userProp === "admin" && (
+            <div className="d-flex justify-content-end">
+              <Button variant="secondary" className="btn-md">
+                Editar
+              </Button>
+            </div>
+          )}
         </Col>
       </Row>
     </Card>

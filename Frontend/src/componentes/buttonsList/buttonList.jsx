@@ -22,7 +22,7 @@ const ButtonsList = ({ onViewChange }) => (
             </Button>
             <Button
               variant="outline-secondary"
-              className="NavbarButtons btn-lg"
+              className="btn-sm"
               onClick={() => onViewChange("contactos")}>
               Contactos
             </Button>
