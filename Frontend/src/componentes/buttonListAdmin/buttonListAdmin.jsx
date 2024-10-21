@@ -9,7 +9,7 @@ import {
 } from "react-bootstrap";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCirclePlus } from "@fortawesome/free-solid-svg-icons";
-const ButtonsListAdmin = ({ onViewChange }) => (
+const ButtonsListAdmin = ({ onViewChange, view }) => (
   <Navbar sticky="top">
     <Container
       className="d-flex justify-content-center align-items-center"
@@ -32,7 +32,13 @@ const ButtonsListAdmin = ({ onViewChange }) => (
           </ButtonGroup>
         </Col>
         <Col xs={6} md={6} className="text-end">
-          <Button variant="outline" className="NavbarButtons btn-lg">
+          <Button
+            variant="outline"
+            className="NavbarButtons btn-lg"
+            onClick={() => {
+              onViewChange("crearNoticia");
+              console.log("vista" + view);
+            }}>
             Crear
             <FontAwesomeIcon icon={faCirclePlus} className="ms-2" />
           </Button>

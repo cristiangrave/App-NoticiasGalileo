@@ -23,6 +23,9 @@ function App() {
   const handleNavClickAdmin = (selectedViewAdmin) => {
     setViewAdmin(selectedViewAdmin);
   };
+  const handleNavClickAdminCreate = (selectedViewAdmin) => {
+    setViewAdmin(selectedViewAdmin);
+  };
 
   return (
     <div className="App ">
