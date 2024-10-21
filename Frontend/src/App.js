@@ -8,18 +8,22 @@ import NoticiasList from "./componentes/itemNoticiaList/noticiaList.jsx";
 import ButtonsList from "./componentes/buttonsList/buttonList.jsx";
 import { Row, Col, Container } from "react-bootstrap";
 import ButtonsListAdmin from "./componentes/buttonListAdmin/buttonListAdmin.jsx";
+import ItemCrearNoticia from "./componentes/ItemCrearNoticia/ItemCrearNoticia.jsx";
+import ItemCrearContacto from "./componentes/ItemCrearContacto/ItemCrearContacto.jsx";
 
 function App() {
   const userRol = useSelector((state) => state.userSlice.role);
   const [view, setView] = useState("noticias");
   const [viewAdmin, setViewAdmin] = useState("noticiasAdmin");
-
+  /*   const [viewAddContac, setviewAddContac] = useState("viewAddContac");
+   */
   const handleNavClick = (selectedView) => {
     setView(selectedView);
   };
   const handleNavClickAdmin = (selectedViewAdmin) => {
     setViewAdmin(selectedViewAdmin);
   };
+
   return (
     <div className="App ">
       <NavbarNoticiasContacto />
@@ -45,6 +49,12 @@ function App() {
                 )}
                 {viewAdmin === "contactosAdmin" && (
                   <ContactList userProp={userRol} />
+                )}
+                {viewAdmin === "crearNoticia" && (
+                  <ItemCrearNoticia></ItemCrearNoticia>
+                )}
+                {viewAdmin === "crearContacto" && (
+                  <ItemCrearContacto></ItemCrearContacto>
                 )}
               </Col>
             </Row>

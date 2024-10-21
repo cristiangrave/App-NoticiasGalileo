@@ -3,7 +3,7 @@ import { Card, Row, Col, Form, Button, CardImg } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ItemCrearNoticia.css";
 
-function ItemCrearNoticia() {
+const ItemCrearNoticia = () => {
   return (
     <Row className="d-flex justify-content-center align-items-center">
       <Card className="p-4 my-4 tarjeta-noticia">
@@ -95,6 +95,6 @@ function ItemCrearNoticia() {
       </Card>
     </Row>
   );
-}
+};
 
 export default ItemCrearNoticia;
