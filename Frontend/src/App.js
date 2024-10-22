@@ -58,12 +58,8 @@ function App() {
                 {viewAdmin === "contactosAdmin" && (
                   <ContactList userProp={userRol} />
                 )}
-                {viewAdmin === "crearNoticia" && (
-                  <ItemCrearNoticia></ItemCrearNoticia>
-                )}
-                {viewAdmin === "crearContacto" && (
-                  <ItemCrearContacto></ItemCrearContacto>
-                )}
+                {viewAdmin === "crearNoticia" && <ItemCrearNoticia />}
+                {viewAdmin === "crearContacto" && <ItemCrearContacto />}
               </Col>
             </Row>
           </>
