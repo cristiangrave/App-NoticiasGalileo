@@ -35,7 +35,7 @@ function App() {
       <Container className="mt-1">
         {userRol === "user" && (
           <>
-            <ButtonsList onViewChange={handleNavClick} />
+            <ButtonsList onViewChange={(handleNavClick, handleCreateItem)} />
             <Row>
               <Col>
                 {view === "noticias" && <NoticiasList />}
