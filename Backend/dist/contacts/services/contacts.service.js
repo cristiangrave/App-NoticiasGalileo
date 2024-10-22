@@ -15,7 +15,7 @@ let ContactsService = class ContactsService {
                 id: 1,
                 name: 'Mariana Montenegro',
                 email: 'john@example.com',
-                phone: '123456789',
+                phone: 123456789,
                 carrera: 'Bases de Datos',
                 puesto: 'Docente',
                 imagen: 'docente1.png',
@@ -24,7 +24,7 @@ let ContactsService = class ContactsService {
                 id: 2,
                 name: 'Carlos Herrera',
                 email: 'john@example.com',
-                phone: '123456789',
+                phone: 123456789,
                 carrera: 'Analisis de Datos ',
                 puesto: 'Docente',
                 imagen: 'docente2.png',
@@ -33,16 +33,16 @@ let ContactsService = class ContactsService {
                 id: 3,
                 name: 'Marisa Gonzalez',
                 email: 'MariL@example.com',
-                phone: '123456789',
+                phone: 123456789,
                 carrera: 'Estadistica',
-                puesto: 'd',
+                puesto: 'Docente',
                 imagen: 'docente3.png',
             },
             {
                 id: 4,
                 name: 'Edgar Rolando ',
                 email: 'Edgar@gmail.com',
-                phone: '123456789',
+                phone: 123456789,
                 carrera: 'Cloud Computing ',
                 puesto: 'Docente',
                 imagen: 'docente4.png',
@@ -54,6 +54,19 @@ let ContactsService = class ContactsService {
     }
     findOne(id) {
         return this.contacts.find((contact) => contact.id === id);
+    }
+    create(createContactDto) {
+        const newContact = { id: Date.now(), ...createContactDto };
+        this.contacts.push(newContact);
+        return newContact;
+    }
+    update(id, updateContactDto) {
+        const contactIndex = this.contacts.findIndex(contact => contact.id == id);
+        if (contactIndex == -1) {
+            throw new common_1.NotFoundException(`Contacto con ID ${id} no encontrado`);
+        }
+        this.contacts[contactIndex] = { ...this.contacts[contactIndex], ...updateContactDto };
+        return this.contacts[contactIndex];
     }
 };
 exports.ContactsService = ContactsService;

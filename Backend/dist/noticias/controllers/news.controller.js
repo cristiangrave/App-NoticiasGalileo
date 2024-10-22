@@ -15,28 +15,36 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.NoticiasController = void 0;
 const common_1 = require("@nestjs/common");
 const noticias_service_1 = require("../services/noticias.service");
+const createNews_dto_1 = require("./createNews.dto");
+const updateNews_dto_1 = require("./updateNews.dto");
 let NoticiasController = class NoticiasController {
     constructor(noticiasService) {
         this.noticiasService = noticiasService;
     }
     findAll() {
-        const contacts = this.noticiasService.findAll();
+        const noticias = this.noticiasService.findAll();
         return {
             statusCode: common_1.HttpStatus.OK,
             message: 'Noticias Obtenidas Exitosamente',
-            data: contacts,
+            data: noticias,
         };
     }
     findOne(id) {
-        const contact = this.noticiasService.findOne(+id);
-        if (!contact) {
-            throw new common_1.NotFoundException(`No se encontró información para la Notica con ID ${id}`);
+        const noticia = this.noticiasService.findOne(+id);
+        if (!noticia) {
+            throw new common_1.NotFoundException(`No se encontró información para la Noticia con ID ${id}`);
         }
         return {
             statusCode: common_1.HttpStatus.OK,
             message: 'Noticia obtenido exitosamente',
-            data: contact,
+            data: noticia,
         };
+    }
+    create(createNewsDto) {
+        return this.noticiasService.create(createNewsDto);
+    }
+    updateNews(id, updateNewsDto) {
+        return this.noticiasService.update(id, updateNewsDto);
     }
 };
 exports.NoticiasController = NoticiasController;
@@ -54,8 +62,23 @@ __decorate([
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Object)
 ], NoticiasController.prototype, "findOne", null);
+__decorate([
+    (0, common_1.Post)(),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [createNews_dto_1.CreateNewsDto]),
+    __metadata("design:returntype", void 0)
+], NoticiasController.prototype, "create", null);
+__decorate([
+    (0, common_1.Put)(':id'),
+    __param(0, (0, common_1.Param)('id')),
+    __param(1, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [Number, updateNews_dto_1.UpdateNewsDto]),
+    __metadata("design:returntype", void 0)
+], NoticiasController.prototype, "updateNews", null);
 exports.NoticiasController = NoticiasController = __decorate([
     (0, common_1.Controller)('noticiasEstudiantes'),
     __metadata("design:paramtypes", [noticias_service_1.NoticiaService])
 ], NoticiasController);
-//# sourceMappingURL=noticias.controller.js.map
+//# sourceMappingURL=news.controller.js.map
