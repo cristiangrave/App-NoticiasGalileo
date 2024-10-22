@@ -8,14 +8,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.NoticiasModule = void 0;
 const common_1 = require("@nestjs/common");
-const noticias_controller_1 = require("./controllers/noticias.controller");
+const news_controller_1 = require("./controllers/news.controller");
 const noticias_service_1 = require("./services/noticias.service");
 let NoticiasModule = class NoticiasModule {
 };
 exports.NoticiasModule = NoticiasModule;
 exports.NoticiasModule = NoticiasModule = __decorate([
     (0, common_1.Module)({
-        controllers: [noticias_controller_1.NoticiasController],
+        controllers: [news_controller_1.NoticiasController],
         providers: [noticias_service_1.NoticiaService],
     })
 ], NoticiasModule);

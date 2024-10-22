@@ -13,6 +13,7 @@ let NoticiaService = class NoticiaService {
         this.noticias = [
             {
                 id: 1,
+                titulo: 'Charla Ingenieria',
                 descripcion: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam laudantium eius at enim corporis rerum quae aspernatur placeat dolores! Iure quaerat autem vel veniam animi culpa at est voluptatibus debitis.',
                 carrera: 'Ingenieria En Sistemas',
                 imagen: 'imagen-noticia.png',
@@ -20,6 +21,7 @@ let NoticiaService = class NoticiaService {
             },
             {
                 id: 2,
+                titulo: 'Charla Ingenieria',
                 descripcion: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam laudantium eius at enim corporis rerum quae aspernatur placeat dolores! Iure quaerat autem vel veniam animi culpa at est voluptatibus debitis.',
                 carrera: 'Ingenieria en Redes Computacionales',
                 imagen: 'imagen-noticia.png',
@@ -27,6 +29,7 @@ let NoticiaService = class NoticiaService {
             },
             {
                 id: 3,
+                titulo: 'Charla Ingenieria',
                 descripcion: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam laudantium eius at enim corporis rerum quae aspernatur placeat dolores! Iure quaerat autem vel veniam animi culpa at est voluptatibus debitis.',
                 carrera: 'Ingenieria en Ciberseguridad',
                 imagen: 'imagen-noticia.png',
@@ -34,6 +37,7 @@ let NoticiaService = class NoticiaService {
             },
             {
                 id: 4,
+                titulo: 'Charla Ingenieria',
                 descripcion: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam laudantium eius at enim corporis rerum quae aspernatur placeat dolores! Iure quaerat autem vel veniam animi culpa at est voluptatibus debitis.',
                 carrera: 'Ingenieria en Redes',
                 imagen: 'imagen-noticia.png',
@@ -46,6 +50,19 @@ let NoticiaService = class NoticiaService {
     }
     findOne(id) {
         return this.noticias.find((contact) => contact.id === id);
+    }
+    create(createNewsDto) {
+        const newNews = { id: Date.now(), ...createNewsDto };
+        this.noticias.push(newNews);
+        return newNews;
+    }
+    update(id, updateNewsDto) {
+        const newsIndex = this.noticias.findIndex(news => news.id == id);
+        if (newsIndex == -1) {
+            throw new common_1.NotFoundException(`Noticia con ID ${id} no encontrada`);
+        }
+        this.noticias[newsIndex] = { ...this.noticias[newsIndex], ...updateNewsDto };
+        return this.noticias[newsIndex];
     }
 };
 exports.NoticiaService = NoticiaService;

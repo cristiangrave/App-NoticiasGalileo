@@ -5,8 +5,13 @@ import {
   NotFoundException,
   HttpStatus,
   HttpCode,
+  Post,
+  Body,
+  Put,
 } from '@nestjs/common';
 import { ContactsService, Contact } from '../services/contacts.service';
+import { CreateContactDto } from './createContact.dto';
+import { UpdateContactDto } from './updateContact.dto';
 
 @Controller('contactosEstudiantes')
 export class ContactsController {
@@ -43,4 +48,18 @@ export class ContactsController {
       data: contact,
     };
   }
+
+  // Endpoint para Crear un contacto
+  @Post()
+  create(@Body() createContactDto: CreateContactDto){
+    return this.contactsService.create(createContactDto);
+  }
+
+  // Endpoint para Editar un Contacto
+  @Put(':id')
+  updateContact(@Param('id') id: number, @Body() updateContactDto:UpdateContactDto) {
+    return this.contactsService.update(id, updateContactDto)
+  }
+
+
 }

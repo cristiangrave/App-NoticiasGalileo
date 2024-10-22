@@ -5,8 +5,14 @@ import {
   NotFoundException,
   HttpStatus,
   HttpCode,
+  Post,
+  Body,
+  Put
 } from '@nestjs/common';
 import { NoticiaService, Noticia } from '../services/noticias.service';
+import { CreateNewsDto } from './createNews.dto';
+import { UpdateNewsDto } from './updateNews.dto';
+
 /*nombre del enpoint */
 @Controller('noticiasEstudiantes')
 export class NoticiasController {
@@ -16,11 +22,11 @@ export class NoticiasController {
   @Get()
   @HttpCode(HttpStatus.OK) // Código de estado 200
   findAll(): { statusCode: number; message: string; data: Noticia[] } {
-    const contacts = this.noticiasService.findAll();
+    const noticias = this.noticiasService.findAll();
     return {
       statusCode: HttpStatus.OK,
       message: 'Noticias Obtenidas Exitosamente',
-      data: contacts,
+      data: noticias,
     };
   }
 
@@ -31,16 +37,28 @@ export class NoticiasController {
     message: string;
     data?: Noticia;
   } {
-    const contact = this.noticiasService.findOne(+id);
-    if (!contact) {
+    const noticia = this.noticiasService.findOne(+id);
+    if (!noticia) {
       throw new NotFoundException(
-        `No se encontró información para la Notica con ID ${id}`,
+        `No se encontró información para la Noticia con ID ${id}`,
       );
     }
     return {
       statusCode: HttpStatus.OK,
       message: 'Noticia obtenido exitosamente',
-      data: contact,
+      data: noticia,
     };
   }
+
+   // Endpoint para Crear un contacto
+   @Post()
+   create(@Body() createNewsDto: CreateNewsDto){
+     return this.noticiasService.create(createNewsDto);
+   }
+ 
+   // Endpoint para Editar un Contacto
+   @Put(':id')
+   updateNews(@Param('id') id: number, @Body() updateNewsDto:UpdateNewsDto) {
+     return this.noticiasService.update(id, updateNewsDto)
+   }
 }
