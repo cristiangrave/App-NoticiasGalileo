@@ -23,7 +23,7 @@ const ItemCrearContacto = () => {
               <Col xs={12} md={6} className="mb-3">
                 {/* Campo de Título */}
                 <Form.Group controlId="formTitle">
-                  <Form.Label>Título</Form.Label>
+                  <Form.Label>Nombre Contacto</Form.Label>
                   <Form.Control type="text" placeholder="Ingrese un Título" />
                 </Form.Group>
               </Col>

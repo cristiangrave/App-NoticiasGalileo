@@ -15,16 +15,18 @@ function App() {
   const userRol = useSelector((state) => state.userSlice.role);
   const [view, setView] = useState("noticias");
   const [viewAdmin, setViewAdmin] = useState("noticiasAdmin");
-  /*   const [viewAddContac, setviewAddContac] = useState("viewAddContac");
-   */
   const handleNavClick = (selectedView) => {
     setView(selectedView);
   };
   const handleNavClickAdmin = (selectedViewAdmin) => {
     setViewAdmin(selectedViewAdmin);
   };
-  const handleNavClickAdminCreate = (selectedViewAdmin) => {
-    setViewAdmin(selectedViewAdmin);
+  const handleCreateItem = () => {
+    if (viewAdmin === "noticiasAdmin") {
+      setViewAdmin("crearNoticia");
+    } else {
+      setViewAdmin("crearContacto");
+    }
   };
 
   return (
@@ -44,7 +46,10 @@ function App() {
         )}
         {userRol === "admin" && (
           <>
-            <ButtonsListAdmin onViewChange={handleNavClickAdmin} />
+            <ButtonsListAdmin
+              onViewChange={handleNavClickAdmin}
+              crearItem={handleCreateItem}
+            />
             <Row>
               <Col>
                 {viewAdmin === "noticiasAdmin" && (
