@@ -1,5 +1,5 @@
 import React from "react";
-import { Card, Row, Col, Form, Button, CardImg } from "react-bootstrap";
+import { Card, Row, Col, Form, Button, CardImg, Image } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ItemCrearContacto.css";
 
@@ -12,14 +12,17 @@ const ItemCrearContacto = () => {
             <Col
               xs={12}
               md={6}
-              className="d-flex justify-content-center align-items-center">
-              <Row>
-                <CardImg
+              className="d-flex justify-content-center align-items-center text-center mb-3">
+              <Row className="justify-content-center align-items-center">
+                <Image
                   src="/icono-agregar-imagen.png"
                   onClick={() => {
                     console.log("click en imagen hacer algo como");
                   }}
+                  roundedCircle
+                  rounded
                 />
+                <Form.Control type="file" size="sm" />
               </Row>
             </Col>
             <Col xs={12} md={6} className="mb-3">
