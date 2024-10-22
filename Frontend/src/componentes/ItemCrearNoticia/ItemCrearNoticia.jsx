@@ -82,10 +82,10 @@ const ItemCrearNoticia = () => {
             </Col>
           </Row>
 
-          <Row className="mt-3">
+          <Row className="mt-2">
             <Col className="d-flex justify-content-end">
               {/* Botones de Cancelar y Actualizar */}
-              <Button variant="light" className="me-2">
+              <Button variant="secondary" className="me-2">
                 Cancelar
               </Button>
               <Button variant="dark">Guardar</Button>

@@ -8,15 +8,17 @@ const ItemCrearContacto = () => {
     <Row className="d-flex justify-content-center align-items-center">
       <Card className="p-4 my-4 tarjeta-contacto">
         <Form>
-          <Col
-            xs={12}
-            md={2}
-            className="d-flex justify-content-center align-items-center">
-            <Row>
-              {/* Ícono de imagen */}
-              <CardImg src="/icono-agregar-imagen.png" />
-            </Row>
-          </Col>
+          <Row>
+            <Col
+              xs={12}
+              md={2}
+              className="d-flex justify-content-center align-items-center">
+              <Row>
+                {/* Ícono de imagen */}
+                <CardImg src="/icono-agregar-imagen.png" />
+              </Row>
+            </Col>
+          </Row>
 
           <Col xs={12} md={10}>
             <Row>
@@ -24,7 +26,7 @@ const ItemCrearContacto = () => {
                 {/* Campo de Título */}
                 <Form.Group controlId="formTitle">
                   <Form.Label>Nombre Contacto</Form.Label>
-                  <Form.Control type="text" placeholder="Ingrese un Título" />
+                  <Form.Control type="text" placeholder="Nombre Contacto" />
                 </Form.Group>
               </Col>
 
@@ -41,53 +43,41 @@ const ItemCrearContacto = () => {
               <Col xs={12} md={6} className="mb-3">
                 {/* Campo de Categoría */}
                 <Form.Group controlId="formCategory">
-                  <Form.Label>Categoría</Form.Label>
-                  <Form.Select>
-                    <option>Seleccionar...</option>
-                  </Form.Select>
+                  <Form.Label>Puesto</Form.Label>
+                  <Form.Control
+                    type="text"
+                    placeholder="Puesto que Desempeña"
+                  />
                 </Form.Group>
               </Col>
 
               <Col xs={12} md={6} className="mb-3">
                 {/* Campo de Fecha de Publicación */}
                 <Form.Group controlId="formDate">
-                  <Form.Label>Fecha Publicación</Form.Label>
-                  <Form.Control type="text" placeholder="06/09/2024" />
+                  <Form.Label>Correo Electronico</Form.Label>
+                  <Form.Control
+                    type="email"
+                    placeholder="Correo Electronico "
+                  />
                 </Form.Group>
               </Col>
             </Row>
           </Col>
 
           <Row>
-            <Col xs={12} className="mb-3">
-              {/* Campo de Descripción */}
-              <Form.Group controlId="formDescription">
-                <Form.Label>Descripción</Form.Label>
-                <Form.Control
-                  as="textarea"
-                  rows={3}
-                  placeholder="Ingrese una Descripción"
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-
-          <Row>
             <Col xs={12} md={6} className="mb-3">
               {/* Campo de Carrera */}
               <Form.Group controlId="formCareer">
-                <Form.Label>Carrera</Form.Label>
-                <Form.Select>
-                  <option>Seleccionar...</option>
-                </Form.Select>
+                <Form.Label>Telefono</Form.Label>
+                <Form.Control type="email" placeholder="Telefono" />
               </Form.Group>
             </Col>
           </Row>
 
-          <Row className="mt-3">
+          <Row className="mt-2">
             <Col className="d-flex justify-content-end">
               {/* Botones de Cancelar y Actualizar */}
-              <Button variant="light" className="me-2">
+              <Button variant="secondary" className="me-2">
                 Cancelar
               </Button>
               <Button variant="dark">Guardar</Button>
