@@ -15,6 +15,7 @@ function App() {
   const userRol = useSelector((state) => state.userSlice.role);
   const [view, setView] = useState("noticias");
   const [viewAdmin, setViewAdmin] = useState("noticiasAdmin");
+
   const handleNavClick = (selectedView) => {
     setView(selectedView);
   };

@@ -1,6 +1,6 @@
-import { ContactsService, Contact } from '../services/contacts.service';
-import { CreateContactDto } from './createContact.dto';
-import { UpdateContactDto } from './updateContact.dto';
+import { ContactsService, Contact } from "../services/contacts.service";
+import { CreateContactDto } from "./createContact.dto";
+import { UpdateContactDto } from "./updateContact.dto";
 export declare class ContactsController {
     private readonly contactsService;
     constructor(contactsService: ContactsService);

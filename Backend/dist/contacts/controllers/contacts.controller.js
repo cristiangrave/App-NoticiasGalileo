@@ -25,7 +25,7 @@ let ContactsController = class ContactsController {
         const contacts = this.contactsService.findAll();
         return {
             statusCode: common_1.HttpStatus.OK,
-            message: 'Contactos obtenidos exitosamente',
+            message: "Contactos obtenidos exitosamente",
             data: contacts,
         };
     }
@@ -36,7 +36,7 @@ let ContactsController = class ContactsController {
         }
         return {
             statusCode: common_1.HttpStatus.OK,
-            message: 'Contacto obtenido exitosamente',
+            message: "Contacto obtenido exitosamente",
             data: contact,
         };
     }
@@ -56,8 +56,8 @@ __decorate([
     __metadata("design:returntype", Object)
 ], ContactsController.prototype, "findAll", null);
 __decorate([
-    (0, common_1.Get)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Get)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
     __metadata("design:returntype", Object)
@@ -70,15 +70,15 @@ __decorate([
     __metadata("design:returntype", void 0)
 ], ContactsController.prototype, "create", null);
 __decorate([
-    (0, common_1.Put)(':id'),
-    __param(0, (0, common_1.Param)('id')),
+    (0, common_1.Put)(":id"),
+    __param(0, (0, common_1.Param)("id")),
     __param(1, (0, common_1.Body)()),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [Number, updateContact_dto_1.UpdateContactDto]),
     __metadata("design:returntype", void 0)
 ], ContactsController.prototype, "updateContact", null);
 exports.ContactsController = ContactsController = __decorate([
-    (0, common_1.Controller)('contactosEstudiantes'),
+    (0, common_1.Controller)("contactosEstudiantes"),
     __metadata("design:paramtypes", [contacts_service_1.ContactsService])
 ], ContactsController);
 //# sourceMappingURL=contacts.controller.js.map

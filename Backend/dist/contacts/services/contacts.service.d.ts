@@ -1,5 +1,5 @@
-import { CreateContactDto } from '../controllers/createContact.dto';
-import { UpdateContactDto } from '../controllers/updateContact.dto';
+import { CreateContactDto } from "../controllers/createContact.dto";
+import { UpdateContactDto } from "../controllers/updateContact.dto";
 export interface Contact {
     id: number;
     name: string;

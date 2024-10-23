@@ -1,6 +1,6 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateContactDto } from '../controllers/createContact.dto';
-import { UpdateContactDto } from '../controllers/updateContact.dto';
+import { Injectable, NotFoundException } from "@nestjs/common";
+import { CreateContactDto } from "../controllers/createContact.dto";
+import { UpdateContactDto } from "../controllers/updateContact.dto";
 
 export interface Contact {
   id: number;
@@ -17,39 +17,39 @@ export class ContactsService {
   private contacts: Contact[] = [
     {
       id: 1,
-      name: 'Mariana Montenegro',
-      email: 'john@example.com',
+      name: "Mariana Montenegro",
+      email: "john@example.com",
       phone: 123456789,
-      carrera: 'Bases de Datos',
-      puesto: 'Docente',
-      imagen: 'docente1.png',
+      carrera: "Bases de Datos",
+      puesto: "Docente",
+      imagen: "docente1.png",
     },
     {
       id: 2,
-      name: 'Carlos Herrera',
-      email: 'john@example.com',
+      name: "Carlos Herrera",
+      email: "john@example.com",
       phone: 123456789,
-      carrera: 'Analisis de Datos ',
-      puesto: 'Docente',
-      imagen: 'docente2.png',
+      carrera: "Analisis de Datos ",
+      puesto: "Docente",
+      imagen: "docente2.png",
     },
     {
       id: 3,
-      name: 'Marisa Gonzalez',
-      email: 'MariL@example.com',
+      name: "Marisa Gonzalez",
+      email: "MariL@example.com",
       phone: 123456789,
-      carrera: 'Estadistica',
-      puesto: 'Docente',
-      imagen: 'docente3.png',
+      carrera: "Estadistica",
+      puesto: "Docente",
+      imagen: "docente3.png",
     },
     {
       id: 4,
-      name: 'Edgar Rolando ',
-      email: 'Edgar@gmail.com',
+      name: "Edgar Rolando ",
+      email: "Edgar@gmail.com",
       phone: 123456789,
-      carrera: 'Cloud Computing ',
-      puesto: 'Docente',
-      imagen: 'docente4.png',
+      carrera: "Cloud Computing ",
+      puesto: "Docente",
+      imagen: "docente4.png",
     },
     // Agrega más contactos simulados aquí
   ];
@@ -66,22 +66,23 @@ export class ContactsService {
 
   // Crear un contacto nuevo
   create(createContactDto: CreateContactDto) {
-    const newContact = { id: Date.now(), ...createContactDto }
+    const newContact = { id: Date.now(), ...createContactDto };
     this.contacts.push(newContact);
     return newContact;
   }
 
   // Editar un contacto existente
-  update(id: number, updateContactDto: UpdateContactDto){
-    const contactIndex = this.contacts.findIndex(contact => contact.id == id)
-
+  update(id: number, updateContactDto: UpdateContactDto) {
+    const contactIndex = this.contacts.findIndex((contact) => contact.id == id);
     // Si no encuentra el contacto por ID
-    if(contactIndex == -1) {
+    if (contactIndex == -1) {
       throw new NotFoundException(`Contacto con ID ${id} no encontrado`);
     }
-
     // Si encuentra el contacto con el ID y le Edita los datos
-    this.contacts[contactIndex] = { ...this.contacts[contactIndex], ...updateContactDto};
+    this.contacts[contactIndex] = {
+      ...this.contacts[contactIndex],
+      ...updateContactDto,
+    };
     return this.contacts[contactIndex];
   }
 }
