@@ -1,9 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { Card, Row, Col, Form, Button, CardImg } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ItemCrearNoticia.css";
 
 const ItemCrearNoticia = () => {
+  /* se creo el estado de la fecha para que agarre la fecha actual  */
+  const [fecha, setFecha] = useState(new Date().toISOString().split("T")[0]);
+
   return (
     <Row className="d-flex justify-content-center align-items-center">
       <Card className="p-4 my-4 tarjeta-noticia">
@@ -12,7 +15,8 @@ const ItemCrearNoticia = () => {
             <Col
               xs={12}
               md={2}
-              className="d-flex justify-content-center align-items-center">
+              className="d-flex justify-content-center align-items-center"
+            >
               {/* Ícono de imagen */}
               <CardImg src="/icono-agregar-imagen.png" />
             </Col>
@@ -49,7 +53,12 @@ const ItemCrearNoticia = () => {
                   {/* Campo de Fecha de Publicación */}
                   <Form.Group controlId="formDate">
                     <Form.Label>Fecha Publicación</Form.Label>
-                    <Form.Control type="text" placeholder="06/09/2024" />
+                    <Form.Control
+                      type="date"
+                      value={fecha}
+                      onChange={(e) => setFecha(e.target.value)}
+                      readOnly
+                    />
                   </Form.Group>
                 </Col>
               </Row>
