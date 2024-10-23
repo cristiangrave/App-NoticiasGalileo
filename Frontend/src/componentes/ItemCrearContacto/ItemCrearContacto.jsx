@@ -50,7 +50,13 @@ const ItemCrearContacto = () => {
           setCourse("");
           setPuesto("");
         })
-        .catch();
+        .catch((error) => {
+          Toast.fire({
+            icon: "danger",
+            title: "Error al Crear Contacto Nuevo : " + error,
+          });
+          console.error(error);
+        });
     }
   };
   return (
@@ -61,8 +67,7 @@ const ItemCrearContacto = () => {
             <Col
               xs={12}
               md={6}
-              className="d-flex justify-content-center align-items-center text-center mb-3"
-            >
+              className="d-flex justify-content-center align-items-center text-center mb-3">
               <Row className="justify-content-center align-items-center">
                 <Image
                   src="/icono-agregar-imagen.png"
