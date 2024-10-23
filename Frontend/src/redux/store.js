@@ -11,7 +11,7 @@ export default configureStore({
     option: optionReducer,
     adminOption: CreateSliceOP,
     userSlice: userSlice,
-    conctac: contactSlice,
+    contactos: contactSlice,
     news: newsSlice,
   },
 });
