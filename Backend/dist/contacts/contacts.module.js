@@ -10,13 +10,14 @@ exports.ContactsModule = void 0;
 const common_1 = require("@nestjs/common");
 const contacts_controller_1 = require("./controllers/contacts.controller");
 const contacts_service_1 = require("./services/contacts.service");
+const upload_service_1 = require("./services/upload.service");
 let ContactsModule = class ContactsModule {
 };
 exports.ContactsModule = ContactsModule;
 exports.ContactsModule = ContactsModule = __decorate([
     (0, common_1.Module)({
         controllers: [contacts_controller_1.ContactsController],
-        providers: [contacts_service_1.ContactsService],
+        providers: [contacts_service_1.ContactsService, upload_service_1.UploadService],
     })
 ], ContactsModule);
 //# sourceMappingURL=contacts.module.js.map

@@ -1,9 +1,11 @@
 import { ContactsService, Contact } from '../services/contacts.service';
 import { CreateContactDto } from './createContact.dto';
 import { UpdateContactDto } from './updateContact.dto';
+import { UploadService } from '../services/upload.service';
 export declare class ContactsController {
     private readonly contactsService;
-    constructor(contactsService: ContactsService);
+    private readonly uploadService;
+    constructor(contactsService: ContactsService, uploadService: UploadService);
     findAll(): {
         statusCode: number;
         message: string;
@@ -14,7 +16,7 @@ export declare class ContactsController {
         message: string;
         data?: Contact;
     };
-    create(createContactDto: CreateContactDto): {
+    create(createContactDto: CreateContactDto, file: Express.Multer.File): Promise<{
         name: string;
         email: string;
         phone: number;
@@ -22,6 +24,6 @@ export declare class ContactsController {
         puesto: string;
         imagen: string;
         id: number;
-    };
-    updateContact(id: number, updateContactDto: UpdateContactDto): Contact;
+    }>;
+    updateContact(id: number, updateContactDto: UpdateContactDto, file?: Express.Multer.File): Promise<Contact>;
 }

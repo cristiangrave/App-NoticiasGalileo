@@ -17,9 +17,12 @@ const common_1 = require("@nestjs/common");
 const contacts_service_1 = require("../services/contacts.service");
 const createContact_dto_1 = require("./createContact.dto");
 const updateContact_dto_1 = require("./updateContact.dto");
+const upload_service_1 = require("../services/upload.service");
+const platform_express_1 = require("@nestjs/platform-express");
 let ContactsController = class ContactsController {
-    constructor(contactsService) {
+    constructor(contactsService, uploadService) {
         this.contactsService = contactsService;
+        this.uploadService = uploadService;
     }
     findAll() {
         const contacts = this.contactsService.findAll();
@@ -40,11 +43,19 @@ let ContactsController = class ContactsController {
             data: contact,
         };
     }
-    create(createContactDto) {
-        return this.contactsService.create(createContactDto);
+    async create(createContactDto, file) {
+        const imagen = this.uploadService.uploadImage(file);
+        return this.contactsService.create({ ...createContactDto, imagen: imagen });
     }
-    updateContact(id, updateContactDto) {
-        return this.contactsService.update(id, updateContactDto);
+    async updateContact(id, updateContactDto, file) {
+        let imagen;
+        if (file) {
+            imagen = this.uploadService.uploadImage(file);
+        }
+        return this.contactsService.update(id, {
+            ...updateContactDto,
+            ...(imagen && { imagen })
+        });
     }
 };
 exports.ContactsController = ContactsController;
@@ -64,21 +75,25 @@ __decorate([
 ], ContactsController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Post)(),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('imagen')),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [createContact_dto_1.CreateContactDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [createContact_dto_1.CreateContactDto, Object]),
+    __metadata("design:returntype", Promise)
 ], ContactsController.prototype, "create", null);
 __decorate([
     (0, common_1.Put)(':id'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('imagen')),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, updateContact_dto_1.UpdateContactDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [Number, updateContact_dto_1.UpdateContactDto, Object]),
+    __metadata("design:returntype", Promise)
 ], ContactsController.prototype, "updateContact", null);
 exports.ContactsController = ContactsController = __decorate([
     (0, common_1.Controller)('contactosEstudiantes'),
-    __metadata("design:paramtypes", [contacts_service_1.ContactsService])
+    __metadata("design:paramtypes", [contacts_service_1.ContactsService, upload_service_1.UploadService])
 ], ContactsController);
 //# sourceMappingURL=contacts.controller.js.map

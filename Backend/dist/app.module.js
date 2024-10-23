@@ -11,12 +11,17 @@ const common_1 = require("@nestjs/common");
 const users_module_1 = require("./users/users.module");
 const contacts_module_1 = require("./contacts/contacts.module");
 const noticias_module_1 = require("./noticias/noticias.module");
+const serve_static_1 = require("@nestjs/serve-static");
+const path_1 = require("path");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [users_module_1.UsersModule, contacts_module_1.ContactsModule, noticias_module_1.NoticiasModule],
+        imports: [users_module_1.UsersModule, contacts_module_1.ContactsModule, noticias_module_1.NoticiasModule, serve_static_1.ServeStaticModule.forRoot({
+                rootPath: (0, path_1.join)(__dirname, '..', 'uploads'),
+                serveRoot: '/Backend/src/uploads'
+            })],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map
