@@ -16,6 +16,8 @@ import { CreateNewsDto } from './createNews.dto';
 import { UpdateNewsDto } from './updateNews.dto';
 import { UploadService } from '../services/upload.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
 
 /*nombre del enpoint */
 @Controller('noticiasEstudiantes')
@@ -56,7 +58,17 @@ export class NoticiasController {
 
    // Endpoint para Crear un contacto
    @Post()
-   @UseInterceptors(FileInterceptor('imagen'))
+   @UseInterceptors(FileInterceptor('imagen', {
+    storage: diskStorage({
+      destination: './uploads',
+      filename: (req, file, cb) => {
+        // Generar un nombre único para la imagen
+        const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('');
+        const fileExt = extname(file.originalname);  // Obtener la extensión del archivo original
+        cb(null, `${randomName}${fileExt}`);  // Generar el nombre completo del archivo
+      }
+    })
+   }))
    async create(@Body() createNewsDto: CreateNewsDto, @UploadedFile() file: Express.Multer.File){
      
     // Subir la imagen si es necesario
@@ -68,7 +80,11 @@ export class NoticiasController {
  
    // Endpoint para Editar un Contacto
    @Put(':id')
-   @UseInterceptors(FileInterceptor('imagen'))
+   @UseInterceptors(FileInterceptor('imagen', {
+    storage: diskStorage({
+      destination: './uploads'
+    })
+   }))
    async updateNews(@Param('id') id: number, @Body() updateNewsDto:UpdateNewsDto, @UploadedFile() file?: Express.Multer.File) {
 
     let imagen;

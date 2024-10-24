@@ -19,6 +19,7 @@ const createContact_dto_1 = require("./createContact.dto");
 const updateContact_dto_1 = require("./updateContact.dto");
 const upload_service_1 = require("../services/upload.service");
 const platform_express_1 = require("@nestjs/platform-express");
+const multer_1 = require("multer");
 let ContactsController = class ContactsController {
     constructor(contactsService, uploadService) {
         this.contactsService = contactsService;
@@ -75,7 +76,11 @@ __decorate([
 ], ContactsController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Post)(),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('imagen')),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('imagen', {
+        storage: (0, multer_1.diskStorage)({
+            destination: './uploads'
+        })
+    })),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
@@ -84,7 +89,11 @@ __decorate([
 ], ContactsController.prototype, "create", null);
 __decorate([
     (0, common_1.Put)(':id'),
-    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('imagen')),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('imagen', {
+        storage: (0, multer_1.diskStorage)({
+            destination: './uploads'
+        })
+    })),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.UploadedFile)()),

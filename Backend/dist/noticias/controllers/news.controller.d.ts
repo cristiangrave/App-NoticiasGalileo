@@ -1,9 +1,11 @@
 import { NoticiaService, Noticia } from '../services/noticias.service';
 import { CreateNewsDto } from './createNews.dto';
 import { UpdateNewsDto } from './updateNews.dto';
+import { UploadService } from '../services/upload.service';
 export declare class NoticiasController {
     private readonly noticiasService;
-    constructor(noticiasService: NoticiaService);
+    private readonly uploadService;
+    constructor(noticiasService: NoticiaService, uploadService: UploadService);
     findAll(): {
         statusCode: number;
         message: string;
@@ -14,13 +16,13 @@ export declare class NoticiasController {
         message: string;
         data?: Noticia;
     };
-    create(createNewsDto: CreateNewsDto): {
+    create(createNewsDto: CreateNewsDto, file: Express.Multer.File): Promise<{
         titulo: string;
         descripcion: string;
         carrera: string;
         imagen: string;
         fecha: string;
         id: number;
-    };
-    updateNews(id: number, updateNewsDto: UpdateNewsDto): Noticia;
+    }>;
+    updateNews(id: number, updateNewsDto: UpdateNewsDto, file?: Express.Multer.File): Promise<Noticia>;
 }

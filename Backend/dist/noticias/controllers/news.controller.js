@@ -17,9 +17,14 @@ const common_1 = require("@nestjs/common");
 const noticias_service_1 = require("../services/noticias.service");
 const createNews_dto_1 = require("./createNews.dto");
 const updateNews_dto_1 = require("./updateNews.dto");
+const upload_service_1 = require("../services/upload.service");
+const platform_express_1 = require("@nestjs/platform-express");
+const multer_1 = require("multer");
+const path_1 = require("path");
 let NoticiasController = class NoticiasController {
-    constructor(noticiasService) {
+    constructor(noticiasService, uploadService) {
         this.noticiasService = noticiasService;
+        this.uploadService = uploadService;
     }
     findAll() {
         const noticias = this.noticiasService.findAll();
@@ -40,11 +45,16 @@ let NoticiasController = class NoticiasController {
             data: noticia,
         };
     }
-    create(createNewsDto) {
-        return this.noticiasService.create(createNewsDto);
+    async create(createNewsDto, file) {
+        const imagen = this.uploadService.uploadImage(file);
+        return this.noticiasService.create({ ...createNewsDto, imagen: imagen });
     }
-    updateNews(id, updateNewsDto) {
-        return this.noticiasService.update(id, updateNewsDto);
+    async updateNews(id, updateNewsDto, file) {
+        let imagen;
+        if (file) {
+            imagen = this.uploadService.uploadImage(file);
+        }
+        return this.noticiasService.update(id, { ...updateNewsDto, ...(imagen && { imagen }) });
     }
 };
 exports.NoticiasController = NoticiasController;
@@ -64,21 +74,38 @@ __decorate([
 ], NoticiasController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Post)(),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('imagen', {
+        storage: (0, multer_1.diskStorage)({
+            destination: './uploads',
+            filename: (req, file, cb) => {
+                const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('');
+                const fileExt = (0, path_1.extname)(file.originalname);
+                cb(null, `${randomName}${fileExt}`);
+            }
+        })
+    })),
     __param(0, (0, common_1.Body)()),
+    __param(1, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [createNews_dto_1.CreateNewsDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [createNews_dto_1.CreateNewsDto, Object]),
+    __metadata("design:returntype", Promise)
 ], NoticiasController.prototype, "create", null);
 __decorate([
     (0, common_1.Put)(':id'),
+    (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('imagen', {
+        storage: (0, multer_1.diskStorage)({
+            destination: './uploads'
+        })
+    })),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
+    __param(2, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, updateNews_dto_1.UpdateNewsDto]),
-    __metadata("design:returntype", void 0)
+    __metadata("design:paramtypes", [Number, updateNews_dto_1.UpdateNewsDto, Object]),
+    __metadata("design:returntype", Promise)
 ], NoticiasController.prototype, "updateNews", null);
 exports.NoticiasController = NoticiasController = __decorate([
     (0, common_1.Controller)('noticiasEstudiantes'),
-    __metadata("design:paramtypes", [noticias_service_1.NoticiaService])
+    __metadata("design:paramtypes", [noticias_service_1.NoticiaService, upload_service_1.UploadService])
 ], NoticiasController);
 //# sourceMappingURL=news.controller.js.map

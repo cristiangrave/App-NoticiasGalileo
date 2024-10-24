@@ -14,12 +14,8 @@ let UploadService = class UploadService {
         if (!file) {
             return null;
         }
-        const randomName = Array(32)
-            .fill(null)
-            .map(() => (Math.round(Math.random() * 16)).toString(16))
-            .join('');
+        const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('');
         const fileName = `${randomName}${(0, path_1.extname)(file.originalname)}`;
-        const filePath = `/Backend/src/uploads/${fileName}`;
         return fileName;
     }
 };

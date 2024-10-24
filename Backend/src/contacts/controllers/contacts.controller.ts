@@ -16,6 +16,9 @@ import { CreateContactDto } from './createContact.dto';
 import { UpdateContactDto } from './updateContact.dto';
 import { UploadService } from '../services/upload.service';
 import { FileInterceptor } from '@nestjs/platform-express';
+import { diskStorage } from 'multer';
+import { extname } from 'path';
+
 
 @Controller('contactosEstudiantes')
 export class ContactsController {
@@ -56,7 +59,17 @@ export class ContactsController {
   // Endpoint para Crear un contacto
   // Ya con subida de imagen
   @Post()
-  @UseInterceptors(FileInterceptor('imagen'))
+  @UseInterceptors(FileInterceptor('imagen', {
+    storage: diskStorage({
+      destination: './uploads',
+      filename: (req, file, cb) => {
+        // Generar un nombre único para la imagen
+        const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('');
+        const fileExt = extname(file.originalname);  // Obtener la extensión del archivo original
+        cb(null, `${randomName}${fileExt}`);  // Generar el nombre completo del archivo
+      }
+    })
+   }))
   async create(@Body() createContactDto: CreateContactDto, @UploadedFile() file: Express.Multer.File){
     
     // Subir la imagen si es necesario
@@ -68,7 +81,11 @@ export class ContactsController {
 
   // Endpoint para Editar un Contacto
   @Put(':id')
-  @UseInterceptors(FileInterceptor('imagen'))
+  @UseInterceptors(FileInterceptor('imagen', {
+    storage: diskStorage({
+      destination: './uploads'
+    })
+   }))
   async updateContact(
     @Param('id') id: number, 
     @Body() updateContactDto:UpdateContactDto, 
