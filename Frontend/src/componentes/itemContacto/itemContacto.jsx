@@ -11,20 +11,20 @@ const ItemContacto = ({ userProp }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editContact, setEditedProduct] = useState(null);
-  const Dispatch = useDispatch();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     axios
       .get("http://localhost:3001/contactosEstudiantes/")
       .then((res) => {
-        Dispatch(readContact(res.data.data));
+        dispatch(readContact(res.data.data));
         setLoading(false);
       })
       .catch((error) => {
         setError(error.message);
         setLoading(false);
       });
-  }, [Dispatch]);
+  }, [dispatch]);
   const Toast = Swal.mixin({
     toast: true,
     position: "bottom-end",
@@ -50,19 +50,22 @@ const ItemContacto = ({ userProp }) => {
           icon: "success",
           title: "Contacto Editado Correctamente",
         });
-        /* aqui con el despachador de estados mando a llamar a mi estado de update contacto que lo que va 
-          hacer es que buscara el id con el que 
-          tiene relacion mi objeto y luego  por medio del ir va reemplazar lo valores que le mandamos en el objeto */
-        Dispatch(
+        /* IMPORTATE RECORDAR QUE AL OTRO LADOR RECIBIMOS UN OBJETE CON EL MISMO ORDE DE DATOS EN UPTADE CONTACT */
+        dispatch(
           updateContact({
+            id: editContact.id,
             name: editContact.name,
             email: editContact.email,
             phone: editContact.phone,
             carrera: editContact.carrera,
             puesto: editContact.puesto,
+            imagen: "imagen.png",
           })
         );
         setEditedProduct(null);
+        /* aqui con el despachador de estados mando a llamar a mi estado de update contacto que lo que va 
+          hacer es que buscara el id con el que 
+          tiene relacion mi objeto y luego  por medio del ir va reemplazar lo valores que le mandamos en el objeto */
       })
       .catch((error) => {
         Toast.fire({
