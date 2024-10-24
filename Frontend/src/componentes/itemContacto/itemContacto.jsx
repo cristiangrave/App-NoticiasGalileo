@@ -85,7 +85,6 @@ const ItemContacto = ({ userProp }) => {
   return (
     <>
       <Row className="w-100 d-flex align-items-center justify-content-center">
-        {/* aqui tendria que ir el map */}
         {allContacts.data.map((contacto) => (
           <Card className="p-4 my-1 tarjeta-noticia" key={contacto.id}>
             {editContact?.id === contacto.id ? (
