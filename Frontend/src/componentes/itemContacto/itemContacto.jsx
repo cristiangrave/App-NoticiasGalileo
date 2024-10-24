@@ -17,7 +17,7 @@ const ItemContacto = ({ userProp }) => {
   const [puesto, setPuesto] = useState("");
   const Dispatch = useDispatch();
   const handleClickEditContact = (contacto) => {
-    /* esta es la validacion que hace la magia  */
+    /* esta es la validacion que hace la magia eesta es otra modificacion */
     if (editingContactId !== contacto.id) {
       setEditingContactId(contacto.id);
       setName(contacto.name);
