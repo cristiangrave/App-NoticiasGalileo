@@ -34,7 +34,7 @@ const ItemContacto = ({ userProp }) => {
     axios
       .get("http://localhost:3001/contactosEstudiantes/")
       .then((res) => {
-        Dispatch(readContact(res.data));
+        Dispatch(readContact(res.data.data));
         setLoading(false);
       })
       .catch((error) => {
@@ -63,7 +63,7 @@ const ItemContacto = ({ userProp }) => {
     <>
       <Row className="w-100 d-flex align-items-center justify-content-center">
         {/* aqui tendria que ir el map */}
-        {allContacts.data.data.map((contacto) => (
+        {allContacts.data.map((contacto) => (
           <Card className="p-4 my-1 tarjeta-noticia" key={contacto.id}>
             {editingContactId === contacto.id ? (
               <Form>
