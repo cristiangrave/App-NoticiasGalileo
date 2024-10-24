@@ -4,7 +4,6 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { readContact } from "../../redux/reducers/contactSlice";
-import { text } from "@fortawesome/fontawesome-svg-core";
 
 const ItemContacto = ({ userProp }) => {
   const allContacts = useSelector((state) => state.contactos);
@@ -18,6 +17,7 @@ const ItemContacto = ({ userProp }) => {
   const [puesto, setPuesto] = useState("");
   const Dispatch = useDispatch();
   const handleClickEditContact = (contacto) => {
+    /* esta es la validacion que hace la magia  */
     if (editingContactId !== contacto.id) {
       setEditingContactId(contacto.id);
       setName(contacto.name);
