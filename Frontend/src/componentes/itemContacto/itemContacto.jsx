@@ -3,33 +3,16 @@ import { Card, Row, Col, Button, Form, Image } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import { readContact } from "../../redux/reducers/contactSlice";
+import { readContact, updateContact } from "../../redux/reducers/contactSlice";
+import Swal from "sweetalert2";
 
 const ItemContacto = ({ userProp }) => {
   const allContacts = useSelector((state) => state.contactos);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [editingContactId, setEditingContactId] = useState(null);
-  const [name, setName] = useState("");
-  const [email, setEmail] = useState("");
-  const [phone, setPhone] = useState("");
-  const [course, setCourse] = useState("");
-  const [puesto, setPuesto] = useState("");
+  const [editContact, setEditedProduct] = useState(null);
   const Dispatch = useDispatch();
-  const handleClickEditContact = (contacto) => {
-    /* esta es la validacion que hace la magia eesta es otra modificacion */
-    if (editingContactId !== contacto.id) {
-      setEditingContactId(contacto.id);
-      setName(contacto.name);
-      setEmail(contacto.email);
-      setPhone(contacto.phone);
-      setCourse(contacto.carrera);
-      setPuesto(contacto.puesto);
-    }
-  };
-  const handleUpdateContact = () => {
-    console.log("tenemos que actualizar");
-  };
+
   useEffect(() => {
     axios
       .get("http://localhost:3001/contactosEstudiantes/")
@@ -42,14 +25,51 @@ const ItemContacto = ({ userProp }) => {
         setLoading(false);
       });
   }, [Dispatch]);
-
-  const handleClickEditContaco = (contacto) => {
-    setEditingContactId(null);
-    setName("");
-    setEmail("");
-    setPhone("");
-    setCourse("");
-    setPuesto("");
+  const Toast = Swal.mixin({
+    toast: true,
+    position: "bottom-end",
+    showConfirmButton: false,
+    timer: 2500,
+    timerProgressBar: true,
+    didOpen: (toast) => {
+      toast.onmouseenter = Swal.stopTimer;
+      toast.onmouseleave = Swal.resumeTimer;
+    },
+  });
+  const handleClickEditContaco = () => {
+    axios
+      .put(`http://localhost:3001/contactosEstudiantes/${editContact.id}`, {
+        name: editContact.name,
+        email: editContact.email,
+        phone: editContact.phone,
+        carrera: editContact.carrera,
+        puesto: editContact.puesto,
+      })
+      .then((res) => {
+        Toast.fire({
+          icon: "success",
+          title: "Contacto Editado Correctamente",
+        });
+        /* aqui con el despachador de estados mando a llamar a mi estado de update contacto que lo que va 
+          hacer es que buscara el id con el que 
+          tiene relacion mi objeto y luego  por medio del ir va reemplazar lo valores que le mandamos en el objeto */
+        Dispatch(
+          updateContact({
+            name: editContact.name,
+            email: editContact.email,
+            phone: editContact.phone,
+            carrera: editContact.carrera,
+            puesto: editContact.puesto,
+          })
+        );
+        setEditedProduct(null);
+      })
+      .catch((error) => {
+        Toast.fire({
+          icon: "success",
+          title: "Ocurrio un Error " + error,
+        });
+      });
   };
   if (loading) {
     return <div className="alert alert-info">Cargando contactos...</div>;
@@ -65,7 +85,7 @@ const ItemContacto = ({ userProp }) => {
         {/* aqui tendria que ir el map */}
         {allContacts.data.map((contacto) => (
           <Card className="p-4 my-1 tarjeta-noticia" key={contacto.id}>
-            {editingContactId === contacto.id ? (
+            {editContact?.id === contacto.id ? (
               <Form>
                 <Row>
                   <Col
@@ -90,8 +110,13 @@ const ItemContacto = ({ userProp }) => {
                       <Form.Label>Nombre Contacto</Form.Label>
                       <Form.Control
                         type="text"
-                        value={name}
-                        onChange={(e) => setName((e) => e.target.value)}
+                        value={editContact.name}
+                        onChange={(e) =>
+                          setEditedProduct({
+                            ...editContact,
+                            name: e.target.value,
+                          })
+                        }
                         placeholder="Nombre Contacto"
                       />
                     </Form.Group>
@@ -99,8 +124,13 @@ const ItemContacto = ({ userProp }) => {
                       <Form.Label>Puesto</Form.Label>
                       <Form.Control
                         type="text"
-                        value={puesto}
-                        onChange={(e) => setPuesto((e) => e.target.value)}
+                        value={editContact.puesto}
+                        onChange={(e) =>
+                          setEditedProduct({
+                            ...editContact,
+                            puesto: e.target.value,
+                          })
+                        }
                         placeholder="Puesto que Desempeña"
                       />
                     </Form.Group>
@@ -108,9 +138,12 @@ const ItemContacto = ({ userProp }) => {
                       <Form.Label>Correo Electronico</Form.Label>
                       <Form.Control
                         type="email"
-                        value={email}
+                        value={editContact}
                         onChange={(e) =>
-                          setEmail((e) => setEmail(e.target.value))
+                          setEditedProduct({
+                            ...editContact,
+                            email: e.target.value,
+                          })
                         }
                         placeholder="Correo Electronico "
                       />
@@ -118,9 +151,14 @@ const ItemContacto = ({ userProp }) => {
                     <Form.Group controlId="formDate">
                       <Form.Label>Carrera</Form.Label>
                       <Form.Control
-                        type="email"
-                        value={course}
-                        onChange={(e) => setCourse(e.target.value)}
+                        type="text"
+                        value={editContact.carrera}
+                        onChange={(e) =>
+                          setEditedProduct({
+                            ...editContact,
+                            carrera: e.target.value,
+                          })
+                        }
                         placeholder="Carrera"
                       />
                     </Form.Group>
@@ -133,8 +171,13 @@ const ItemContacto = ({ userProp }) => {
                         <Form.Label>Telefono</Form.Label>
                         <Form.Control
                           type="number  "
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
+                          value={editContact.phone}
+                          onChange={(e) =>
+                            setEditedProduct({
+                              ...editContact,
+                              phone: e.target.value,
+                            })
+                          }
                         />
                       </Form.Group>
                     </Col>
@@ -154,11 +197,11 @@ const ItemContacto = ({ userProp }) => {
                     <Button
                       variant="secondary"
                       className="me-2"
-                      onClick={() => setEditingContactId(null)}
+                      onClick={() => setEditedProduct(null)}
                     >
                       Cancelar
                     </Button>
-                    <Button variant="dark" onClick={handleUpdateContact}>
+                    <Button variant="dark" onClick={handleClickEditContaco}>
                       Guardar Editar
                     </Button>
                   </Col>
@@ -207,7 +250,7 @@ const ItemContacto = ({ userProp }) => {
                       <Button
                         variant="secondary"
                         className="btn-md"
-                        onClick={() => handleClickEditContact(contacto)}
+                        onClick={() => setEditedProduct(contacto)}
                       >
                         Editar
                       </Button>
@@ -222,5 +265,4 @@ const ItemContacto = ({ userProp }) => {
     </>
   );
 };
-
 export default ItemContacto;
