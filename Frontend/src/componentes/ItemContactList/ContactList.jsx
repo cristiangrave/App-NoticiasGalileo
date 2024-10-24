@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from "react";
-import axios from "axios";
 import "./ContactList.css";
 import ItemContacto from "../itemContacto/itemContacto";
 
