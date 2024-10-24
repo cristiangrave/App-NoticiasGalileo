@@ -10,7 +10,7 @@ const ItemContacto = ({ userProp }) => {
   const allContacts = useSelector((state) => state.contactos);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [editContactid, seteditContactid] = useState(0);
+  const [editingContactId, setEditingContactId] = useState(null);
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [phone, setPhone] = useState("");
@@ -18,14 +18,14 @@ const ItemContacto = ({ userProp }) => {
   const [puesto, setPuesto] = useState("");
   const Dispatch = useDispatch();
   const handleClickEditContact = (contacto) => {
-    console.log("pasamos los datos");
-
-    seteditContactid(contacto.id);
-    setName(contacto.name);
-    setEmail(contacto.email);
-    setPhone(contacto.setPhone);
-    setCourse(contacto.carrera);
-    setPuesto(contacto.puesto);
+    if (editingContactId !== contacto.id) {
+      setEditingContactId(contacto.id);
+      setName(contacto.name);
+      setEmail(contacto.email);
+      setPhone(contacto.phone);
+      setCourse(contacto.carrera);
+      setPuesto(contacto.puesto);
+    }
   };
   const handleUpdateContact = () => {
     console.log("tenemos que actualizar");
@@ -58,59 +58,14 @@ const ItemContacto = ({ userProp }) => {
         {/* aqui tendria que ir el map */}
         {allContacts.data.data.map((contacto) => (
           <Card className="p-4 my-1 tarjeta-noticia" key={contacto.id}>
-            {editContactid == !contacto.id ? (
-              <Row className="g-0">
-                <Col xs={12} md={6} className="order-md-1 order-2">
-                  <Card.Img
-                    src="/user.jpg"
-                    variant="top"
-                    alt="Imagen de noticia"
-                    className="rounded-3"
-                  />
-                </Col>
-                <Col xs={12} md={6} className="order-md-2 order-1 ps-2">
-                  <div className="d-flex justify-content-between align-items-center mb-2">
-                    <h5 className="text-muted">{contacto.carrera}</h5>
-                  </div>
-                  <Card.Text
-                    className="mb-0 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}>
-                    Nombre: {contacto.name}
-                  </Card.Text>
-                  <Card.Text
-                    className="mb-1 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}>
-                    Puesto: {contacto.puesto}
-                  </Card.Text>
-                  <Card.Text
-                    className="mb-1 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}>
-                    Email: {contacto.email}
-                  </Card.Text>
-                  <Card.Text
-                    className="mb-1 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}>
-                    Tel: {contacto.phone}
-                  </Card.Text>
-                  {userProp === "admin" && (
-                    <div className="d-flex justify-content-end">
-                      <Button
-                        variant="secondary"
-                        className="btn-md"
-                        onClick={() => handleClickEditContact(contacto)}>
-                        Editar
-                      </Button>
-                    </div>
-                  )}
-                </Col>
-              </Row>
-            ) : (
+            {editingContactId === contacto.id ? (
               <Form>
                 <Row>
                   <Col
                     xs={12}
                     md={6}
-                    className="d-flex justify-content-center align-items-center text-center mb-3">
+                    className="d-flex justify-content-center align-items-center text-center mb-3"
+                  >
                     <Row className="justify-content-center align-items-center">
                       <Image
                         src="/icono-agregar-imagen.png"
@@ -192,7 +147,8 @@ const ItemContacto = ({ userProp }) => {
                     <Button
                       variant="secondary"
                       className="me-2"
-                      onClick={() => seteditContactid(0)}>
+                      onClick={() => setEditingContactId(null)}
+                    >
                       Cancelar
                     </Button>
                     <Button variant="dark" onClick={handleUpdateContact}>
@@ -201,6 +157,57 @@ const ItemContacto = ({ userProp }) => {
                   </Col>
                 </Row>
               </Form>
+            ) : (
+              <Row className="g-0">
+                <Col xs={12} md={6} className="order-md-1 order-2">
+                  <Card.Img
+                    src="/user.jpg"
+                    variant="top"
+                    alt="Imagen de noticia"
+                    className="rounded-3"
+                  />
+                </Col>
+                <Col xs={12} md={6} className="order-md-2 order-1 ps-2">
+                  <div className="d-flex justify-content-between align-items-center mb-2">
+                    <h5 className="text-muted">{contacto.carrera}</h5>
+                  </div>
+                  <Card.Text
+                    className="mb-0 text-muted"
+                    style={{ fontSize: "1rem", color: "#333" }}
+                  >
+                    Nombre: {contacto.name}
+                  </Card.Text>
+                  <Card.Text
+                    className="mb-1 text-muted"
+                    style={{ fontSize: "1rem", color: "#333" }}
+                  >
+                    Puesto: {contacto.puesto}
+                  </Card.Text>
+                  <Card.Text
+                    className="mb-1 text-muted"
+                    style={{ fontSize: "1rem", color: "#333" }}
+                  >
+                    Email: {contacto.email}
+                  </Card.Text>
+                  <Card.Text
+                    className="mb-1 text-muted"
+                    style={{ fontSize: "1rem", color: "#333" }}
+                  >
+                    Tel: {contacto.phone}
+                  </Card.Text>
+                  {userProp === "admin" && (
+                    <div className="d-flex justify-content-end">
+                      <Button
+                        variant="secondary"
+                        className="btn-md"
+                        onClick={() => handleClickEditContact(contacto)}
+                      >
+                        Editar
+                      </Button>
+                    </div>
+                  )}
+                </Col>
+              </Row>
             )}
           </Card>
         ))}
