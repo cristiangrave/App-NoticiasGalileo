@@ -10,7 +10,7 @@ const contactSlice = createSlice({
       state.data = action.payload;
     },
     addContact: (state, action) => {
-      state.data.push(action.payload);
+      state.data.data.push(action.payload);
     },
   },
 });

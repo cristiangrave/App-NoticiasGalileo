@@ -43,7 +43,14 @@ const ItemContacto = ({ userProp }) => {
       });
   }, [Dispatch]);
 
-  const handleClickEditContaco = (contacto) => {};
+  const handleClickEditContaco = (contacto) => {
+    setEditingContactId(null);
+    setName("");
+    setEmail("");
+    setPhone("");
+    setCourse("");
+    setPuesto("");
+  };
   if (loading) {
     return <div className="alert alert-info">Cargando contactos...</div>;
   }

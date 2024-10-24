@@ -35,8 +35,6 @@ const ItemCrearContacto = () => {
         puesto: puesto,
         imagen: "imagen.png",
       };
-      dispatch(addContact(dataContact));
-
       axios
         .post("http://localhost:3001/contactosEstudiantes/", dataContact)
         .then(() => {
@@ -44,6 +42,7 @@ const ItemCrearContacto = () => {
             icon: "success",
             title: "Contacto Guardado Correctamente",
           });
+          dispatch(addContact(dataContact));
           setName("");
           setEmail("");
           setPhone("");
@@ -67,7 +66,8 @@ const ItemCrearContacto = () => {
             <Col
               xs={12}
               md={6}
-              className="d-flex justify-content-center align-items-center text-center mb-3">
+              className="d-flex justify-content-center align-items-center text-center mb-3"
+            >
               <Row className="justify-content-center align-items-center">
                 <Image
                   src="/icono-agregar-imagen.png"
@@ -144,7 +144,6 @@ const ItemCrearContacto = () => {
           </Col>
           <Row className="mt-2">
             <Col className="d-flex justify-content-end">
-              {/* Botones de Cancelar y Actualizar */}
               <Button variant="secondary" className="me-2">
                 Cancelar
               </Button>
