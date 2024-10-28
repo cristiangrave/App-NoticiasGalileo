@@ -5,4 +5,5 @@ export declare class UpdateContactDto {
     carrera: string;
     puesto: string;
     imagen: string;
+    estado: string;
 }
