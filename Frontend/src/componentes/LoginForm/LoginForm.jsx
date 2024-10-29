@@ -55,13 +55,6 @@ const LoginForm = () => {
     usar(setUserRole(rol))
     usar(setUser(usuario))
     console.log(rol, usuario)
-    /*if (rol === 'alumno'){
-      usar(setUserRole('alumno'))
-    }else if (rol === 'admin'){
-      usar(setUserRole('admin'))
-    }else{
-      alert('rol no encontrado')
-    }*/
 
   } catch (error) {
     console.log('ningún rol encontrado')
@@ -94,7 +87,7 @@ const LoginForm = () => {
         <button id="boton-sign-in" type="submit" onClick={handleSubmit}>
           Sign In
         </button>
-        {token && <p>Token recibido: {token}</p>}
+        
       </Form>
     </div>
   );

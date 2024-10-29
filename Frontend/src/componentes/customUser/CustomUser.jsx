@@ -18,11 +18,11 @@ function CustomUser() {
   return (
     <Dropdown drop="start">
 
-      {
-        dtoUsuario.userName && dtoUsuario.role && (
-          <label>{dtoUsuario.userName+" | "+dtoUsuario.role}</label>
-        )
-      }
+    {
+      dtoUsuario.userName && dtoUsuario.role && (
+        <label>{dtoUsuario.userName+" | "+dtoUsuario.role}</label>
+      )
+    }
       <Dropdown.Toggle
         as={Image}
         src="./user.jpg"

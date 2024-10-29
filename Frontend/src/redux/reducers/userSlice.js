@@ -3,8 +3,10 @@ import { createSlice } from "@reduxjs/toolkit";
 const userSlice = createSlice({
   name: "user",
   initialState: {
-    role: "", // Por defecto, el usuario es un usuario normal
+
+    role: "", 
     userName: ""
+
   },
   reducers: {
     setUserRole: (state, action) => {
