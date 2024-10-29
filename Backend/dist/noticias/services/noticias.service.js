@@ -13,35 +13,39 @@ let NoticiaService = class NoticiaService {
         this.noticias = [
             {
                 id: 1,
-                titulo: 'Charla Ingenieria',
-                descripcion: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam laudantium eius at enim corporis rerum quae aspernatur placeat dolores! Iure quaerat autem vel veniam animi culpa at est voluptatibus debitis.',
-                carrera: 'Ingenieria En Sistemas',
-                imagen: 'imagen-noticia.png',
-                fecha: '14 de Octubre de 2024',
+                titulo: "Charla Ingenieria",
+                descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam laudantium eius at enim corporis rerum quae aspernatur placeat dolores! Iure quaerat autem vel veniam animi culpa at est voluptatibus debitis.",
+                carrera: "Ingenieria En Sistemas",
+                imagen: "imagen-noticia.png",
+                fecha: "14 de Octubre de 2024",
+                estado: "activo",
             },
             {
                 id: 2,
-                titulo: 'Charla Ingenieria',
-                descripcion: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam laudantium eius at enim corporis rerum quae aspernatur placeat dolores! Iure quaerat autem vel veniam animi culpa at est voluptatibus debitis.',
-                carrera: 'Ingenieria en Redes Computacionales',
-                imagen: 'imagen-noticia.png',
-                fecha: '14 de Octubre de 2024',
+                titulo: "Charla Ingenieria",
+                descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam laudantium eius at enim corporis rerum quae aspernatur placeat dolores! Iure quaerat autem vel veniam animi culpa at est voluptatibus debitis.",
+                carrera: "Ingenieria en Redes Computacionales",
+                imagen: "imagen-noticia.png",
+                fecha: "14 de Octubre de 2024",
+                estado: "activo",
             },
             {
                 id: 3,
-                titulo: 'Charla Ingenieria',
-                descripcion: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam laudantium eius at enim corporis rerum quae aspernatur placeat dolores! Iure quaerat autem vel veniam animi culpa at est voluptatibus debitis.',
-                carrera: 'Ingenieria en Ciberseguridad',
-                imagen: 'imagen-noticia.png',
-                fecha: '14 de Octubre de 2024',
+                titulo: "Charla Ingenieria",
+                descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam laudantium eius at enim corporis rerum quae aspernatur placeat dolores! Iure quaerat autem vel veniam animi culpa at est voluptatibus debitis.",
+                carrera: "Ingenieria en Ciberseguridad",
+                imagen: "imagen-noticia.png",
+                fecha: "14 de Octubre de 2024",
+                estado: "activo",
             },
             {
                 id: 4,
-                titulo: 'Charla Ingenieria',
-                descripcion: 'Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam laudantium eius at enim corporis rerum quae aspernatur placeat dolores! Iure quaerat autem vel veniam animi culpa at est voluptatibus debitis.',
-                carrera: 'Ingenieria en Redes',
-                imagen: 'imagen-noticia.png',
-                fecha: '14 de Octubre de 2024',
+                titulo: "Charla Ingenieria",
+                descripcion: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam laudantium eius at enim corporis rerum quae aspernatur placeat dolores! Iure quaerat autem vel veniam animi culpa at est voluptatibus debitis.",
+                carrera: "Ingenieria en Redes",
+                imagen: "imagen-noticia.png",
+                fecha: "14 de Octubre de 2024",
+                estado: "activo",
             },
         ];
     }
@@ -57,11 +61,14 @@ let NoticiaService = class NoticiaService {
         return newNews;
     }
     update(id, updateNewsDto) {
-        const newsIndex = this.noticias.findIndex(news => news.id == id);
+        const newsIndex = this.noticias.findIndex((news) => news.id == id);
         if (newsIndex == -1) {
             throw new common_1.NotFoundException(`Noticia con ID ${id} no encontrada`);
         }
-        this.noticias[newsIndex] = { ...this.noticias[newsIndex], ...updateNewsDto };
+        this.noticias[newsIndex] = {
+            ...this.noticias[newsIndex],
+            ...updateNewsDto,
+        };
         return this.noticias[newsIndex];
     }
 };

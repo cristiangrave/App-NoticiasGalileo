@@ -19,6 +19,7 @@ let ContactsService = class ContactsService {
                 carrera: "Bases de Datos",
                 puesto: "Docente",
                 imagen: "docente1.png",
+                estado: "activo",
             },
             {
                 id: 2,
@@ -28,6 +29,7 @@ let ContactsService = class ContactsService {
                 carrera: "Analisis de Datos ",
                 puesto: "Docente",
                 imagen: "docente2.png",
+                estado: "activo",
             },
             {
                 id: 3,
@@ -37,6 +39,7 @@ let ContactsService = class ContactsService {
                 carrera: "Estadistica",
                 puesto: "Docente",
                 imagen: "docente3.png",
+                estado: "activo",
             },
             {
                 id: 4,
@@ -46,6 +49,7 @@ let ContactsService = class ContactsService {
                 carrera: "Cloud Computing ",
                 puesto: "Docente",
                 imagen: "docente4.png",
+                estado: "activo",
             },
         ];
     }

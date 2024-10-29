@@ -5,4 +5,5 @@ export declare class CreateContactDto {
     readonly carrera: string;
     readonly puesto: string;
     readonly imagen: string;
+    readonly estado: string;
 }

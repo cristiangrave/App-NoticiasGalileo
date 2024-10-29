@@ -21,6 +21,7 @@ export declare class ContactsController {
         carrera: string;
         puesto: string;
         imagen: string;
+        estado: string;
         id: number;
     };
     updateContact(id: number, updateContactDto: UpdateContactDto): Contact;
