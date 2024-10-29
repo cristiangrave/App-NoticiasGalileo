@@ -1,0 +1,26 @@
+import { createSlice } from "@reduxjs/toolkit";
+
+const userSlice = createSlice({
+  name: "user",
+  initialState: {
+    role: "", // Por defecto, el usuario es un usuario normal
+    userName: ""
+  },
+  reducers: {
+    setUserRole: (state, action) => {
+      state.role = action.payload;
+    },
+
+    setUser: (state, action) => {
+      state.userName = action.payload;
+    },
+
+    deleteDto: (state, action) => {
+      state.role = null
+      state.userName = null
+    }
+  },
+});
+
+export const { setUserRole, setUser, deleteDto } = userSlice.actions;
+export default userSlice.reducer;

@@ -1,0 +1,34 @@
+.wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 75vh;
+}
+
+#logoUniversidad{
+    height: 7rem;
+}
+
+#label-correo{
+    font-weight: bold;
+    display: block;
+}
+#label-password {
+    font-weight: bold;
+    display: block;
+
+}
+input{
+    padding: 0rem 4rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+   height: 2rem;
+
+}
+#boton-sign-in{
+    padding: 0rem 8rem;
+    margin-top: 1rem;
+    background-color: black;
+    color: aliceblue;
+}
