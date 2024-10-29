@@ -9,3 +9,4 @@ const NoticiasList = ({ usuarioProp }) => {
   );
 };
 export default NoticiasList;
+

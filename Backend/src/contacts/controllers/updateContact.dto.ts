@@ -1,5 +1,7 @@
 import { IsEmail, IsNumber, IsOptional, IsString } from "class-validator";
 
+
+
 export class UpdateContactDto {
   @IsString()
   @IsOptional()
@@ -29,3 +31,4 @@ export class UpdateContactDto {
   @IsOptional()
   estado: string;
 }
+

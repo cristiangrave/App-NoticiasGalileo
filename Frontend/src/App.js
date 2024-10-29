@@ -10,9 +10,11 @@ import { Row, Col, Container } from "react-bootstrap";
 import ButtonsListAdmin from "./componentes/buttonListAdmin/buttonListAdmin.jsx";
 import ItemCrearNoticia from "./componentes/ItemCrearNoticia/ItemCrearNoticia.jsx";
 import ItemCrearContacto from "./componentes/ItemCrearContacto/ItemCrearContacto.jsx";
+import LoginForm from "./componentes/LoginForm/LoginForm.jsx"
 
 function App() {
   const userRol = useSelector((state) => state.userSlice.role);
+  const useAuth = useSelector((state) => state.auth.value);
   const [view, setView] = useState("noticias");
   const [viewAdmin, setViewAdmin] = useState("noticiasAdmin");
 
@@ -34,7 +36,10 @@ function App() {
     <div className="App ">
       <NavbarNoticiasContacto />
       <Container className="mt-1">
-        {userRol === "user" && (
+        {useAuth === 'noAutorizado' &&
+          <LoginForm></LoginForm>
+        }
+        {userRol === "alumno" && useAuth === "autorizado" && (
           <>
             <ButtonsList onViewChange={(handleNavClick, handleCreateItem)} />
             <Row>
@@ -45,7 +50,7 @@ function App() {
             </Row>
           </>
         )}
-        {userRol === "admin" && (
+        {userRol === "admin" && useAuth === "autorizado" &&(
           <>
             <ButtonsListAdmin
               onViewChange={handleNavClickAdmin}

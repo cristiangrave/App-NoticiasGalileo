@@ -8,6 +8,8 @@ export const newsSlice = createSlice({
     addNews: (state, action) => {
       state.data.push(action.payload);
     },
+
+
     readNews: (state, action) => {
       state.data = action.payload;
     },
@@ -30,5 +32,6 @@ export const newsSlice = createSlice({
 });
 
 export const { addNews, readNews, updateNew } = newsSlice.actions;
+
 
 export default newsSlice.reducer;

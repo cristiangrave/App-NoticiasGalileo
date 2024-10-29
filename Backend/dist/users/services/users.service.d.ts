@@ -1,3 +1,5 @@
+export type User = any;
 export declare class UsersService {
-    hellousers(): string;
+    private readonly users;
+    findOne(username: string): Promise<User | undefined>;
 }

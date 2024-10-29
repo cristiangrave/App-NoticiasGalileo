@@ -34,7 +34,10 @@ export class ContactsService {
       carrera: "Analisis de Datos ",
       puesto: "Docente",
       imagen: "docente2.png",
+<<<<<<< HEAD
+=======
       estado: "activo",
+>>>>>>> 30329b003ccfd4927e29ec57f3d545823a931a64
     },
     {
       id: 3,

@@ -16,17 +16,8 @@ let UsersController = class UsersController {
     constructor(usersService) {
         this.usersService = usersService;
     }
-    hellousers() {
-        return this.usersService.hellousers();
-    }
 };
 exports.UsersController = UsersController;
-__decorate([
-    (0, common_1.Get)('say-hello'),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", []),
-    __metadata("design:returntype", String)
-], UsersController.prototype, "hellousers", null);
 exports.UsersController = UsersController = __decorate([
     (0, common_1.Controller)('users'),
     __metadata("design:paramtypes", [users_service_1.UsersService])
