@@ -61,6 +61,7 @@ const ItemContacto = ({ userProp }) => {
             carrera: editContact.carrera,
             puesto: editContact.puesto,
             imagen: "imagen.png",
+            estado: editContact.estado,
           })
         );
         setEditedProduct(null);
@@ -140,7 +141,7 @@ const ItemContacto = ({ userProp }) => {
                       <Form.Label>Correo Electronico</Form.Label>
                       <Form.Control
                         type="email"
-                        value={editContact}
+                        value={editContact.email}
                         onChange={(e) =>
                           setEditedProduct({
                             ...editContact,
@@ -186,9 +187,16 @@ const ItemContacto = ({ userProp }) => {
                     <Col xs={12} md={6} className="mb-3">
                       <Form.Group controlId="formStatus" className="mb-3">
                         <Form.Label>Estado</Form.Label>
-                        <Form.Select>
-                          <option>Activo</option>
-                          <option>Inactivo</option>
+                        <Form.Select
+                          value={editContact.estado}
+                          onChange={(e) =>
+                            setEditedProduct({
+                              ...editContact,
+                              estado: e.target.value,
+                            })
+                          }>
+                          <option value={"activo"}>Activo</option>
+                          <option value={"inactivo"}>Inactivo</option>
                         </Form.Select>
                       </Form.Group>
                     </Col>
