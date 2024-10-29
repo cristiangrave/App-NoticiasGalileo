@@ -4,4 +4,5 @@ export declare class CreateNewsDto {
     readonly carrera: string;
     readonly imagen: string;
     readonly fecha: string;
+    readonly estado: string;
 }

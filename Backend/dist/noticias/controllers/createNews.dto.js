@@ -39,4 +39,9 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], CreateNewsDto.prototype, "fecha", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], CreateNewsDto.prototype, "estado", void 0);
 //# sourceMappingURL=createNews.dto.js.map

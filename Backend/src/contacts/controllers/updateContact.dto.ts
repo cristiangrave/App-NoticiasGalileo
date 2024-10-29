@@ -26,6 +26,7 @@ export class UpdateContactDto {
   @IsString()
   @IsOptional()
   imagen: string;
+
   @IsString()
   @IsOptional()
   estado: string;

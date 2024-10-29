@@ -8,6 +8,7 @@ export interface Contact {
     carrera: string;
     puesto: string;
     imagen: string;
+    estado: string;
 }
 export declare class ContactsService {
     private contacts;
@@ -20,6 +21,7 @@ export declare class ContactsService {
         carrera: string;
         puesto: string;
         imagen: string;
+        estado: string;
         id: number;
     };
     update(id: number, updateContactDto: UpdateContactDto): Contact;

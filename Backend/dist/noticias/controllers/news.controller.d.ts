@@ -20,6 +20,7 @@ export declare class NoticiasController {
         carrera: string;
         imagen: string;
         fecha: string;
+        estado: string;
         id: number;
     };
     updateNews(id: number, updateNewsDto: UpdateNewsDto): Noticia;

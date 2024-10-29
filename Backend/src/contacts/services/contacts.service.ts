@@ -10,6 +10,7 @@ export interface Contact {
   carrera: string;
   puesto: string;
   imagen: string;
+  estado: string;
 }
 
 @Injectable()
@@ -23,6 +24,7 @@ export class ContactsService {
       carrera: "Bases de Datos",
       puesto: "Docente",
       imagen: "docente1.png",
+      estado: "activo",
     },
     {
       id: 2,
@@ -32,6 +34,10 @@ export class ContactsService {
       carrera: "Analisis de Datos ",
       puesto: "Docente",
       imagen: "docente2.png",
+<<<<<<< HEAD
+=======
+      estado: "activo",
+>>>>>>> 30329b003ccfd4927e29ec57f3d545823a931a64
     },
     {
       id: 3,
@@ -41,6 +47,7 @@ export class ContactsService {
       carrera: "Estadistica",
       puesto: "Docente",
       imagen: "docente3.png",
+      estado: "activo",
     },
     {
       id: 4,
@@ -50,6 +57,7 @@ export class ContactsService {
       carrera: "Cloud Computing ",
       puesto: "Docente",
       imagen: "docente4.png",
+      estado: "activo",
     },
     // Agrega más contactos simulados aquí
   ];

@@ -4,4 +4,5 @@ export declare class UpdateNewsDto {
     carrera: string;
     imagen: string;
     fecha: string;
+    estado: string;
 }
