@@ -12,8 +12,8 @@ import {
   UploadedFile
 } from '@nestjs/common';
 import { NoticiaService, Noticia } from '../services/noticias.service';
-import { CreateNewsDto } from './createNews.dto';
-import { UpdateNewsDto } from './updateNews.dto';
+import { CreateNewsDto } from '../dtos/createNews.dto';
+import { UpdateNewsDto } from '../dtos/updateNews.dto';
 import { UploadService } from '../services/upload.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -92,8 +92,6 @@ export class NoticiasController {
     if(file){
       imagen = this.uploadService.uploadImage(file);
     }
-
-
 
      return this.noticiasService.update(id,{...updateNewsDto, ...(imagen && { imagen })})
    }

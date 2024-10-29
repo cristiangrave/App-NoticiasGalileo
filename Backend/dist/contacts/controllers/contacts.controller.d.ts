@@ -1,6 +1,6 @@
 import { ContactsService, Contact } from '../services/contacts.service';
-import { CreateContactDto } from './createContact.dto';
-import { UpdateContactDto } from './updateContact.dto';
+import { CreateContactDto } from '../dtos/createContact.dto';
+import { UpdateContactDto } from '../dtos/updateContact.dto';
 import { UploadService } from '../services/upload.service';
 export declare class ContactsController {
     private readonly contactsService;
@@ -26,4 +26,7 @@ export declare class ContactsController {
         id: number;
     }>;
     updateContact(id: number, updateContactDto: UpdateContactDto, file?: Express.Multer.File): Promise<Contact>;
+    getContactVisibility(id: string): Promise<{
+        isVisible: boolean;
+    }>;
 }

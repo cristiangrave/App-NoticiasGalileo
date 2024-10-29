@@ -15,11 +15,12 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.ContactsController = void 0;
 const common_1 = require("@nestjs/common");
 const contacts_service_1 = require("../services/contacts.service");
-const createContact_dto_1 = require("./createContact.dto");
-const updateContact_dto_1 = require("./updateContact.dto");
+const createContact_dto_1 = require("../dtos/createContact.dto");
+const updateContact_dto_1 = require("../dtos/updateContact.dto");
 const upload_service_1 = require("../services/upload.service");
 const platform_express_1 = require("@nestjs/platform-express");
 const multer_1 = require("multer");
+const path_1 = require("path");
 let ContactsController = class ContactsController {
     constructor(contactsService, uploadService) {
         this.contactsService = contactsService;
@@ -58,6 +59,10 @@ let ContactsController = class ContactsController {
             ...(imagen && { imagen })
         });
     }
+    async getContactVisibility(id) {
+        const isVisible = parseInt(id) % 2 == 0;
+        return { isVisible };
+    }
 };
 exports.ContactsController = ContactsController;
 __decorate([
@@ -78,8 +83,21 @@ __decorate([
     (0, common_1.Post)(),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('imagen', {
         storage: (0, multer_1.diskStorage)({
-            destination: './uploads'
-        })
+            destination: './uploads',
+            filename: (req, file, cb) => {
+                const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('');
+                const fileExt = (0, path_1.extname)(file.originalname);
+                cb(null, `${randomName}${fileExt}`);
+            }
+        }),
+        fileFilter: (req, file, cb) => {
+            if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+                return new Error('Formato de imagen Invalido');
+            }
+            else {
+                return console.log('Formato de imagen valido');
+            }
+        }
     })),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.UploadedFile)()),
@@ -101,6 +119,13 @@ __decorate([
     __metadata("design:paramtypes", [Number, updateContact_dto_1.UpdateContactDto, Object]),
     __metadata("design:returntype", Promise)
 ], ContactsController.prototype, "updateContact", null);
+__decorate([
+    (0, common_1.Get)(':id/visibility'),
+    __param(0, (0, common_1.Param)('id')),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [String]),
+    __metadata("design:returntype", Promise)
+], ContactsController.prototype, "getContactVisibility", null);
 exports.ContactsController = ContactsController = __decorate([
     (0, common_1.Controller)('contactosEstudiantes'),
     __metadata("design:paramtypes", [contacts_service_1.ContactsService, upload_service_1.UploadService])

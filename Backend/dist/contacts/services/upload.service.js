@@ -8,15 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UploadService = void 0;
 const common_1 = require("@nestjs/common");
-const path_1 = require("path");
 let UploadService = class UploadService {
     uploadImage(file) {
         if (!file) {
             return null;
         }
-        const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('');
-        const fileName = `${randomName}${(0, path_1.extname)(file.originalname)}`;
-        return fileName;
+        return file.filename;
     }
 };
 exports.UploadService = UploadService;

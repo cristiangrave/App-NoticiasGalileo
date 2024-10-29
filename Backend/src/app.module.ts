@@ -2,13 +2,19 @@ import { Module } from '@nestjs/common';
 import { UsersModule } from './users/users.module';
 import { ContactsModule } from './contacts/contacts.module';
 import { NoticiasModule } from './noticias/noticias.module';
-import { ServeStaticModule } from '@nestjs/serve-static';
-import { join } from 'path';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
 
 @Module({
-  imports: [UsersModule, ContactsModule, NoticiasModule, ServeStaticModule.forRoot({
-    rootPath: join(__dirname, '..', 'uploads'),
-    serveRoot: '/Backend/src/uploads'
+  imports: [UsersModule, ContactsModule, NoticiasModule, TypeOrmModule.forRoot({
+      "type": "postgres",
+      "host": "206.81.7.200",
+      "port": 5434,
+      "username": "admin",
+      "password": "GalileoG32024",
+      "database": "proyecto_galileo",
+      "entities": [__dirname + '/../**/*.entity.js'],
+      "synchronize": true
   })],
 })
 export class AppModule {}

@@ -1,6 +1,6 @@
 import { NoticiaService, Noticia } from '../services/noticias.service';
-import { CreateNewsDto } from './createNews.dto';
-import { UpdateNewsDto } from './updateNews.dto';
+import { CreateNewsDto } from '../dtos/createNews.dto';
+import { UpdateNewsDto } from '../dtos/updateNews.dto';
 import { UploadService } from '../services/upload.service';
 export declare class NoticiasController {
     private readonly noticiasService;

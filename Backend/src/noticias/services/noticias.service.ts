@@ -1,6 +1,6 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
-import { CreateNewsDto } from '../controllers/createNews.dto';
-import { UpdateNewsDto } from '../controllers/updateNews.dto';
+import { CreateNewsDto } from '../dtos/createNews.dto';
+import { UpdateNewsDto } from '../dtos/updateNews.dto';
 
 export interface Noticia {
   id: number;

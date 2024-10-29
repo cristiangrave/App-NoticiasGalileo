@@ -12,8 +12,8 @@ import {
   UploadedFile,
 } from '@nestjs/common';
 import { ContactsService, Contact } from '../services/contacts.service';
-import { CreateContactDto } from './createContact.dto';
-import { UpdateContactDto } from './updateContact.dto';
+import { CreateContactDto } from '../dtos/createContact.dto';
+import { UpdateContactDto } from '../dtos/updateContact.dto';
 import { UploadService } from '../services/upload.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { diskStorage } from 'multer';
@@ -68,7 +68,15 @@ export class ContactsController {
         const fileExt = extname(file.originalname);  // Obtener la extensión del archivo original
         cb(null, `${randomName}${fileExt}`);  // Generar el nombre completo del archivo
       }
-    })
+    }, 
+  ),
+    fileFilter: (req, file, cb) => {
+      if(!file.originalname.match(/\.(jpg|jpeg|png)$/)){
+        return new Error('Formato de imagen Invalido')
+      } else {
+        return console.log('Formato de imagen valido')
+      }
+  }
    }))
   async create(@Body() createContactDto: CreateContactDto, @UploadedFile() file: Express.Multer.File){
     
@@ -102,6 +110,13 @@ export class ContactsController {
     return this.contactsService.update(id, {
       ...updateContactDto, 
       ...(imagen && { imagen })})
+  }
+
+  // Endpoint para verificar el estado de visibilidad del contacto
+  @Get(':id/visibility')
+  async getContactVisibility(@Param('id') id: string){
+    const isVisible = parseInt(id) % 2 == 0;
+    return { isVisible };
   }
 
 
