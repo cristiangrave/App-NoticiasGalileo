@@ -22,7 +22,7 @@ export class NoticiaService {
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam laudantium eius at enim corporis rerum quae aspernatur placeat dolores! Iure quaerat autem vel veniam animi culpa at est voluptatibus debitis.",
       carrera: "Ingenieria En Sistemas",
       imagen: "imagen-noticia.png",
-      fecha: "14 de Octubre de 2024",
+      fecha: "2024-10-25",
       estado: "activo",
     },
     {
@@ -32,7 +32,7 @@ export class NoticiaService {
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam laudantium eius at enim corporis rerum quae aspernatur placeat dolores! Iure quaerat autem vel veniam animi culpa at est voluptatibus debitis.",
       carrera: "Ingenieria en Redes Computacionales",
       imagen: "imagen-noticia.png",
-      fecha: "14 de Octubre de 2024",
+      fecha: "2024-10-22",
       estado: "activo",
     },
     {
@@ -42,7 +42,7 @@ export class NoticiaService {
         "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam laudantium eius at enim corporis rerum quae aspernatur placeat dolores! Iure quaerat autem vel veniam animi culpa at est voluptatibus debitis.",
       carrera: "Ingenieria en Ciberseguridad",
       imagen: "imagen-noticia.png",
-      fecha: "14 de Octubre de 2024",
+      fecha: "2024-10-28",
       estado: "activo",
     },
     {

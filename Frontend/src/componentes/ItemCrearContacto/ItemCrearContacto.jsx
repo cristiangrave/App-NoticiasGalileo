@@ -14,6 +14,7 @@ const ItemCrearContacto = () => {
   const [phone, setPhone] = useState("");
   const [course, setCourse] = useState("");
   const [puesto, setPuesto] = useState("");
+  const [estado, setEstado] = useState("");
   const Toast = Swal.mixin({
     toast: true,
     position: "bottom-end",
@@ -34,6 +35,7 @@ const ItemCrearContacto = () => {
         carrera: course,
         puesto: puesto,
         imagen: "imagen.png",
+        estado: estado,
       };
       axios
         .post("http://localhost:3001/contactosEstudiantes/", dataContact)
@@ -66,8 +68,7 @@ const ItemCrearContacto = () => {
             <Col
               xs={12}
               md={6}
-              className="d-flex justify-content-center align-items-center text-center mb-3"
-            >
+              className="d-flex justify-content-center align-items-center text-center mb-3">
               <Row className="justify-content-center align-items-center">
                 <Image
                   src="/icono-agregar-imagen.png"
@@ -134,9 +135,11 @@ const ItemCrearContacto = () => {
               <Col xs={12} md={6} className="mb-3">
                 <Form.Group controlId="formStatus" className="mb-3">
                   <Form.Label>Estado</Form.Label>
-                  <Form.Select>
-                    <option>Activo</option>
-                    <option>Inactivo</option>
+                  <Form.Select
+                    value={estado}
+                    onChange={(e) => setEstado(e.target.value)}>
+                    <option value="activo">Activo</option>
+                    <option value="inactivo">Inactivo</option>
                   </Form.Select>
                 </Form.Group>
               </Col>
