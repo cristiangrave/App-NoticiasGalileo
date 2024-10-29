@@ -86,8 +86,7 @@ const ItemNoticia = ({ usuarioProp }) => {
                 <Col
                   xs={12}
                   md={4}
-                  className="d-flex justify-content-center align-items-center"
-                >
+                  className="d-flex justify-content-center align-items-center">
                   <Row>
                     <Image
                       src="/icono-agregar-imagen.png"
@@ -179,8 +178,7 @@ const ItemNoticia = ({ usuarioProp }) => {
                       value={editNews.carrera}
                       onChange={(e) =>
                         setEditNews({ ...editNews, carrera: e.target.value })
-                      }
-                    >
+                      }>
                       <option>Carrera 1</option>
                       <option>Carrera 2</option>
                       <option>Carrera 3</option>
@@ -193,8 +191,7 @@ const ItemNoticia = ({ usuarioProp }) => {
                   <Button
                     variant="secondary"
                     className="me-2"
-                    onClick={() => setEditNews(null)}
-                  >
+                    onClick={() => setEditNews(null)}>
                     Cancelar
                   </Button>
                   <Button variant="dark" onClick={handleUpdateNew}>
@@ -233,8 +230,7 @@ const ItemNoticia = ({ usuarioProp }) => {
                   <Card.Body>
                     <Card.Text
                       className="mt-0"
-                      style={{ fontSize: "1rem", color: "#333" }}
-                    >
+                      style={{ fontSize: "1rem", color: "#333" }}>
                       {noticia.descripcion}
                     </Card.Text>
                     <p className="text-muted " style={{ fontSize: "0.9rem" }}>
@@ -246,8 +242,7 @@ const ItemNoticia = ({ usuarioProp }) => {
                       <Button
                         variant="secondary"
                         className="btn-md"
-                        onClick={() => setEditNews(noticia)}
-                      >
+                        onClick={() => setEditNews(noticia)}>
                         Editar
                       </Button>
                     </div>

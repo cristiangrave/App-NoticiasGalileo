@@ -7,7 +7,7 @@ import { readContact, updateContact } from "../../redux/reducers/contactSlice";
 import Swal from "sweetalert2";
 
 const ItemContacto = ({ userProp }) => {
-  const allContacts = useSelector((state) => state.contactos);
+  const allContacts = useSelector((state) => state.conctac);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editContact, setEditedProduct] = useState(null);
@@ -15,9 +15,10 @@ const ItemContacto = ({ userProp }) => {
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/contactosEstudiantes/")
+      .get("http://localhost:3001/contactosEstudiantes")
       .then((res) => {
         dispatch(readContact(res.data.data));
+        console.log(allContacts);
         setLoading(false);
       })
       .catch((error) => {

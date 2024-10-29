@@ -15,6 +15,6 @@ export default configureStore({
     conctac: contactSlice,
     news: newsSlice,
     auth: authSlice,
-    user: userSlice
+    user: userSlice,
   },
 });
