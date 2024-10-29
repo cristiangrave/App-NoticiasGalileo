@@ -93,8 +93,7 @@ const ItemContacto = ({ userProp }) => {
                   <Col
                     xs={12}
                     md={6}
-                    className="d-flex justify-content-center align-items-center text-center mb-3"
-                  >
+                    className="d-flex justify-content-center align-items-center text-center mb-3">
                     <Row className="justify-content-center align-items-center">
                       <Image
                         src="/icono-agregar-imagen.png"
@@ -199,8 +198,7 @@ const ItemContacto = ({ userProp }) => {
                     <Button
                       variant="secondary"
                       className="me-2"
-                      onClick={() => setEditedProduct(null)}
-                    >
+                      onClick={() => setEditedProduct(null)}>
                       Cancelar
                     </Button>
                     <Button variant="dark" onClick={handleClickEditContaco}>
@@ -225,26 +223,22 @@ const ItemContacto = ({ userProp }) => {
                   </div>
                   <Card.Text
                     className="mb-0 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}
-                  >
+                    style={{ fontSize: "1rem", color: "#333" }}>
                     Nombre: {contacto.name}
                   </Card.Text>
                   <Card.Text
                     className="mb-1 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}
-                  >
+                    style={{ fontSize: "1rem", color: "#333" }}>
                     Puesto: {contacto.puesto}
                   </Card.Text>
                   <Card.Text
                     className="mb-1 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}
-                  >
+                    style={{ fontSize: "1rem", color: "#333" }}>
                     Email: {contacto.email}
                   </Card.Text>
                   <Card.Text
                     className="mb-1 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}
-                  >
+                    style={{ fontSize: "1rem", color: "#333" }}>
                     Tel: {contacto.phone}
                   </Card.Text>
                   {userProp === "admin" && (
@@ -252,8 +246,7 @@ const ItemContacto = ({ userProp }) => {
                       <Button
                         variant="secondary"
                         className="btn-md"
-                        onClick={() => setEditedProduct(contacto)}
-                      >
+                        onClick={() => setEditedProduct(contacto)}>
                         Editar
                       </Button>
                     </div>
