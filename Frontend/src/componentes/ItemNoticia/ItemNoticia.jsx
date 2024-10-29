@@ -213,9 +213,7 @@ const ItemNoticia = ({ usuarioProp }) => {
                 </Col>
                 <Col xs={12} md={6} className="order-md-2 order-1 ps-2">
                   <div className="d-flex justify-content-between align-items-center mb-2">
-                    <small className="text-muted">
-                      Mensaje Administrativo{" "}
-                    </small>
+                    <small className="text-muted">{noticia.fecha}</small>
                     <Badge className="p-2 badge-categoria">
                       {noticia.carrera}s
                     </Badge>

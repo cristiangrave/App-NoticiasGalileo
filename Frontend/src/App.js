@@ -10,7 +10,7 @@ import { Row, Col, Container } from "react-bootstrap";
 import ButtonsListAdmin from "./componentes/buttonListAdmin/buttonListAdmin.jsx";
 import ItemCrearNoticia from "./componentes/ItemCrearNoticia/ItemCrearNoticia.jsx";
 import ItemCrearContacto from "./componentes/ItemCrearContacto/ItemCrearContacto.jsx";
-import LoginForm from "./componentes/LoginForm/LoginForm.jsx"
+import LoginForm from "./componentes/LoginForm/LoginForm.jsx";
 
 function App() {
   const userRol = useSelector((state) => state.userSlice.role);
@@ -36,21 +36,19 @@ function App() {
     <div className="App ">
       <NavbarNoticiasContacto />
       <Container className="mt-1">
-        {useAuth === 'noAutorizado' &&
-          <LoginForm></LoginForm>
-        }
+        {useAuth === "noAutorizado" && <LoginForm></LoginForm>}
         {userRol === "alumno" && useAuth === "autorizado" && (
           <>
-            <ButtonsList onViewChange={(handleNavClick, handleCreateItem)} />
+            <ButtonsList onViewChange={handleNavClick} />
             <Row>
               <Col>
-                {view === "noticias" && <NoticiasList />}
-                {view === "contactos" && <ContactList />}
+                {view === "noticias" && <NoticiasList userProp={userRol} />}
+                {view === "contactos" && <ContactList userProp={userRol} />}
               </Col>
             </Row>
           </>
         )}
-        {userRol === "admin" && useAuth === "autorizado" &&(
+        {userRol === "admin" && useAuth === "autorizado" && (
           <>
             <ButtonsListAdmin
               onViewChange={handleNavClickAdmin}
