@@ -45,6 +45,7 @@ const ItemContacto = ({ userProp }) => {
         phone: editContact.phone,
         carrera: editContact.carrera,
         puesto: editContact.puesto,
+        estado: editContact.estado,
       })
       .then((res) => {
         Toast.fire({

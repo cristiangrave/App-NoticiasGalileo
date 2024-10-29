@@ -11,7 +11,7 @@ const contactSlice = createSlice({
       state.data.push(action.payload);
     },
     updateContact: (state, action) => {
-      const { id, name, email, phone, carrera, puesto, imagen } =
+      const { id, name, email, phone, carrera, puesto, imagen, estado } =
         action.payload;
       /* primero destructure(para poder manejar el mismo tipo de dato dentro de la data) luego busque dentro de la data luego comprobe si exites el contacto para poder meterlo dentro */
       const contact = state.data.find((producto) => producto.id === id);
@@ -23,6 +23,7 @@ const contactSlice = createSlice({
         contact.carrera = carrera;
         contact.puesto = puesto;
         contact.imagen = imagen;
+        contact.estado = estado;
       }
     },
   },
