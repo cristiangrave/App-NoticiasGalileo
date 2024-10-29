@@ -30,6 +30,7 @@ export class CreateContactDto {
   @IsString()
   @IsOptional()
   readonly imagen: string;
+
   @IsString()
   @IsOptional()
   readonly estado: string;
