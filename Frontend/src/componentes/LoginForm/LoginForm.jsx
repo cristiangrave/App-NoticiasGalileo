@@ -43,13 +43,12 @@ const LoginForm = () => {
       setToken(access_token);
       localStorage.setItem("token", access_token);
 
-      console.log("Token recibido:", access_token);
-
+      /*console.log("Token recibido:", access_token);
+       */
       if (access_token) {
         usar(autorizar());
       }
     } catch (error) {
-      console.error("Error al iniciar sesión:", error);
       Toast.fire({
         icon: "error",
         title: "Usuario o Contraseña Irroneas",
@@ -67,7 +66,8 @@ const LoginForm = () => {
       usuario = profile.data.username;
       usar(setUserRole(rol));
       usar(setUser(usuario));
-      console.log(rol, usuario);
+      /* console.log(rol, usuario);
+       */
     } catch (error) {
       console.log("ningún rol encontrado");
     }

@@ -13,20 +13,20 @@ let UsersService = class UsersService {
         this.users = [
             {
                 userId: 1,
-                username: '22002686',
-                password: '123',
-                rol: 'alumno'
+                username: "22002686",
+                password: "123",
+                rol: "alumno",
             },
             {
                 userId: 2,
-                username: '22002687',
-                password: '123',
-                rol: 'admin'
+                username: "22002687",
+                password: "123",
+                rol: "admin",
             },
         ];
     }
     async findOne(username) {
-        return this.users.find(user => user.username === username);
+        return this.users.find((user) => user.username === username);
     }
 };
 exports.UsersService = UsersService;

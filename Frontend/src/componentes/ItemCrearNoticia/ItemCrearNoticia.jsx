@@ -13,6 +13,8 @@ const ItemCrearNoticia = () => {
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [carrera, setCarrera] = useState("");
+  const [estado, setEstado] = useState("");
+
   /*   const [imagen, setImagen] = useState("");
    */
   const despachador = useDispatch();
@@ -35,6 +37,7 @@ const ItemCrearNoticia = () => {
         carrera: carrera,
         imagen: "imagen.png",
         fecha: fecha,
+        estado: estado,
       };
       console.log(newNoticia);
       despachador(addNews(newNoticia));
@@ -67,7 +70,8 @@ const ItemCrearNoticia = () => {
             <Col
               xs={12}
               md={4}
-              className="d-flex justify-content-center align-items-center">
+              className="d-flex justify-content-center align-items-center"
+            >
               <Row>
                 <Image
                   src="/icono-agregar-imagen.png"
@@ -96,9 +100,12 @@ const ItemCrearNoticia = () => {
                 <Col xs={12} md={6} className="mb-3">
                   <Form.Group controlId="formStatus">
                     <Form.Label>Estado</Form.Label>
-                    <Form.Select>
-                      <option>Activo</option>
-                      <option>No Activo</option>
+                    <Form.Select
+                      value={estado}
+                      onChange={(e) => setEstado(e.target.value)}
+                    >
+                      <option value={"activo"}>Activo</option>
+                      <option value={"inactivo"}>No Activo</option>
                     </Form.Select>
                   </Form.Group>
                 </Col>
@@ -148,7 +155,8 @@ const ItemCrearNoticia = () => {
                 <Form.Label>Carrera</Form.Label>
                 <Form.Select
                   value={carrera}
-                  onChange={(e) => setCarrera(e.target.value)}>
+                  onChange={(e) => setCarrera(e.target.value)}
+                >
                   <option>Carrera 1</option>
                   <option>Carrera 2</option>
                   <option>Carrera 3</option>
