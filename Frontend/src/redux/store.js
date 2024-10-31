@@ -11,7 +11,6 @@ export default configureStore({
   reducer: {
     option: optionReducer,
     adminOption: CreateSliceOP,
-    userSlice: userSlice,
     conctac: contactSlice,
     news: newsSlice,
     auth: authSlice,

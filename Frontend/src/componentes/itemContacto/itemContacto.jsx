@@ -12,7 +12,8 @@ const ItemContacto = ({ userProp }) => {
   const [error, setError] = useState(null);
   const [editContact, setEditedProduct] = useState(null);
   const dispatch = useDispatch();
-
+  /* useEffect : se ejecuta una vez a la hora de que renderize nuestro componente, pero se puede ejecutar mas veces con una dependencia(useEffect : tiene dos parametros , funcion , arreglo(dependencia))
+  bueno y aqui cada vez que utilizo el dispatch useEffect Renderiza de nuevo con los datos del GET para colocar datos actualizados :)*/
   useEffect(() => {
     axios
       .get("http://localhost:3001/contactosEstudiantes")
@@ -25,6 +26,7 @@ const ItemContacto = ({ userProp }) => {
         setLoading(false);
       });
   }, [dispatch]);
+  /* Configuraciones para el Sweetalert(lib para alertas) */
   const Toast = Swal.mixin({
     toast: true,
     position: "bottom-end",
@@ -37,6 +39,7 @@ const ItemContacto = ({ userProp }) => {
     },
   });
   const handleClickEditContaco = () => {
+    /*Con axios hacemos la petcion de tipo PUT a nuestro Backend para que se actualize en nuestro Backend y le pasamos los parametrode nuestro estado editContact */
     axios
       .put(`http://localhost:3001/contactosEstudiantes/${editContact.id}`, {
         name: editContact.name,
@@ -51,7 +54,7 @@ const ItemContacto = ({ userProp }) => {
           icon: "success",
           title: "Contacto Editado Correctamente",
         });
-        /* IMPORTATE RECORDAR QUE AL OTRO LADOR RECIBIMOS UN OBJETE CON EL MISMO ORDE DE DATOS EN UPTADE CONTACT */
+        /* IMPORTATE RECORDAR QUE AL OTRO LADO RECIBIMOS UN OBJETO CON EL MISMO ORDEN DE DATOS EN UPTADE CONTACT */
         dispatch(
           updateContact({
             id: editContact.id,
@@ -65,9 +68,7 @@ const ItemContacto = ({ userProp }) => {
           })
         );
         setEditedProduct(null);
-        /* aqui con el despachador de estados mando a llamar a mi estado de update contacto que lo que va 
-          hacer es que buscara el id con el que 
-          tiene relacion mi objeto y luego  por medio del ir va reemplazar lo valores que le mandamos en el objeto */
+        /*Con el despachador solo estamos actualizando el estado en el Fronted*/
       })
       .catch((error) => {
         Toast.fire({
@@ -77,11 +78,19 @@ const ItemContacto = ({ userProp }) => {
       });
   };
   if (loading) {
-    return <div className="alert alert-info">Cargando contactos...</div>;
+    return (
+      <>
+        <div className="alert alert-info">Cargando contactos...</div>
+      </>
+    );
   }
 
   if (error) {
-    return <div className="alert alert-danger">Error Contactos : {error} </div>;
+    return (
+      <>
+        <div className="alert alert-danger">Error Contactos : {error} </div>;
+      </>
+    );
   }
 
   return (
@@ -95,8 +104,7 @@ const ItemContacto = ({ userProp }) => {
                   <Col
                     xs={12}
                     md={6}
-                    className="d-flex justify-content-center align-items-center text-center mb-3"
-                  >
+                    className="d-flex justify-content-center align-items-center text-center mb-3">
                     <Row className="justify-content-center align-items-center">
                       <Image
                         src="/icono-agregar-imagen.png"
@@ -195,8 +203,7 @@ const ItemContacto = ({ userProp }) => {
                               ...editContact,
                               estado: e.target.value,
                             })
-                          }
-                        >
+                          }>
                           <option value={"activo"}>Activo</option>
                           <option value={"inactivo"}>Inactivo</option>
                         </Form.Select>
@@ -209,8 +216,7 @@ const ItemContacto = ({ userProp }) => {
                     <Button
                       variant="secondary"
                       className="me-2"
-                      onClick={() => setEditedProduct(null)}
-                    >
+                      onClick={() => setEditedProduct(null)}>
                       Cancelar
                     </Button>
                     <Button variant="dark" onClick={handleClickEditContaco}>
@@ -235,26 +241,22 @@ const ItemContacto = ({ userProp }) => {
                   </div>
                   <Card.Text
                     className="mb-0 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}
-                  >
+                    style={{ fontSize: "1rem", color: "#333" }}>
                     Nombre: {contacto.name}
                   </Card.Text>
                   <Card.Text
                     className="mb-1 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}
-                  >
+                    style={{ fontSize: "1rem", color: "#333" }}>
                     Puesto: {contacto.puesto}
                   </Card.Text>
                   <Card.Text
                     className="mb-1 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}
-                  >
+                    style={{ fontSize: "1rem", color: "#333" }}>
                     Email: {contacto.email}
                   </Card.Text>
                   <Card.Text
                     className="mb-1 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}
-                  >
+                    style={{ fontSize: "1rem", color: "#333" }}>
                     Tel: {contacto.phone}
                   </Card.Text>
                   {userProp === "admin" && (
@@ -262,8 +264,7 @@ const ItemContacto = ({ userProp }) => {
                       <Button
                         variant="secondary"
                         className="btn-md"
-                        onClick={() => setEditedProduct(contacto)}
-                      >
+                        onClick={() => setEditedProduct(contacto)}>
                         Editar
                       </Button>
                     </div>

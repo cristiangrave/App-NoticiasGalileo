@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { deleteDto } from "../../redux/reducers/userSlice";
 function CustomUser() {
   const usar = useDispatch();
-  const dtoUsuario = useSelector((state) => state.userSlice);
+  const dtoUsuario = useSelector((state) => state.user);
 
   const signOut = (e) => {
     e.preventDefault();

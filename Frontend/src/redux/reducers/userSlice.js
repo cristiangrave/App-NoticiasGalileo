@@ -3,10 +3,8 @@ import { createSlice } from "@reduxjs/toolkit";
 const userSlice = createSlice({
   name: "user",
   initialState: {
-
-    role: "", 
-    userName: ""
-
+    role: "",
+    userName: "",
   },
   reducers: {
     setUserRole: (state, action) => {
@@ -18,9 +16,12 @@ const userSlice = createSlice({
     },
 
     deleteDto: (state, action) => {
-      state.role = null
-      state.userName = null
-    }
+      state.role = null;
+      state.userName = null;
+    },
+    getUserType: (state, action) => {
+      state.role = role;
+    },
   },
 });
 

@@ -13,63 +13,42 @@ import ItemCrearContacto from "./componentes/ItemCrearContacto/ItemCrearContacto
 import LoginForm from "./componentes/LoginForm/LoginForm.jsx";
 
 function App() {
-  const userRol = useSelector((state) => state.userSlice.role);
   const useAuth = useSelector((state) => state.auth.value);
   const [view, setView] = useState("noticias");
-  const [viewAdmin, setViewAdmin] = useState("noticiasAdmin");
-
   const handleNavClick = (selectedView) => {
     setView(selectedView);
   };
-  const handleNavClickAdmin = (selectedViewAdmin) => {
-    setViewAdmin(selectedViewAdmin);
-  };
   const handleCreateItem = () => {
-    if (viewAdmin === "noticiasAdmin") {
-      setViewAdmin("crearNoticia");
+    if (view === "noticias") {
+      setView("crearNoticia");
     } else {
-      setViewAdmin("crearContacto");
+      setView("crearContacto");
     }
   };
-
+  /*Utilizando hook createContext: Esto lo hago para poder pasar el  tipo de usuarios a los componentes que la utilizan para no pasar la prop directamente en el componente */
   return (
-    <div className="App ">
-      <NavbarNoticiasContacto />
-      <Container className="mt-1">
-        {useAuth === "noAutorizado" && <LoginForm></LoginForm>}
-        {userRol === "alumno" && useAuth === "autorizado" && (
-          <>
-            <ButtonsList onViewChange={handleNavClick} />
-            <Row>
-              <Col>
-                {view === "noticias" && <NoticiasList userProp={userRol} />}
-                {view === "contactos" && <ContactList userProp={userRol} />}
-              </Col>
-            </Row>
-          </>
-        )}
-        {userRol === "admin" && useAuth === "autorizado" && (
-          <>
+    <>
+      {useAuth === "noAutorizado" && <LoginForm></LoginForm>}
+      {useAuth === "autorizado" && (
+        <>
+          <NavbarNoticiasContacto />
+          <Container className="mt-1">
             <ButtonsListAdmin
-              onViewChange={handleNavClickAdmin}
+              onViewChange={handleNavClick}
               crearItem={handleCreateItem}
             />
             <Row>
               <Col>
-                {viewAdmin === "noticiasAdmin" && (
-                  <NoticiasList usuarioProp={userRol} />
-                )}
-                {viewAdmin === "contactosAdmin" && (
-                  <ContactList userProp={userRol} />
-                )}
-                {viewAdmin === "crearNoticia" && <ItemCrearNoticia />}
-                {viewAdmin === "crearContacto" && <ItemCrearContacto />}
+                {view === "noticias" && <NoticiasList />}
+                {view === "contactos" && <ContactList />}
+                {view === "crearNoticia" && <ItemCrearNoticia />}
+                {view === "crearContacto" && <ItemCrearContacto />}
               </Col>
             </Row>
-          </>
-        )}
-      </Container>
-    </div>
+          </Container>
+        </>
+      )}
+    </>
   );
 }
 
