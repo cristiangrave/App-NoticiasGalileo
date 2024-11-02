@@ -1,10 +1,11 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Carrera } from "src/carreras/entities/carrera.entity";
+import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, JoinColumn } from "typeorm";
 
 
 @Entity('contactos')
 export class Contacto {
 
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     idcontacto: number;
 
     @Column()
@@ -17,11 +18,12 @@ export class Contacto {
     telefono: number;
 
     @Column()
-    carrera: string;
-
-    @Column()
     puesto: string;
 
     @Column({ nullable: true })
     imagen: string;
+
+    @ManyToOne(() => Carrera, (carrera) => carrera.contactos)
+    @JoinColumn({ name: 'idcarrera'})
+    carrera: Carrera;
 }

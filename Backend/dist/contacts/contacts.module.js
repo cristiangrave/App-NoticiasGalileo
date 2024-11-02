@@ -11,11 +11,14 @@ const common_1 = require("@nestjs/common");
 const contacts_controller_1 = require("./controllers/contacts.controller");
 const contacts_service_1 = require("./services/contacts.service");
 const upload_service_1 = require("./services/upload.service");
+const typeorm_1 = require("@nestjs/typeorm");
+const carrera_entity_1 = require("../carreras/entities/carrera.entity");
 let ContactsModule = class ContactsModule {
 };
 exports.ContactsModule = ContactsModule;
 exports.ContactsModule = ContactsModule = __decorate([
     (0, common_1.Module)({
+        imports: [typeorm_1.TypeOrmModule.forFeature([contacts_service_1.Contacto, carrera_entity_1.Carrera])],
         controllers: [contacts_controller_1.ContactsController],
         providers: [contacts_service_1.ContactsService, upload_service_1.UploadService],
     })

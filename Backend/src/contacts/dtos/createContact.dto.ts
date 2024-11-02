@@ -4,19 +4,19 @@ export class CreateContactDto {
     
     @IsString()
     @IsNotEmpty()
-    readonly name: string;
+    readonly nombre: string;
 
     @IsEmail()
     @IsNotEmpty()
-    readonly email: string;
+    readonly correo: string;
 
     @IsNumber()
     @IsNotEmpty()
-    readonly phone: number;
+    readonly telefono: number;
       
-    @IsString()
+    @IsNumber()
     @IsNotEmpty()
-    readonly carrera: string;
+    readonly carrera: number;
 
     @IsString()
     @IsNotEmpty()

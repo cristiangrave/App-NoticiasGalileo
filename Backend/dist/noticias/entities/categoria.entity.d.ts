@@ -3,5 +3,5 @@ export declare class Categoria {
     idcategoria: number;
     nombre: string;
     descripcion: string;
-    noticias: Noticia[];
+    noticias: Noticia;
 }

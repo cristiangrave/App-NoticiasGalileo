@@ -18,21 +18,21 @@ __decorate([
     (0, class_validator_1.IsString)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], CreateContactDto.prototype, "name", void 0);
+], CreateContactDto.prototype, "nombre", void 0);
 __decorate([
     (0, class_validator_1.IsEmail)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
-], CreateContactDto.prototype, "email", void 0);
+], CreateContactDto.prototype, "correo", void 0);
 __decorate([
     (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", Number)
-], CreateContactDto.prototype, "phone", void 0);
+], CreateContactDto.prototype, "telefono", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNumber)(),
     (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], CreateContactDto.prototype, "carrera", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),

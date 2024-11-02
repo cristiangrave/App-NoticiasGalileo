@@ -26,16 +26,16 @@ let NoticiasController = class NoticiasController {
         this.noticiasService = noticiasService;
         this.uploadService = uploadService;
     }
-    findAll() {
-        const noticias = this.noticiasService.findAll();
+    async findAll() {
+        const noticias = await this.noticiasService.findAll();
         return {
             statusCode: common_1.HttpStatus.OK,
             message: 'Noticias Obtenidas Exitosamente',
             data: noticias,
         };
     }
-    findOne(id) {
-        const noticia = this.noticiasService.findOne(+id);
+    async findOne(id) {
+        const noticia = await this.noticiasService.findOne(id);
         if (!noticia) {
             throw new common_1.NotFoundException(`No se encontró información para la Noticia con ID ${id}`);
         }
@@ -46,15 +46,28 @@ let NoticiasController = class NoticiasController {
         };
     }
     async create(createNewsDto, file) {
-        const imagen = this.uploadService.uploadImage(file);
-        return this.noticiasService.create({ ...createNewsDto, imagen: imagen });
+        const hayImagen = this.uploadService.uploadImage(file);
+        const noticia = await this.noticiasService.create({ ...createNewsDto, imagen: hayImagen });
+        return {
+            statusCode: common_1.HttpStatus.CREATED,
+            message: 'Noticia creada exitosamente',
+            data: noticia
+        };
     }
     async updateNews(id, updateNewsDto, file) {
         let imagen;
         if (file) {
             imagen = this.uploadService.uploadImage(file);
         }
-        return this.noticiasService.update(id, { ...updateNewsDto, ...(imagen && { imagen }) });
+        const noticia = await this.noticiasService.update(id, { ...updateNewsDto, ...(imagen && { imagen }) });
+        if (!noticia) {
+            throw new common_1.NotFoundException(`No se encontró información para la Noticia con ID ${id}`);
+        }
+        return {
+            statusCode: common_1.HttpStatus.OK,
+            message: 'Noticia actualziada exitosamente',
+            data: noticia,
+        };
     }
 };
 exports.NoticiasController = NoticiasController;
@@ -63,14 +76,14 @@ __decorate([
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Object)
+    __metadata("design:returntype", Promise)
 ], NoticiasController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Object)
+    __metadata("design:returntype", Promise)
 ], NoticiasController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Post)(),
@@ -81,8 +94,16 @@ __decorate([
                 const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('');
                 const fileExt = (0, path_1.extname)(file.originalname);
                 cb(null, `${randomName}${fileExt}`);
+            },
+        }),
+        fileFilter: (req, file, cb) => {
+            if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+                return new Error('Formato de imagen Invalido');
             }
-        })
+            else {
+                return console.log('Formato de imagen valido');
+            }
+        }
     })),
     __param(0, (0, common_1.Body)()),
     __param(1, (0, common_1.UploadedFile)()),
@@ -94,18 +115,27 @@ __decorate([
     (0, common_1.Put)(':id'),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('imagen', {
         storage: (0, multer_1.diskStorage)({
-            destination: './uploads'
+            destination: './uploads',
+            filename: (req, file, cb) => {
+                const randomName = Array(32)
+                    .fill(null)
+                    .map(() => (Math.round(Math.random() * 16)).toString(16))
+                    .join('');
+                const fileExt = (0, path_1.extname)(file.originalname);
+                cb(null, `${randomName}${fileExt}`);
+            },
         })
     })),
     __param(0, (0, common_1.Param)('id')),
     __param(1, (0, common_1.Body)()),
     __param(2, (0, common_1.UploadedFile)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, updateNews_dto_1.UpdateNewsDto, Object]),
+    __metadata("design:paramtypes", [String, updateNews_dto_1.UpdateNewsDto, Object]),
     __metadata("design:returntype", Promise)
 ], NoticiasController.prototype, "updateNews", null);
 exports.NoticiasController = NoticiasController = __decorate([
     (0, common_1.Controller)('noticiasEstudiantes'),
-    __metadata("design:paramtypes", [noticias_service_1.NoticiaService, upload_service_1.UploadService])
+    __metadata("design:paramtypes", [noticias_service_1.NoticiaService,
+        upload_service_1.UploadService])
 ], NoticiasController);
 //# sourceMappingURL=news.controller.js.map

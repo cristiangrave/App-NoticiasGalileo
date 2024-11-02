@@ -10,10 +10,13 @@ exports.UploadService = void 0;
 const common_1 = require("@nestjs/common");
 let UploadService = class UploadService {
     uploadImage(file) {
-        if (!file) {
+        let imagenPath = null;
+        if (file) {
+            return imagenPath = `/uploads/${file.filename}`;
+        }
+        else {
             return null;
         }
-        return file.filename;
     }
 };
 exports.UploadService = UploadService;

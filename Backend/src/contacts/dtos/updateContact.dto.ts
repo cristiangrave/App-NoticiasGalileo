@@ -4,19 +4,19 @@ import { IsEmail, IsNumber, IsOptional, IsString } from "class-validator";
 export class UpdateContactDto {
     @IsString()
     @IsOptional()
-    name: string;
+    nombre: string;
 
     @IsEmail()
     @IsOptional()
-    email: string;
+    correo: string;
 
     @IsNumber()
     @IsOptional()
-    phone: number;
+    telefono: number;
       
-    @IsString()
+    @IsNumber()
     @IsOptional()
-    carrera: string;
+    carrera: number;
 
     @IsString()
     @IsOptional()

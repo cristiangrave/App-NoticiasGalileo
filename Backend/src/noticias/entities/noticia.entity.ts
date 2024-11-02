@@ -1,18 +1,13 @@
-import { Column, Entity, JoinColumn, ManyToOne, PrimaryColumn } from "typeorm";
+import { Column, Entity, JoinColumn, OneToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Categoria } from "./categoria.entity";
+import { Carrera } from "src/carreras/entities/carrera.entity";
 
 
 @Entity('noticias')
 export class Noticia {
 
-    @PrimaryColumn()
-    idnoticia: number;
-
-    @Column()
-    idusuario: number;
-
-    @Column()
-    carrera: string;
+    @PrimaryGeneratedColumn('uuid')
+    idnoticia: string;
 
     @Column()
     titulo: string;
@@ -29,8 +24,11 @@ export class Noticia {
     @Column()
     fecha: string;
 
-    @ManyToOne(() => Categoria, (categoria) => categoria.noticias, { eager: true })
-    @JoinColumn({ name: "categoria" })
-    categoria: Categoria;
+    @OneToMany(() => Categoria, (categoria) => categoria.noticias, { eager: true })
+    categoria: Categoria[];
+
+    @ManyToOne(() => Carrera, (carrera) => carrera.noticias)
+    @JoinColumn({ name: 'idcarrera'})
+    carrera: Carrera;
 
 }

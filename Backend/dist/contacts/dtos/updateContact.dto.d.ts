@@ -1,8 +1,8 @@
 export declare class UpdateContactDto {
-    name: string;
-    email: string;
-    phone: number;
-    carrera: string;
+    nombre: string;
+    correo: string;
+    telefono: number;
+    carrera: number;
     puesto: string;
     imagen: string;
 }

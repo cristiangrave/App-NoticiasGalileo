@@ -26,38 +26,48 @@ let ContactsController = class ContactsController {
         this.contactsService = contactsService;
         this.uploadService = uploadService;
     }
-    findAll() {
-        const contacts = this.contactsService.findAll();
+    async findAll() {
+        const contacts = await this.contactsService.findAll();
         return {
             statusCode: common_1.HttpStatus.OK,
             message: 'Contactos obtenidos exitosamente',
             data: contacts,
         };
     }
-    findOne(id) {
-        const contact = this.contactsService.findOne(+id);
-        if (!contact) {
+    async findOne(id) {
+        const contacto = await this.contactsService.findOne(id);
+        if (!contacto) {
             throw new common_1.NotFoundException(`No se encontró información para el contacto con ID ${id}`);
         }
         return {
             statusCode: common_1.HttpStatus.OK,
             message: 'Contacto obtenido exitosamente',
-            data: contact,
+            data: contacto,
         };
     }
     async create(createContactDto, file) {
-        const imagen = this.uploadService.uploadImage(file);
-        return this.contactsService.create({ ...createContactDto, imagen: imagen });
+        const hayImagen = this.uploadService.uploadImage(file);
+        const contact = await this.contactsService.create({ ...createContactDto, imagen: hayImagen });
+        return {
+            statusCode: common_1.HttpStatus.CREATED,
+            message: 'Contacto creado exitosamente',
+            data: contact
+        };
     }
     async updateContact(id, updateContactDto, file) {
         let imagen;
         if (file) {
             imagen = this.uploadService.uploadImage(file);
         }
-        return this.contactsService.update(id, {
-            ...updateContactDto,
-            ...(imagen && { imagen })
-        });
+        const contact = await this.contactsService.update(id, { ...updateContactDto, ...(imagen && { imagen }) });
+        if (!contact) {
+            throw new common_1.NotFoundException(`No se encontró información para el Contacto con ID ${id}`);
+        }
+        return {
+            statusCode: common_1.HttpStatus.OK,
+            message: 'Contacto actualizado exitosamente',
+            data: contact,
+        };
     }
     async getContactVisibility(id) {
         const isVisible = parseInt(id) % 2 == 0;
@@ -70,14 +80,14 @@ __decorate([
     (0, common_1.HttpCode)(common_1.HttpStatus.OK),
     __metadata("design:type", Function),
     __metadata("design:paramtypes", []),
-    __metadata("design:returntype", Object)
+    __metadata("design:returntype", Promise)
 ], ContactsController.prototype, "findAll", null);
 __decorate([
     (0, common_1.Get)(':id'),
     __param(0, (0, common_1.Param)('id')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [String]),
-    __metadata("design:returntype", Object)
+    __metadata("design:paramtypes", [Number]),
+    __metadata("design:returntype", Promise)
 ], ContactsController.prototype, "findOne", null);
 __decorate([
     (0, common_1.Post)(),
@@ -109,7 +119,15 @@ __decorate([
     (0, common_1.Put)(':id'),
     (0, common_1.UseInterceptors)((0, platform_express_1.FileInterceptor)('imagen', {
         storage: (0, multer_1.diskStorage)({
-            destination: './uploads'
+            destination: './uploads',
+            filename: (req, file, cb) => {
+                const randomName = Array(32)
+                    .fill(null)
+                    .map(() => (Math.round(Math.random() * 16)).toString(16))
+                    .join('');
+                const fileExt = (0, path_1.extname)(file.originalname);
+                cb(null, `${randomName}${fileExt}`);
+            },
         })
     })),
     __param(0, (0, common_1.Param)('id')),

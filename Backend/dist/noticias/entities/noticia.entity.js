@@ -12,21 +12,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.Noticia = void 0;
 const typeorm_1 = require("typeorm");
 const categoria_entity_1 = require("./categoria.entity");
+const carrera_entity_1 = require("../../carreras/entities/carrera.entity");
 let Noticia = class Noticia {
 };
 exports.Noticia = Noticia;
 __decorate([
-    (0, typeorm_1.PrimaryColumn)(),
-    __metadata("design:type", Number)
-], Noticia.prototype, "idnoticia", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", Number)
-], Noticia.prototype, "idusuario", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.PrimaryGeneratedColumn)('uuid'),
     __metadata("design:type", String)
-], Noticia.prototype, "carrera", void 0);
+], Noticia.prototype, "idnoticia", void 0);
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
@@ -48,10 +41,14 @@ __decorate([
     __metadata("design:type", String)
 ], Noticia.prototype, "fecha", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => categoria_entity_1.Categoria, (categoria) => categoria.noticias, { eager: true }),
-    (0, typeorm_1.JoinColumn)({ name: "categoria" }),
-    __metadata("design:type", categoria_entity_1.Categoria)
+    (0, typeorm_1.OneToMany)(() => categoria_entity_1.Categoria, (categoria) => categoria.noticias, { eager: true }),
+    __metadata("design:type", Array)
 ], Noticia.prototype, "categoria", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => carrera_entity_1.Carrera, (carrera) => carrera.noticias),
+    (0, typeorm_1.JoinColumn)({ name: 'idcarrera' }),
+    __metadata("design:type", carrera_entity_1.Carrera)
+], Noticia.prototype, "carrera", void 0);
 exports.Noticia = Noticia = __decorate([
     (0, typeorm_1.Entity)('noticias')
 ], Noticia);

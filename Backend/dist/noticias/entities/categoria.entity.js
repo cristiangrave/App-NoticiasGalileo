@@ -16,7 +16,7 @@ let Categoria = class Categoria {
 };
 exports.Categoria = Categoria;
 __decorate([
-    (0, typeorm_1.PrimaryColumn)(),
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
 ], Categoria.prototype, "idcategoria", void 0);
 __decorate([
@@ -24,12 +24,13 @@ __decorate([
     __metadata("design:type", String)
 ], Categoria.prototype, "nombre", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Categoria.prototype, "descripcion", void 0);
 __decorate([
-    (0, typeorm_1.OneToMany)(() => noticia_entity_1.Noticia, (noticia) => noticia.categoria),
-    __metadata("design:type", Array)
+    (0, typeorm_1.ManyToOne)(() => noticia_entity_1.Noticia, (noticia) => noticia.categoria),
+    (0, typeorm_1.JoinColumn)({ name: "idnoticia" }),
+    __metadata("design:type", noticia_entity_1.Noticia)
 ], Categoria.prototype, "noticias", void 0);
 exports.Categoria = Categoria = __decorate([
     (0, typeorm_1.Entity)('categorias')

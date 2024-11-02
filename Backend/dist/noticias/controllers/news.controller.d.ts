@@ -6,23 +6,24 @@ export declare class NoticiasController {
     private readonly noticiasService;
     private readonly uploadService;
     constructor(noticiasService: NoticiaService, uploadService: UploadService);
-    findAll(): {
+    findAll(): Promise<{
         statusCode: number;
         message: string;
         data: Noticia[];
-    };
-    findOne(id: string): {
+    }>;
+    findOne(id: string): Promise<{
         statusCode: number;
         message: string;
         data?: Noticia;
-    };
-    create(createNewsDto: CreateNewsDto, file: Express.Multer.File): Promise<{
-        titulo: string;
-        descripcion: string;
-        carrera: string;
-        imagen: string;
-        fecha: string;
-        id: number;
     }>;
-    updateNews(id: number, updateNewsDto: UpdateNewsDto, file?: Express.Multer.File): Promise<Noticia>;
+    create(createNewsDto: CreateNewsDto, file: Express.Multer.File): Promise<{
+        statusCode: number;
+        message: string;
+        data: Noticia;
+    }>;
+    updateNews(id: string, updateNewsDto: UpdateNewsDto, file?: Express.Multer.File): Promise<{
+        statusCode: number;
+        message: string;
+        data: Noticia;
+    }>;
 }

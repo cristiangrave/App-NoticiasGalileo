@@ -1,7 +1,7 @@
-import { IsString, IsNotEmpty, IsOptional } from 'class-validator';
+import { IsString, IsNotEmpty, IsOptional, IsInt } from 'class-validator';
 
 export class CreateNewsDto {
-    
+
     @IsString()
     @IsNotEmpty()
     readonly titulo: string;
@@ -10,9 +10,9 @@ export class CreateNewsDto {
     @IsNotEmpty()
     readonly descripcion: string;
       
-    @IsString()
+    @IsInt()
     @IsNotEmpty()
-    readonly carrera: string;
+    readonly carrera: number;
 
     @IsString()
     @IsOptional()
@@ -21,6 +21,14 @@ export class CreateNewsDto {
     @IsString()
     @IsNotEmpty()
     readonly fecha: string;
+
+    @IsString()
+    @IsNotEmpty()
+    readonly estado: string;
+
+    @IsInt()
+    @IsNotEmpty()
+    readonly categoria: number;
 
 }
 

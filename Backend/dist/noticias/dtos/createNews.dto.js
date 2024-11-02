@@ -25,9 +25,9 @@ __decorate([
     __metadata("design:type", String)
 ], CreateNewsDto.prototype, "descripcion", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsInt)(),
     (0, class_validator_1.IsNotEmpty)(),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], CreateNewsDto.prototype, "carrera", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
@@ -39,4 +39,14 @@ __decorate([
     (0, class_validator_1.IsNotEmpty)(),
     __metadata("design:type", String)
 ], CreateNewsDto.prototype, "fecha", void 0);
+__decorate([
+    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", String)
+], CreateNewsDto.prototype, "estado", void 0);
+__decorate([
+    (0, class_validator_1.IsInt)(),
+    (0, class_validator_1.IsNotEmpty)(),
+    __metadata("design:type", Number)
+], CreateNewsDto.prototype, "categoria", void 0);
 //# sourceMappingURL=createNews.dto.js.map

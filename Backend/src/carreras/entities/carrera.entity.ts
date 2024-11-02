@@ -1,10 +1,13 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Contacto } from "src/contacts/entities/contacto.entity";
+import { Noticia } from "src/noticias/entities/noticia.entity";
+import { Usuario } from "src/users/entities/usuario.entity";
+import { Column, Entity, JoinColumn, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 
 @Entity('carreras')
 export class Carrera {
 
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     idcarrera: number;
 
     @Column()
@@ -15,5 +18,15 @@ export class Carrera {
 
     @Column()
     descripcion: string;
+
+    @ManyToOne(() => Usuario, (usuario) => usuario.carreras, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'idusuario' })  // Nombre de la columna de clave foránea
+    usuario: Usuario;
+
+    @OneToMany(() => Noticia, (noticia) => noticia.carrera)
+    noticias: Noticia[];
+
+    @OneToMany(() => Contacto, (contacto) => contacto.carrera)
+    contactos: Contacto[];
 
 }

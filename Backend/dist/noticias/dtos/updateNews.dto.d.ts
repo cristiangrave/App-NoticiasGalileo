@@ -1,7 +1,8 @@
 export declare class UpdateNewsDto {
     titulo: string;
     descripcion: string;
-    carrera: string;
+    carrera: number;
     imagen: string;
     fecha: string;
+    categoria: number;
 }

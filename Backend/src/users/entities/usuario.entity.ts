@@ -1,9 +1,10 @@
-import { Column, Entity, PrimaryColumn } from "typeorm";
+import { Carrera } from "src/carreras/entities/carrera.entity";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany, JoinColumn } from "typeorm";
 
 @Entity('usuarios')
 export class Usuario {
 
-    @PrimaryColumn()
+    @PrimaryGeneratedColumn()
     idusuario: number;
 
     @Column()
@@ -18,6 +19,6 @@ export class Usuario {
     @Column()
     tipousuario: string;
 
-    @Column()
-    carrera: string;
+    @OneToMany(() => Carrera, (carrera) => carrera.usuario)
+    carreras: Carrera[];
 }

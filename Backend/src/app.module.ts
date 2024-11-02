@@ -6,15 +6,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 
 
 @Module({
-  imports: [UsersModule, ContactsModule, NoticiasModule, TypeOrmModule.forRoot({
-      "type": "postgres",
-      "host": "206.81.7.200",
-      "port": 5434,
-      "username": "admin",
-      "password": "GalileoG32024",
-      "database": "proyecto_galileo",
-      "entities": [__dirname + '/../**/*.entity.js'],
-      "synchronize": true
-  })],
+  imports: [
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+        host: '206.81.7.200',
+        port: 5434,
+        username: 'admin',
+        password: 'GalileoG32024',
+        database: 'proyecto_galileo',
+        entities: [__dirname + '/../**/*.entity.js'],
+        synchronize: true
+    }),
+    UsersModule, ContactsModule, NoticiasModule],
 })
 export class AppModule {}

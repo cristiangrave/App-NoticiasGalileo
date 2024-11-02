@@ -17,16 +17,19 @@ let AppModule = class AppModule {
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
-        imports: [users_module_1.UsersModule, contacts_module_1.ContactsModule, noticias_module_1.NoticiasModule, typeorm_1.TypeOrmModule.forRoot({
-                "type": "postgres",
-                "host": "206.81.7.200",
-                "port": 5434,
-                "username": "admin",
-                "password": "GalileoG32024",
-                "database": "proyecto_galileo",
-                "entities": [__dirname + '/../**/*.entity.js'],
-                "synchronize": true
-            })],
+        imports: [
+            typeorm_1.TypeOrmModule.forRoot({
+                type: 'postgres',
+                host: '206.81.7.200',
+                port: 5434,
+                username: 'admin',
+                password: 'GalileoG32024',
+                database: 'proyecto_galileo',
+                entities: [__dirname + '/../**/*.entity.js'],
+                synchronize: true
+            }),
+            users_module_1.UsersModule, contacts_module_1.ContactsModule, noticias_module_1.NoticiasModule
+        ],
     })
 ], AppModule);
 //# sourceMappingURL=app.module.js.map

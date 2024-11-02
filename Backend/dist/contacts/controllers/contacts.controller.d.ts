@@ -1,4 +1,4 @@
-import { ContactsService, Contact } from '../services/contacts.service';
+import { ContactsService, Contacto } from '../services/contacts.service';
 import { CreateContactDto } from '../dtos/createContact.dto';
 import { UpdateContactDto } from '../dtos/updateContact.dto';
 import { UploadService } from '../services/upload.service';
@@ -6,26 +6,26 @@ export declare class ContactsController {
     private readonly contactsService;
     private readonly uploadService;
     constructor(contactsService: ContactsService, uploadService: UploadService);
-    findAll(): {
+    findAll(): Promise<{
         statusCode: number;
         message: string;
-        data: Contact[];
-    };
-    findOne(id: string): {
-        statusCode: number;
-        message: string;
-        data?: Contact;
-    };
-    create(createContactDto: CreateContactDto, file: Express.Multer.File): Promise<{
-        name: string;
-        email: string;
-        phone: number;
-        carrera: string;
-        puesto: string;
-        imagen: string;
-        id: number;
+        data: Contacto[];
     }>;
-    updateContact(id: number, updateContactDto: UpdateContactDto, file?: Express.Multer.File): Promise<Contact>;
+    findOne(id: number): Promise<{
+        statusCode: number;
+        message: string;
+        data?: Contacto;
+    }>;
+    create(createContactDto: CreateContactDto, file: Express.Multer.File): Promise<{
+        statusCode: number;
+        message: string;
+        data: Contacto;
+    }>;
+    updateContact(id: number, updateContactDto: UpdateContactDto, file?: Express.Multer.File): Promise<{
+        statusCode: number;
+        message: string;
+        data: Contacto;
+    }>;
     getContactVisibility(id: string): Promise<{
         isVisible: boolean;
     }>;

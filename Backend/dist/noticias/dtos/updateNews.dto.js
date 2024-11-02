@@ -25,9 +25,9 @@ __decorate([
     __metadata("design:type", String)
 ], UpdateNewsDto.prototype, "descripcion", void 0);
 __decorate([
-    (0, class_validator_1.IsString)(),
+    (0, class_validator_1.IsInt)(),
     (0, class_validator_1.IsOptional)(),
-    __metadata("design:type", String)
+    __metadata("design:type", Number)
 ], UpdateNewsDto.prototype, "carrera", void 0);
 __decorate([
     (0, class_validator_1.IsString)(),
@@ -39,4 +39,9 @@ __decorate([
     (0, class_validator_1.IsOptional)(),
     __metadata("design:type", String)
 ], UpdateNewsDto.prototype, "fecha", void 0);
+__decorate([
+    (0, class_validator_1.IsInt)(),
+    (0, class_validator_1.IsOptional)(),
+    __metadata("design:type", Number)
+], UpdateNewsDto.prototype, "categoria", void 0);
 //# sourceMappingURL=updateNews.dto.js.map

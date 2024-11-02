@@ -10,12 +10,13 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.Contacto = void 0;
+const carrera_entity_1 = require("../../carreras/entities/carrera.entity");
 const typeorm_1 = require("typeorm");
 let Contacto = class Contacto {
 };
 exports.Contacto = Contacto;
 __decorate([
-    (0, typeorm_1.PrimaryColumn)(),
+    (0, typeorm_1.PrimaryGeneratedColumn)(),
     __metadata("design:type", Number)
 ], Contacto.prototype, "idcontacto", void 0);
 __decorate([
@@ -33,15 +34,16 @@ __decorate([
 __decorate([
     (0, typeorm_1.Column)(),
     __metadata("design:type", String)
-], Contacto.prototype, "carrera", void 0);
-__decorate([
-    (0, typeorm_1.Column)(),
-    __metadata("design:type", String)
 ], Contacto.prototype, "puesto", void 0);
 __decorate([
-    (0, typeorm_1.Column)(),
+    (0, typeorm_1.Column)({ nullable: true }),
     __metadata("design:type", String)
 ], Contacto.prototype, "imagen", void 0);
+__decorate([
+    (0, typeorm_1.ManyToOne)(() => carrera_entity_1.Carrera, (carrera) => carrera.contactos),
+    (0, typeorm_1.JoinColumn)({ name: 'idcarrera' }),
+    __metadata("design:type", carrera_entity_1.Carrera)
+], Contacto.prototype, "carrera", void 0);
 exports.Contacto = Contacto = __decorate([
     (0, typeorm_1.Entity)('contactos')
 ], Contacto);

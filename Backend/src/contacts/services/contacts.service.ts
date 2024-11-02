@@ -1,87 +1,78 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateContactDto } from '../dtos/createContact.dto';
 import { UpdateContactDto } from '../dtos/updateContact.dto';
-
-export interface Contact {
-  id: number;
-  name: string;
-  email: string;
-  phone: number;
-  carrera: string;
-  puesto: string;
-  imagen: string;
-}
+import { Contacto } from '../entities/contacto.entity';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { Carrera } from 'src/carreras/entities/carrera.entity';
 
 @Injectable()
 export class ContactsService {
-  private contacts: Contact[] = [
-    {
-      id: 1,
-      name: 'Mariana Montenegro',
-      email: 'john@example.com',
-      phone: 123456789,
-      carrera: 'Bases de Datos',
-      puesto: 'Docente',
-      imagen: 'docente1.png',
-    },
-    {
-      id: 2,
-      name: 'Carlos Herrera',
-      email: 'john@example.com',
-      phone: 123456789,
-      carrera: 'Analisis de Datos ',
-      puesto: 'Docente',
-      imagen: 'docente2.png',
-    },
-    {
-      id: 3,
-      name: 'Marisa Gonzalez',
-      email: 'MariL@example.com',
-      phone: 123456789,
-      carrera: 'Estadistica',
-      puesto: 'Docente',
-      imagen: 'docente3.png',
-    },
-    {
-      id: 4,
-      name: 'Edgar Rolando ',
-      email: 'Edgar@gmail.com',
-      phone: 123456789,
-      carrera: 'Cloud Computing ',
-      puesto: 'Docente',
-      imagen: 'docente4.png',
-    },
-    // Agrega más contactos simulados aquí
-  ];
+  constructor( 
+    @InjectRepository(Contacto)
+    private readonly contactoRepository: Repository<Contacto>,
+
+    @InjectRepository(Carrera)
+    private readonly carreraRepository: Repository<Carrera>,
+  ) {}
 
   // Obtener todos los contactos
-  findAll(): Contact[] {
-    return this.contacts;
+  async findAll(): Promise<Contacto[]> {
+    return this.contactoRepository.find();
   }
 
   // Obtener un contacto por ID
-  findOne(id: number): Contact {
-    return this.contacts.find((contact) => contact.id === id);
+  async findOne(idcontact: number): Promise<Contacto> {
+    const contact = await this.contactoRepository.findOne({
+      where: {idcontacto: idcontact},
+    });
+
+    if(!contact) {
+      throw new NotFoundException(`contact con ID ${idcontact} no encontrada`);
+    }
+
+    return contact;
   }
 
-  // Crear un contacto nuevo
-  create(createContactDto: CreateContactDto) {
-    const newContact = { id: Date.now(), ...createContactDto }
-    this.contacts.push(newContact);
-    return newContact;
+   // Crear una contact nueva
+   async create(createContactDto: CreateContactDto): Promise<Contacto> {
+    // Obtener las entidades relacionadas de Categoria y Carrera
+    const carrera = await this.carreraRepository.findOne({ where: { idcarrera: createContactDto.carrera } });
+
+    if (!carrera) {
+      throw new NotFoundException(`Carrera con ID ${createContactDto.carrera} no encontrada`);
+    }
+
+    // Crear y asignar los valores a la contact
+    const newContact = this.contactoRepository.create({
+      ...createContactDto, carrera: carrera
+    });
+
+    return this.contactoRepository.save(newContact);
   }
 
   // Editar un contacto existente
-  update(id: number, updateContactDto: UpdateContactDto){
-    const contactIndex = this.contacts.findIndex(contact => contact.id == id)
+  async update(idcontact: number, updateContactDto: UpdateContactDto): Promise<Contacto>{
+    const editContact = await this.findOne(idcontact);
+    
+    if (!editContact) {
+      throw new NotFoundException(`contact con ID ${idcontact} no encontrada`);
+    }
 
-    // Si no encuentra el contacto por ID
-    if(contactIndex == -1) {
-      throw new NotFoundException(`Contacto con ID ${id} no encontrado`);
+    // Obtener entidades actualizadas si es necesario
+    if (updateContactDto.carrera) {
+      const carrera = await this.carreraRepository.findOne({ where: { idcarrera: updateContactDto.carrera } });
+      if (!carrera) {
+        throw new NotFoundException(`Carrera con ID ${updateContactDto.carrera} no encontrada`);
+      }
+      editContact.carrera = carrera;
     }
 
     // Si encuentra el contacto con el ID y le Edita los datos
-    this.contacts[contactIndex] = { ...this.contacts[contactIndex], ...updateContactDto};
-    return this.contacts[contactIndex];
+    Object.assign(editContact, updateContactDto);
+    return await this.contactoRepository.save(editContact);
   }
+
 }
+
+export { Contacto }
