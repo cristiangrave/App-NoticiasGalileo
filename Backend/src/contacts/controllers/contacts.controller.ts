@@ -10,6 +10,7 @@ import {
   Put,
   UseInterceptors,
   UploadedFile,
+  HttpException,
 } from '@nestjs/common';
 import { ContactsService, Contacto } from '../services/contacts.service';
 import { CreateContactDto } from '../dtos/createContact.dto';
@@ -66,29 +67,38 @@ export class ContactsController {
       }
     }, 
   ),
-    fileFilter: (req, file, cb) => {
-      if(!file.originalname.match(/\.(jpg|jpeg|png)$/)){
-        return new Error('Formato de imagen Invalido')
-      } else {
-        return console.log('Formato de imagen valido')
-      }
-  }
-   }))
-  async create(@Body() createContactDto: CreateContactDto, @UploadedFile() file: Express.Multer.File): Promise<{ statusCode: number; message: string; data: Contacto }>{
-    
-    // Subir la imagen si es necesario
-    const hayImagen = this.uploadService.uploadImage(file);
-
-    // Creacion del contacto con datos y la imagen convertida a String
-    const contact = await this.contactsService.create({ ...createContactDto, imagen: hayImagen });
-
-    return {
-      statusCode: HttpStatus.CREATED,
-      message: 'Contacto creado exitosamente',
-      data: contact
+  fileFilter: (req, file, cb) => {
+    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+      console.log('Formato de imagen inválido');
+      cb(new Error('Formato de imagen inválido'), false);  // Rechaza el archivo y devuelve un error
+    } else {
+      console.log('Formato de imagen válido');
+      cb(null, true);  // Acepta el archivo
     }
   }
-
+  
+   }))
+   async create(@Body() createContactDto: CreateContactDto, @UploadedFile() file: Express.Multer.File): Promise<{ statusCode: number; message: string; data: Contacto }> {
+    try {
+      // Subir la imagen si es necesario
+      const hayImagen = this.uploadService.uploadImage(file);
+  
+      // Creacion del contacto con datos y la imagen convertida a String
+      const contact = await this.contactsService.create({ ...createContactDto, imagen: hayImagen });
+  
+      return {
+        statusCode: HttpStatus.CREATED,
+        message: 'Contacto creado exitosamente',
+        data: contact,
+      };
+    } catch (error) {
+      throw new HttpException(
+        { statusCode: HttpStatus.BAD_REQUEST, message: error.message },
+        HttpStatus.BAD_REQUEST,
+      );
+    }
+  }
+  
   // Endpoint para Editar un Contacto
   @Put(':id')
   @UseInterceptors(FileInterceptor('imagen', {
@@ -107,7 +117,7 @@ export class ContactsController {
   async updateContact( @Param('id') id: number, @Body() updateContactDto:UpdateContactDto, @UploadedFile() file?: Express.Multer.File): Promise<{ statusCode: number; message: string; data: Contacto }> {
 
 
-      let imagen; 
+    let imagen; 
     // Se guarda una nueva imagen si se sube una nueva
     if(file){
        imagen = this.uploadService.uploadImage(file);

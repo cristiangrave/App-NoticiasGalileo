@@ -9,7 +9,8 @@ import {
   Body,
   Put,
   UseInterceptors,
-  UploadedFile
+  UploadedFile,
+  HttpException
 } from '@nestjs/common';
 import { NoticiaService, Noticia } from '../services/noticias.service';
 import { CreateNewsDto } from '../dtos/createNews.dto';
@@ -67,25 +68,34 @@ export class NoticiasController {
       }, 
     }), 
     fileFilter: (req, file, cb) => {
-      if(!file.originalname.match(/\.(jpg|jpeg|png)$/)){
-        return new Error('Formato de imagen Invalido')
+      if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+        console.log('Formato de imagen inválido');
+        cb(new Error('Formato de imagen inválido'), false);  // Rechaza el archivo y devuelve un error
       } else {
-        return console.log('Formato de imagen valido')
+        console.log('Formato de imagen válido');
+        cb(null, true);  // Acepta el archivo
       }
-  }
+    }
+
    }))
    async create(@Body() createNewsDto: CreateNewsDto, @UploadedFile() file: Express.Multer.File): Promise<{ statusCode: number; message: string; data: Noticia }> {
-     
-    // Subir la imagen si es necesario
-    const hayImagen = this.uploadService.uploadImage(file);
-    
-    // Creacion de la noticia con datos y la imagen convertida a String
-    const noticia = await this.noticiasService.create({...createNewsDto, imagen: hayImagen});
-
-    return {
-      statusCode: HttpStatus.CREATED,
-      message: 'Noticia creada exitosamente',
-      data: noticia
+    try {
+      // Subir la imagen si es necesario
+      const hayImagen = this.uploadService.uploadImage(file);
+  
+      // Creacion del contacto con datos y la imagen convertida a String
+      const noticia = await this.noticiasService.create({ ...createNewsDto, imagen: hayImagen });
+  
+      return {
+        statusCode: HttpStatus.CREATED,
+        message: 'Noticia creada exitosamente',
+        data: noticia,
+      };
+    } catch (error) {
+      throw new HttpException(
+        { statusCode: HttpStatus.BAD_REQUEST, message: error.message },
+        HttpStatus.BAD_REQUEST,
+      );
     }
    }
  
