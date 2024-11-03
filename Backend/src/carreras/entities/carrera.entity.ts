@@ -1,10 +1,12 @@
 import { Contacto } from "src/contacts/entities/contacto.entity";
+import { Incripciones } from "src/inscripciones/inscripciones.entity";
 import { Noticia } from "src/noticias/entities/noticia.entity";
 import { Usuario } from "src/users/entities/usuario.entity";
 import {
   Column,
   Entity,
   JoinColumn,
+  ManyToMany,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -29,4 +31,7 @@ export class Carrera {
   /* OnetoMany : una carrera tiene muchas noticias  */
   @OneToMany(() => Contacto, (contacto) => contacto.carrera)
   contactos: Contacto[];
+
+  @ManyToMany(() => Incripciones, (inscripcion) => inscripcion.carrera)
+  Incripciones: Incripciones[];
 }

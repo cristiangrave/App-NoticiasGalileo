@@ -1,5 +1,11 @@
 import { Incripciones } from "src/inscripciones/inscripciones.entity";
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
+import {
+  Column,
+  Entity,
+  PrimaryGeneratedColumn,
+  OneToMany,
+  ManyToMany,
+} from "typeorm";
 
 @Entity("usuarios")
 export class Usuario {
@@ -21,6 +27,6 @@ export class Usuario {
   @Column()
   tipousuario: string;
 
-  @OneToMany(() => Incripciones, (inscripcion) => inscripcion.usuario)
+  @ManyToMany(() => Incripciones, (inscripcion) => inscripcion.usuario)
   Incripciones: Incripciones[];
 }
