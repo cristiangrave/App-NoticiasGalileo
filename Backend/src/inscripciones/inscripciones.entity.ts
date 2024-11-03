@@ -15,12 +15,12 @@ export class Incripciones {
   @PrimaryGeneratedColumn()
   idInscripcion: number;
   /* muchos usuario pueden tener muchar inscripciones */
-  @ManyToMany(() => Usuario, (usuario) => usuario.idusuario, {
+  @ManyToOne(() => Usuario, (usuario) => usuario.idusuario, {
     onDelete: "CASCADE",
   })
   @JoinColumn({ name: "idusuario" }) // Nombre de la columna de clave foránea
   usuario: Usuario;
-  @ManyToMany(() => Carrera, (carrera) => carrera.idcarrera, {
+  @ManyToOne(() => Carrera, (carrera) => carrera.idcarrera, {
     onDelete: "CASCADE",
   })
   @JoinColumn({ name: "idcarrera" }) // Nombre de la columna de clave foránea

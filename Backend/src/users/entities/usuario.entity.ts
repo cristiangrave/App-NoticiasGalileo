@@ -1,3 +1,4 @@
+import { Carrera } from "src/carreras/entities/carrera.entity";
 import { Incripciones } from "src/inscripciones/inscripciones.entity";
 import {
   Column,
@@ -27,6 +28,6 @@ export class Usuario {
   @Column()
   tipousuario: string;
 
-  @ManyToMany(() => Incripciones, (inscripcion) => inscripcion.usuario)
+  @OneToMany(() => Incripciones, (inscripcion) => inscripcion.usuario)
   Incripciones: Incripciones[];
 }

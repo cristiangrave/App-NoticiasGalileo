@@ -32,6 +32,6 @@ export class Carrera {
   @OneToMany(() => Contacto, (contacto) => contacto.carrera)
   contactos: Contacto[];
 
-  @ManyToMany(() => Incripciones, (inscripcion) => inscripcion.carrera)
+  @OneToMany(() => Incripciones, (inscripcion) => inscripcion.carrera)
   Incripciones: Incripciones[];
 }
