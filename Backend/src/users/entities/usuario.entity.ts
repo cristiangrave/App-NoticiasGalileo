@@ -10,6 +10,9 @@ export class Usuario {
     @Column()
     nombre: string;
 
+    @Column({ nullable: true})
+    contrasena: string;
+
     @Column()
     estado: string;
 
