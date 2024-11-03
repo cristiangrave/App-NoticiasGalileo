@@ -7,12 +7,14 @@ import axios from "axios";
 import { readNews, updateNew } from "../../redux/reducers/newsSlice";
 import Swal from "sweetalert2";
 
-const ItemNoticia = ({ usuarioProp }) => {
-  const AllNews = useSelector((state) => state.news);
+const ItemNoticia = () => {
+  const noticias = useSelector((state) => state.news);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editNews, setEditNews] = useState(null);
   const despachador = useDispatch();
+  const tipoUsuario = useSelector((state) => state.user.role);
+  /*Con este estado ya no es  que pasemos el estado por medio de una prop*/
   useEffect(() => {
     axios
       .get("http://localhost:3001/noticiasEstudiantes") // endpoint de contactos de Estudiantes
@@ -80,7 +82,7 @@ const ItemNoticia = ({ usuarioProp }) => {
   };
   return (
     <Row className="w-100 d-flex align-items-center justify-content-center">
-      {AllNews.data.map((noticia) => (
+      {noticias.data.map((noticia) => (
         <Card key={noticia.id} className="p-4 my-1 tarjeta-noticia">
           {editNews?.id === noticia.id ? (
             <Form>
@@ -88,8 +90,7 @@ const ItemNoticia = ({ usuarioProp }) => {
                 <Col
                   xs={12}
                   md={4}
-                  className="d-flex justify-content-center align-items-center"
-                >
+                  className="d-flex justify-content-center align-items-center">
                   <Row>
                     <Image
                       src="/icono-agregar-imagen.png"
@@ -124,8 +125,7 @@ const ItemNoticia = ({ usuarioProp }) => {
                           value={editNews.estado}
                           onChange={(e) =>
                             setEditNews({ ...editNews, estado: e.target.value })
-                          }
-                        >
+                          }>
                           <option value={"activo"}>Activo</option>
                           <option value={"inactivo"}>No Activo</option>
                         </Form.Select>
@@ -186,8 +186,7 @@ const ItemNoticia = ({ usuarioProp }) => {
                       value={editNews.carrera}
                       onChange={(e) =>
                         setEditNews({ ...editNews, carrera: e.target.value })
-                      }
-                    >
+                      }>
                       <option>Carrera 1</option>
                       <option>Carrera 2</option>
                       <option>Carrera 3</option>
@@ -200,8 +199,7 @@ const ItemNoticia = ({ usuarioProp }) => {
                   <Button
                     variant="secondary"
                     className="me-2"
-                    onClick={() => setEditNews(null)}
-                  >
+                    onClick={() => setEditNews(null)}>
                     Cancelar
                   </Button>
                   <Button variant="dark" onClick={handleUpdateNew}>
@@ -238,21 +236,19 @@ const ItemNoticia = ({ usuarioProp }) => {
                   <Card.Body>
                     <Card.Text
                       className="mt-0"
-                      style={{ fontSize: "1rem", color: "#333" }}
-                    >
+                      style={{ fontSize: "1rem", color: "#333" }}>
                       {noticia.descripcion}
                     </Card.Text>
                     <p className="text-muted " style={{ fontSize: "0.9rem" }}>
                       {noticia.fecha}
                     </p>
                   </Card.Body>
-                  {usuarioProp === "admin" && (
+                  {tipoUsuario === "admin" && (
                     <div className="d-flex justify-content-end">
                       <Button
                         variant="secondary"
                         className="btn-md"
-                        onClick={() => setEditNews(noticia)}
-                      >
+                        onClick={() => setEditNews(noticia)}>
                         Editar
                       </Button>
                     </div>
