@@ -11,6 +11,7 @@ import {
   UseInterceptors,
   UploadedFile,
   HttpException,
+  Query,
 } from '@nestjs/common';
 import { ContactsService, Contacto } from '../services/contacts.service';
 import { CreateContactDto } from '../dtos/createContact.dto';
@@ -137,10 +138,11 @@ export class ContactsController {
   }
 
   // Endpoint para verificar el estado de visibilidad del contacto
-  @Get(':id/visibility')
-  async getContactVisibility(@Param('id') id: string){
-    const isVisible = parseInt(id) % 2 == 0;
-    return { isVisible };
+  @Get('estado')
+  async getContactEstado(@Query('estado') estado: string){
+    // Convertimos el parámetro de string a booleano
+    const estadoBoolean = (estado === 'true');
+    return await this.contactsService.findByEstado(estadoBoolean);
   }
 
 

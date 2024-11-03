@@ -88,6 +88,10 @@ export class NoticiaService {
     Object.assign(editNew, updateNewsDto);
     return await this.noticiaRepository.save(editNew);
   }
+
+  async findByEstado(estado: string): Promise<Noticia[]> {
+    return this.noticiaRepository.find({ where: {estado}});
+  }
 }
 
 export { Noticia }

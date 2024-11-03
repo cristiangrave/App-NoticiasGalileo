@@ -73,6 +73,10 @@ export class ContactsService {
     return await this.contactoRepository.save(editContact);
   }
 
+  async findByEstado(estado: boolean): Promise<Contacto[]> {
+    return await this.contactoRepository.find({ where: {estado}});
+  }
+
 }
 
 export { Contacto }

@@ -10,7 +10,8 @@ import {
   Put,
   UseInterceptors,
   UploadedFile,
-  HttpException
+  HttpException,
+  Query
 } from '@nestjs/common';
 import { NoticiaService, Noticia } from '../services/noticias.service';
 import { CreateNewsDto } from '../dtos/createNews.dto';
@@ -134,4 +135,11 @@ export class NoticiasController {
       data: noticia,
     }
    }
+
+  // Endpoint para verificar el estado de visibilidad de la noticia
+  @Get('estado')
+  async getNewsEstado(@Query('estado') estado: string){
+    return this.noticiasService.findByEstado(estado);
+  }
+
 }
