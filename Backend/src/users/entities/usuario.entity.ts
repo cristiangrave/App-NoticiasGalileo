@@ -20,5 +20,5 @@ export class Usuario {
     tipousuario: string;
 
     @OneToMany(() => Carrera, (carrera) => carrera.usuario)
-    carreras: Carrera[];
+    carrera: Carrera[];
 }

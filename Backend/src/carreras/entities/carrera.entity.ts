@@ -19,7 +19,7 @@ export class Carrera {
     @Column()
     descripcion: string;
 
-    @ManyToOne(() => Usuario, (usuario) => usuario.carreras, { onDelete: 'CASCADE' })
+    @ManyToOne(() => Usuario, (usuario) => usuario.carrera, { onDelete: 'CASCADE' })
     @JoinColumn({ name: 'idusuario' })  // Nombre de la columna de clave foránea
     usuario: Usuario;
 
