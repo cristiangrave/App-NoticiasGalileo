@@ -1,4 +1,4 @@
-import { Carrera } from "src/carreras/entities/carrera.entity";
+import { Incripciones } from "src/inscripciones/inscripciones.entity";
 import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 
 @Entity("usuarios")
@@ -21,6 +21,6 @@ export class Usuario {
   @Column()
   tipousuario: string;
 
-  @OneToMany(() => Carrera, (carrera) => carrera.usuario)
-  carrera: Carrera[];
+  @OneToMany(() => Incripciones, (inscripcion) => inscripcion.usuario)
+  Incripciones: Incripciones[];
 }
