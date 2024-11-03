@@ -1,27 +1,26 @@
 import { Carrera } from "src/carreras/entities/carrera.entity";
-import { Column, Entity, PrimaryGeneratedColumn, OneToMany, JoinColumn } from "typeorm";
+import { Column, Entity, PrimaryGeneratedColumn, OneToMany } from "typeorm";
 
-@Entity('usuarios')
+@Entity("usuarios")
 export class Usuario {
+  @PrimaryGeneratedColumn()
+  idusuario: number;
 
-    @PrimaryGeneratedColumn()
-    idusuario: number;
+  @Column()
+  nombre: string;
 
-    @Column()
-    nombre: string;
+  @Column({ nullable: false })
+  contrasena: string;
 
-    @Column({ nullable: true})
-    contrasena: string;
+  @Column()
+  estado: string;
 
-    @Column()
-    estado: string;
+  @Column()
+  carnet: number;
 
-    @Column()
-    carnet: number;
+  @Column()
+  tipousuario: string;
 
-    @Column()
-    tipousuario: string;
-
-    @OneToMany(() => Carrera, (carrera) => carrera.usuario)
-    carrera: Carrera[];
+  @OneToMany(() => Carrera, (carrera) => carrera.usuario)
+  carrera: Carrera[];
 }
