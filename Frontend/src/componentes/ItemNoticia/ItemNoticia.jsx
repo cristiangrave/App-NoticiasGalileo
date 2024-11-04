@@ -27,6 +27,8 @@ const ItemNoticia = () => {
         setError(error.message);
         setLoading(false);
       });
+
+    /*  carrera y otra sobre categorias */
   }, [despachador]);
   const Toast = Swal.mixin({
     toast: true,

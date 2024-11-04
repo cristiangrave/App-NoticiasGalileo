@@ -13,6 +13,7 @@ const ItemCrearNoticia = () => {
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [carrera, setCarrera] = useState("");
+  const [categoria, setCategoria] = useState("");
   const [estado, setEstado] = useState("");
 
   /*   const [imagen, setImagen] = useState("");
@@ -38,8 +39,9 @@ const ItemCrearNoticia = () => {
         imagen: "imagen.png",
         fecha: fecha,
         estado: estado,
+        categoria: categoria,
       };
-      console.log(newNoticia);
+      console.log("Nueva Noticia : ", newNoticia);
       despachador(addNews(newNoticia));
       axios
         .post("http://localhost:3001/noticiasEstudiantes/", newNoticia)
@@ -113,10 +115,13 @@ const ItemCrearNoticia = () => {
                 <Col xs={12} md={6} className="mb-3">
                   <Form.Group controlId="formCategory">
                     <Form.Label>Categoría</Form.Label>
-                    <Form.Select>
-                      <option>Categoria 1</option>
-                      <option>Categoria 2</option>
-                      <option>Categoria 3</option>
+                    <Form.Select
+                      value={categoria}
+                      onChange={(e) => setCategoria(e.target.value)}
+                    >
+                      <option value={1}>Categoria 1</option>
+                      <option value={2}>Categoria 2</option>
+                      <option value={3}>Categoria 3</option>
                     </Form.Select>
                   </Form.Group>
                 </Col>
@@ -157,9 +162,9 @@ const ItemCrearNoticia = () => {
                   value={carrera}
                   onChange={(e) => setCarrera(e.target.value)}
                 >
-                  <option>Carrera 1</option>
-                  <option>Carrera 2</option>
-                  <option>Carrera 3</option>
+                  <option value={1}>Carrera 1</option>
+                  <option value={2}>Carrera 2</option>
+                  <option value={3}>Carrera 3</option>
                 </Form.Select>
               </Form.Group>
             </Col>
