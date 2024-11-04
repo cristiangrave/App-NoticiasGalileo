@@ -1,33 +1,37 @@
-import { IsBoolean, IsEmail, IsNumber, IsOptional, IsString } from "class-validator";
-
+import {
+  IsBoolean,
+  IsEmail,
+  IsNumber,
+  IsOptional,
+  IsString,
+} from "class-validator";
 
 export class UpdateContactDto {
-    @IsString()
-    @IsOptional()
-    nombre: string;
+  @IsString()
+  @IsOptional()
+  nombre: string;
 
-    @IsEmail()
-    @IsOptional()
-    correo: string;
+  @IsEmail()
+  @IsOptional()
+  correo: string;
 
-    @IsNumber()
-    @IsOptional()
-    telefono: number;
+  @IsNumber()
+  @IsOptional()
+  telefono: number;
 
-    @IsBoolean()
-    @IsOptional()
-    estado: boolean;
-      
-    @IsNumber()
-    @IsOptional()
-    carrera: number;
+  @IsString()
+  @IsOptional()
+  estado: string;
 
-    @IsString()
-    @IsOptional()
-    puesto: string;
+  @IsNumber()
+  @IsOptional()
+  carrera: number;
 
-    @IsString()
-    @IsOptional()
-    imagen: string;
+  @IsString()
+  @IsOptional()
+  puesto: string;
 
+  @IsString()
+  @IsOptional()
+  imagen: string;
 }

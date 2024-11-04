@@ -12,44 +12,52 @@ import {
   UploadedFile,
   HttpException,
   Query,
-} from '@nestjs/common';
-import { ContactsService, Contacto } from '../services/contacts.service';
-import { CreateContactDto } from '../dtos/createContact.dto';
-import { UpdateContactDto } from '../dtos/updateContact.dto';
-import { UploadService } from '../services/upload.service';
-import { FileInterceptor } from '@nestjs/platform-express';
-import { diskStorage } from 'multer';
-import { extname } from 'path';
+} from "@nestjs/common";
+import { ContactsService, Contacto } from "../services/contacts.service";
+import { CreateContactDto } from "../dtos/createContact.dto";
+import { UpdateContactDto } from "../dtos/updateContact.dto";
+import { UploadService } from "../services/upload.service";
+import { FileInterceptor } from "@nestjs/platform-express";
+import { diskStorage } from "multer";
+import { extname } from "path";
 
-
-@Controller('contactosEstudiantes')
+@Controller("contactosEstudiantes")
 export class ContactsController {
-  constructor(private readonly contactsService: ContactsService, private readonly uploadService: UploadService) {}
-
+  constructor(
+    private readonly contactsService: ContactsService,
+    private readonly uploadService: UploadService
+  ) {}
+  /* un enpoing de alumno y otro admins */
   // Endpoint para obtener todos los contactos
   @Get()
   @HttpCode(HttpStatus.OK) // Código de estado 200
-  async findAll(): Promise<{ statusCode: number; message: string; data: Contacto[] }> {
+  async findAll(): Promise<{
+    statusCode: number;
+    message: string;
+    data: Contacto[];
+  }> {
     const contacts = await this.contactsService.findAll();
     return {
       statusCode: HttpStatus.OK,
-      message: 'Contactos obtenidos exitosamente',
+      message: "Contactos obtenidos exitosamente",
       data: contacts,
     };
   }
 
   // Endpoint para obtener un contacto por ID
-  @Get(':id')
-  async findOne(@Param('id') id: number): Promise<{ statusCode: number; message: string; data?: Contacto }> {
+  @Get(":id")
+  async findOne(
+    @Param("id") id: number
+  ): Promise<{ statusCode: number; message: string; data?: Contacto }> {
     const contacto = await this.contactsService.findOne(id);
     if (!contacto) {
       throw new NotFoundException(
-        `No se encontró información para el contacto con ID ${id}`,
+        `No se encontró información para el contacto con ID ${id}`
       );
     }
     return {
       statusCode: HttpStatus.OK,
-      message: 'Contacto obtenido exitosamente',
+      message: "Contacto obtenido exitosamente",
       data: contacto,
     };
   }
@@ -57,93 +65,106 @@ export class ContactsController {
   // Endpoint para Crear un contacto
   // Ya con subida de imagen
   @Post()
-  @UseInterceptors(FileInterceptor('imagen', {
-    storage: diskStorage({
-      destination: './uploads',
-      filename: (req, file, cb) => {
-        // Generar un nombre único para la imagen
-        const randomName = Array(32).fill(null).map(() => (Math.round(Math.random() * 16)).toString(16)).join('');
-        const fileExt = extname(file.originalname);  // Obtener la extensión del archivo original
-        cb(null, `${randomName}${fileExt}`);  // Generar el nombre completo del archivo
-      }
-    }, 
-  ),
-  fileFilter: (req, file, cb) => {
-    if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
-      console.log('Formato de imagen inválido');
-      cb(new Error('Formato de imagen inválido'), false);  // Rechaza el archivo y devuelve un error
-    } else {
-      console.log('Formato de imagen válido');
-      cb(null, true);  // Acepta el archivo
-    }
-  }
-  
-   }))
-   async create(@Body() createContactDto: CreateContactDto, @UploadedFile() file: Express.Multer.File): Promise<{ statusCode: number; message: string; data: Contacto }> {
+  @UseInterceptors(
+    FileInterceptor("imagen", {
+      storage: diskStorage({
+        destination: "./uploads",
+        filename: (req, file, cb) => {
+          // Generar un nombre único para la imagen
+          const randomName = Array(32)
+            .fill(null)
+            .map(() => Math.round(Math.random() * 16).toString(16))
+            .join("");
+          const fileExt = extname(file.originalname); // Obtener la extensión del archivo original
+          cb(null, `${randomName}${fileExt}`); // Generar el nombre completo del archivo
+        },
+      }),
+      fileFilter: (req, file, cb) => {
+        if (!file.originalname.match(/\.(jpg|jpeg|png)$/)) {
+          console.log("Formato de imagen inválido");
+          cb(new Error("Formato de imagen inválido"), false); // Rechaza el archivo y devuelve un error
+        } else {
+          console.log("Formato de imagen válido");
+          cb(null, true); // Acepta el archivo
+        }
+      },
+    })
+  )
+  async create(
+    @Body() createContactDto: CreateContactDto,
+    @UploadedFile() file: Express.Multer.File
+  ): Promise<{ statusCode: number; message: string; data: Contacto }> {
     try {
       // Subir la imagen si es necesario
       const hayImagen = this.uploadService.uploadImage(file);
-  
+
       // Creacion del contacto con datos y la imagen convertida a String
-      const contact = await this.contactsService.create({ ...createContactDto, imagen: hayImagen });
-  
+      const contact = await this.contactsService.create({
+        ...createContactDto,
+        imagen: hayImagen,
+      });
+
       return {
         statusCode: HttpStatus.CREATED,
-        message: 'Contacto creado exitosamente',
+        message: "Contacto creado exitosamente",
         data: contact,
       };
     } catch (error) {
       throw new HttpException(
         { statusCode: HttpStatus.BAD_REQUEST, message: error.message },
-        HttpStatus.BAD_REQUEST,
+        HttpStatus.BAD_REQUEST
       );
     }
   }
-  
+
   // Endpoint para Editar un Contacto
-  @Put(':id')
-  @UseInterceptors(FileInterceptor('imagen', {
-    storage: diskStorage({
-      destination: './uploads', 
-      filename: (req, file, cb) => {
-        const randomName = Array(32)
-          .fill(null)
-          .map(() => (Math.round(Math.random() * 16)).toString(16))
-          .join('');
-        const fileExt = extname(file.originalname);
-        cb(null, `${randomName}${fileExt}`);
-      },
+  @Put(":id")
+  @UseInterceptors(
+    FileInterceptor("imagen", {
+      storage: diskStorage({
+        destination: "./uploads",
+        filename: (req, file, cb) => {
+          const randomName = Array(32)
+            .fill(null)
+            .map(() => Math.round(Math.random() * 16).toString(16))
+            .join("");
+          const fileExt = extname(file.originalname);
+          cb(null, `${randomName}${fileExt}`);
+        },
+      }),
     })
-   }))
-  async updateContact( @Param('id') id: number, @Body() updateContactDto:UpdateContactDto, @UploadedFile() file?: Express.Multer.File): Promise<{ statusCode: number; message: string; data: Contacto }> {
-
-
-    let imagen; 
+  )
+  async updateContact(
+    @Param("id") id: number,
+    @Body() updateContactDto: UpdateContactDto,
+    @UploadedFile() file?: Express.Multer.File
+  ): Promise<{ statusCode: number; message: string; data: Contacto }> {
+    let imagen;
     // Se guarda una nueva imagen si se sube una nueva
-    if(file){
-       imagen = this.uploadService.uploadImage(file);
+    if (file) {
+      imagen = this.uploadService.uploadImage(file);
     }
 
-    
-    const contact = await this.contactsService.update(id, { ...updateContactDto, ...(imagen && { imagen })}) 
-    if(!contact){
-      throw new NotFoundException(`No se encontró información para el Contacto con ID ${id}`);
+    const contact = await this.contactsService.update(id, {
+      ...updateContactDto,
+      ...(imagen && { imagen }),
+    });
+    if (!contact) {
+      throw new NotFoundException(
+        `No se encontró información para el Contacto con ID ${id}`
+      );
     }
 
     return {
       statusCode: HttpStatus.OK,
-      message: 'Contacto actualizado exitosamente',
+      message: "Contacto actualizado exitosamente",
       data: contact,
-    }
+    };
   }
 
   // Endpoint para verificar el estado de visibilidad del contacto
-  @Get('estado')
-  async getContactEstado(@Query('estado') estado: string){
-    // Convertimos el parámetro de string a booleano
-    const estadoBoolean = (estado === 'true');
-    return await this.contactsService.findByEstado(estadoBoolean);
+  @Get("estado/:estado")
+  async findAllByEstado(@Param("estado") estado: string) {
+    return await this.contactsService.findByEstado(estado);
   }
-
-
 }
