@@ -9,7 +9,7 @@ const ItemContacto = ({ userProp }) => {
   const allContacts = useSelector((state) => state.conctac);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [editContact, setEditedProduct] = useState(null);
+  const [editContact, setEditedProduct] = useState("");
   const dispatch = useDispatch();
   const tipoUsuario = useSelector((state) => state.user.role);
   /*useEffect : se ejecuta una vez a la hora de que renderize nuestro componente, pero se puede ejecutar mas veces con una dependencia(useEffect : tiene dos parametros , funcion , arreglo(dependencia))
@@ -20,6 +20,7 @@ const ItemContacto = ({ userProp }) => {
       .then((res) => {
         dispatch(readContact(res.data.data));
         setLoading(false);
+        console.log("contactos : ", res);
       })
       .catch((error) => {
         setError(error.message);
@@ -97,8 +98,8 @@ const ItemContacto = ({ userProp }) => {
     <>
       <Row className="w-100 d-flex align-items-center justify-content-center">
         {allContacts.data.map((contacto) => (
-          <Card className="p-4 my-1 tarjeta-noticia" key={contacto.id}>
-            {editContact?.id === contacto.id ? (
+          <Card className="p-4 my-1 tarjeta-noticia" key={contacto.idcontacto}>
+            {editContact?.id === contacto.idcontacto ? (
               <Form>
                 <Row>
                   <Col
@@ -246,7 +247,7 @@ const ItemContacto = ({ userProp }) => {
                     className="mb-0 text-muted"
                     style={{ fontSize: "1rem", color: "#333" }}
                   >
-                    Nombre: {contacto.name}
+                    Nombre: {contacto.nombre}
                   </Card.Text>
                   <Card.Text
                     className="mb-1 text-muted"
@@ -258,13 +259,13 @@ const ItemContacto = ({ userProp }) => {
                     className="mb-1 text-muted"
                     style={{ fontSize: "1rem", color: "#333" }}
                   >
-                    Email: {contacto.email}
+                    Email: {contacto.correo}
                   </Card.Text>
                   <Card.Text
                     className="mb-1 text-muted"
                     style={{ fontSize: "1rem", color: "#333" }}
                   >
-                    Tel: {contacto.phone}
+                    Tel: {contacto.telefono}
                   </Card.Text>
                   {tipoUsuario === "admin" && (
                     <div className="d-flex justify-content-end">
