@@ -137,9 +137,8 @@ export class NoticiasController {
    }
 
   // Endpoint para verificar el estado de visibilidad de la noticia
-  @Get('estado')
-  async getNewsEstado(@Query('estado') estado: string){
-    return this.noticiasService.findByEstado(estado);
+  @Get('estado/:estado')
+  async findAllByEstado(@Param('estado') estado: string){
+    return await this.noticiasService.findByEstado(estado);
   }
-
 }

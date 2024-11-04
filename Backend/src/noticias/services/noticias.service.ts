@@ -89,6 +89,7 @@ export class NoticiaService {
     return await this.noticiaRepository.save(editNew);
   }
 
+  // Buscar por el estado del contacto
   async findByEstado(estado: string): Promise<Noticia[]> {
     return this.noticiaRepository.find({ where: {estado}});
   }

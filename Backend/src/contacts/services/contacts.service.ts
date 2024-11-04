@@ -73,8 +73,9 @@ export class ContactsService {
     return await this.contactoRepository.save(editContact);
   }
 
-  async findByEstado(estado: boolean): Promise<Contacto[]> {
-    return await this.contactoRepository.find({ where: {estado}});
+  // Buscar por el estado del contacto
+  async findByEstado(estado: string): Promise<Contacto[]> {
+    return this.contactoRepository.find({ where: { estado } });
   }
 
 }

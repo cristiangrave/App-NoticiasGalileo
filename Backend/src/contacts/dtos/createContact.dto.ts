@@ -14,9 +14,9 @@ export class CreateContactDto {
     @IsNotEmpty()
     readonly telefono: number;
 
-    @IsBoolean()
+    @IsString()
     @IsNotEmpty()
-    readonly estado: boolean;
+    readonly estado: string;
       
     @IsNumber()
     @IsNotEmpty()

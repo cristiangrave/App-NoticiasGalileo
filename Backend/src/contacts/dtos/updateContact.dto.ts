@@ -14,9 +14,9 @@ export class UpdateContactDto {
     @IsOptional()
     telefono: number;
 
-    @IsBoolean()
+    @IsString()
     @IsOptional()
-    estado: boolean;
+    estado: string;
       
     @IsNumber()
     @IsOptional()

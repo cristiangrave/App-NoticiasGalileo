@@ -17,8 +17,8 @@ export class Contacto {
     @Column()
     telefono: number;
 
-    @Column({ nullable: true, default: 0})
-    estado: boolean;
+    @Column({ default: 'inactivo'})
+    estado: string;
 
     @Column()
     puesto: string;

@@ -12,6 +12,7 @@ import {
   UploadedFile,
   HttpException,
   Query,
+  ParseBoolPipe,
 } from '@nestjs/common';
 import { ContactsService, Contacto } from '../services/contacts.service';
 import { CreateContactDto } from '../dtos/createContact.dto';
@@ -138,11 +139,9 @@ export class ContactsController {
   }
 
   // Endpoint para verificar el estado de visibilidad del contacto
-  @Get('estado')
-  async getContactEstado(@Query('estado') estado: string){
-    // Convertimos el parámetro de string a booleano
-    const estadoBoolean = (estado === 'true');
-    return await this.contactsService.findByEstado(estadoBoolean);
+  @Get('estado/:estado')
+  async findAllByEstado(@Param('estado') estado: string){
+    return await this.contactsService.findByEstado(estado);
   }
 
 
