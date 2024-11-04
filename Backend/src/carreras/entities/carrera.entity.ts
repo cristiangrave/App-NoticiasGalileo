@@ -1,16 +1,7 @@
 import { Contacto } from "src/contacts/entities/contacto.entity";
 import { Incripciones } from "src/inscripciones/inscripciones.entity";
 import { Noticia } from "src/noticias/entities/noticia.entity";
-import { Usuario } from "src/users/entities/usuario.entity";
-import {
-  Column,
-  Entity,
-  JoinColumn,
-  ManyToMany,
-  ManyToOne,
-  OneToMany,
-  PrimaryGeneratedColumn,
-} from "typeorm";
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("carreras")
 export class Carrera {

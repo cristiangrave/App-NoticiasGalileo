@@ -27,11 +27,7 @@ export class Incripciones {
   carrera: Carrera;
 
   /*Este estado lo creo por si queremos dar de baja a un estudiante en una carrera */
-  @Column({
-    type: "enum",
-    enum: ["Activo", "Inactivo"],
-    default: "Activo", // Establecemos el valor por defecto como "Activo"
-  })
+  @Column()
   estado: string;
   /* tambien prodriamos guardar la fecha de inscripcion pero eso quedaria para la proxima */
 }
