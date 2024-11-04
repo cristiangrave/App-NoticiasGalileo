@@ -46,7 +46,7 @@ const ItemNoticia = () => {
   }
 
   if (error) {
-    return <div className="alert alert-danger">Error Noticias {error} </div>;
+    return <div className="alert alert-danger">Error Noticias : {error} </div>;
   }
   const handleUpdateNew = () => {
     axios
@@ -93,8 +93,7 @@ const ItemNoticia = () => {
                 <Col
                   xs={12}
                   md={4}
-                  className="d-flex justify-content-center align-items-center"
-                >
+                  className="d-flex justify-content-center align-items-center">
                   <Row>
                     <Image
                       src="/icono-agregar-imagen.png"
@@ -129,8 +128,7 @@ const ItemNoticia = () => {
                           value={editNews.estado}
                           onChange={(e) =>
                             setEditNews({ ...editNews, estado: e.target.value })
-                          }
-                        >
+                          }>
                           <option value={"activo"}>Activo</option>
                           <option value={"inactivo"}>No Activo</option>
                         </Form.Select>
@@ -191,8 +189,7 @@ const ItemNoticia = () => {
                       value={editNews.carrera}
                       onChange={(e) =>
                         setEditNews({ ...editNews, carrera: e.target.value })
-                      }
-                    >
+                      }>
                       <option>Carrera 1</option>
                       <option>Carrera 2</option>
                       <option>Carrera 3</option>
@@ -205,8 +202,7 @@ const ItemNoticia = () => {
                   <Button
                     variant="secondary"
                     className="me-2"
-                    onClick={() => setEditNews(null)}
-                  >
+                    onClick={() => setEditNews(null)}>
                     Cancelar
                   </Button>
                   <Button variant="dark" onClick={handleUpdateNew}>
@@ -230,7 +226,7 @@ const ItemNoticia = () => {
                   <div className="d-flex justify-content-between align-items-center mb-2">
                     <small className="text-muted">{noticia.fecha}</small>
                     <Badge className="p-2 badge-categoria">
-                      {noticia.categoria[0].descripcion}
+                      {"categoria noticia.categoria"}
                     </Badge>
                   </div>
                   <Card.Title className="mt-2 titulo-noticia">
@@ -243,8 +239,7 @@ const ItemNoticia = () => {
                   <Card.Body>
                     <Card.Text
                       className="mt-0"
-                      style={{ fontSize: "1rem", color: "#333" }}
-                    >
+                      style={{ fontSize: "1rem", color: "#333" }}>
                       {noticia.descripcion}
                     </Card.Text>
                     <p className="text-muted " style={{ fontSize: "0.9rem" }}>
@@ -256,8 +251,7 @@ const ItemNoticia = () => {
                       <Button
                         variant="secondary"
                         className="btn-md"
-                        onClick={() => setEditNews(noticia)}
-                      >
+                        onClick={() => setEditNews(noticia)}>
                         Editar
                       </Button>
                     </div>

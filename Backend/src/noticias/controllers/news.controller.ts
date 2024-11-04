@@ -10,8 +10,8 @@ import {
   Put,
   UseInterceptors,
   UploadedFile,
-  HttpException
-} from '@nestjs/common';
+  HttpException,
+} from "@nestjs/common";
 import { NoticiaService, Noticia } from "../services/noticias.service";
 import { CreateNewsDto } from "../dtos/createNews.dto";
 import { UpdateNewsDto } from "../dtos/updateNews.dto";
@@ -19,7 +19,6 @@ import { UploadService } from "../services/upload.service";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { diskStorage } from "multer";
 import { extname } from "path";
-
 
 /*nombre del enpoint */
 @Controller("noticiasEstudiantes")
@@ -160,12 +159,12 @@ export class NoticiasController {
       statusCode: HttpStatus.OK,
       message: "Noticia actualziada exitosamente",
       data: noticia,
-    }
-   }
+    };
+  }
 
   // Endpoint para verificar el estado de visibilidad de la noticia
- @Get("estado/:estado")
- async findAllByEstado(@Param("estado") estado: string) {
-   return await this.noticiasService.findByEstado(estado);
- }
-    };
+  @Get("estado/:estado")
+  async findAllByEstado(@Param("estado") estado: string) {
+    return await this.noticiasService.findByEstado(estado);
+  }
+}
