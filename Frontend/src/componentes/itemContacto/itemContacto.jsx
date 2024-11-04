@@ -12,6 +12,8 @@ const ItemContacto = ({ userProp }) => {
   const [editContact, setEditedProduct] = useState(null);
   const dispatch = useDispatch();
   const tipoUsuario = useSelector((state) => state.user.role);
+  const allCarreras = useSelector((state) => state.carrera);
+
   /*useEffect : se ejecuta una vez a la hora de que renderize nuestro componente, pero se puede ejecutar mas veces con una dependencia(useEffect : tiene dos parametros , funcion , arreglo(dependencia))
   bueno y aqui cada vez que utilizo el dispatch useEffect Renderiza de nuevo con los datos del GET para colocar datos actualizados :)*/
   useEffect(() => {
@@ -26,6 +28,12 @@ const ItemContacto = ({ userProp }) => {
         setError(error.message);
         setLoading(false);
       });
+    axios
+      .get("http://localhost:3001/carreras")
+      .then((response) => {
+        dispatch(readCarrera(response.data.data));
+      })
+      .catch((error) => console.error(error));
   }, [dispatch]);
   /* Configuraciones para el Sweetalert(lib para alertas) */
   const Toast = Swal.mixin({
@@ -164,19 +172,27 @@ const ItemContacto = ({ userProp }) => {
                         placeholder="Correo Electronico "
                       />
                     </Form.Group>
-                    <Form.Group controlId="formDate">
+                    <Form.Group controlId="formCareer">
                       <Form.Label>Carrera</Form.Label>
-                      <Form.Control
-                        type="text"
+                      <Form.Select
                         value={editContact.carrera}
                         onChange={(e) =>
                           setEditedProduct({
                             ...editContact,
                             carrera: e.target.value,
                           })
-                        }
-                        placeholder="Carrera"
-                      />
+                        }>
+                        <option selected value={0}>
+                          Selecciona..
+                        </option>
+                        {allCarreras.data.map((carrera) => (
+                          <option
+                            key={carrera.idcarrera}
+                            value={carrera.idcarrera}>
+                            {carrera.descripcion}
+                          </option>
+                        ))}
+                      </Form.Select>
                     </Form.Group>
                   </Col>
                 </Row>
