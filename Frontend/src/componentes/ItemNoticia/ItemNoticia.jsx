@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { readNews, updateNew } from "../../redux/reducers/newsSlice";
 import Swal from "sweetalert2";
+import { readCategoria } from "../../redux/reducers/categoriaSlice";
+import { readCarrera } from "../../redux/reducers/carreraSlice";
 
 const ItemNoticia = () => {
   const noticias = useSelector((state) => state.news);
@@ -14,6 +16,8 @@ const ItemNoticia = () => {
   const [editNews, setEditNews] = useState(null);
   const despachador = useDispatch();
   const tipoUsuario = useSelector((state) => state.user.role);
+  const allCategorias = useSelector((state) => state.categoria);
+  const allCarreras = useSelector((state) => state.carrera);
   /*Con este estado ya no es  que pasemos el estado por medio de una prop*/
   useEffect(() => {
     axios
@@ -21,14 +25,27 @@ const ItemNoticia = () => {
       .then((response) => {
         despachador(readNews(response.data.data));
         setLoading(false);
-        console.log("Noticias : ", response);
       })
       .catch((error) => {
         setError(error.message);
         setLoading(false);
       });
 
-    /*  carrera y otra sobre categorias */
+    /*   carrera y otra sobre categorias */
+    /* consulta para tener las categorias */
+    axios
+      .get("http://localhost:3001/categorias")
+      .then((response) => {
+        despachador(readCategoria(response.data.data));
+      })
+      .catch((error) => console.error(error));
+    /* consulta para poder tener las carreras */
+    axios
+      .get("http://localhost:3001/carreras")
+      .then((response) => {
+        despachador(readCarrera(response.data.data));
+      })
+      .catch((error) => console.error(error));
   }, [despachador]);
   const Toast = Swal.mixin({
     toast: true,
@@ -48,20 +65,31 @@ const ItemNoticia = () => {
   if (error) {
     return <div className="alert alert-danger">Error Noticias : {error} </div>;
   }
+  const editarNoticia = (idNoticia) => {
+    axios
+      .get(`http://localhost:3001/noticiasEstudiantes/${idNoticia}`)
+      .then((response) => {
+        setEditNews(response.data.data);
+        console.log("noticia para editar", editNews);
+      })
+      .catch((error) => console.error(error));
+  };
+
   const handleUpdateNew = () => {
     axios
-      .put(`http://localhost:3001/noticiasEstudiantes/${editNews.id}`, {
+      .put(`http://localhost:3001/noticiasEstudiantes/${editNews.idnoticia}`, {
         titulo: editNews.titulo,
         descripcion: editNews.descripcion,
         carrera: editNews.carrera,
-        imagen: editNews.imagen,
+        imagen: "imagen.png",
         fecha: editNews.fecha,
         estado: editNews.estado,
       })
       .then(() => {
+        console.log("Esto va Para el Back", editNews);
         despachador(
           updateNew({
-            id: editNews.id,
+            id: editNews.idnoticia,
             titulo: editNews.titulo,
             descripcion: editNews.descripcion,
             carrera: editNews.carrera,
@@ -138,10 +166,24 @@ const ItemNoticia = () => {
                     <Col xs={12} md={6} className="mb-3">
                       <Form.Group controlId="formCategory">
                         <Form.Label>Categoría</Form.Label>
-                        <Form.Select>
-                          <option>Categoria 1</option>
-                          <option>Categoria 2</option>
-                          <option>Categoria 3</option>
+                        <Form.Select
+                          value={editNews.categoria}
+                          onChange={(e) =>
+                            setEditNews({
+                              ...editNews,
+                              categoria: e.target.value,
+                            })
+                          }>
+                          <option selected value={0}>
+                            Selecciona..
+                          </option>
+                          {allCategorias.data.map((categoria) => (
+                            <option
+                              key={categoria.idcategoria}
+                              value={categoria}>
+                              {categoria.nombre}
+                            </option>
+                          ))}
                         </Form.Select>
                       </Form.Group>
                     </Col>
@@ -190,9 +232,16 @@ const ItemNoticia = () => {
                       onChange={(e) =>
                         setEditNews({ ...editNews, carrera: e.target.value })
                       }>
-                      <option>Carrera 1</option>
-                      <option>Carrera 2</option>
-                      <option>Carrera 3</option>
+                      <option selected value={0}>
+                        Selecciona..
+                      </option>
+                      {allCarreras.data.map((carrera) => (
+                        <option
+                          key={carrera.idcarrera}
+                          value={carrera.idcarrera}>
+                          {carrera.descripcion}
+                        </option>
+                      ))}
                     </Form.Select>
                   </Form.Group>
                 </Col>
@@ -251,7 +300,7 @@ const ItemNoticia = () => {
                       <Button
                         variant="secondary"
                         className="btn-md"
-                        onClick={() => setEditNews(noticia)}>
+                        onClick={(e) => editarNoticia(noticia.idnoticia)}>
                         Editar
                       </Button>
                     </div>

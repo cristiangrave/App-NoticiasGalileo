@@ -140,7 +140,6 @@ export class NoticiasController {
   ): Promise<{ statusCode: number; message: string; data: Noticia }> {
     //Subir la imagen si se da
     let imagen;
-
     if (file) {
       imagen = this.uploadService.uploadImage(file);
     }
@@ -157,7 +156,7 @@ export class NoticiasController {
 
     return {
       statusCode: HttpStatus.OK,
-      message: "Noticia actualziada exitosamente",
+      message: "Noticia actualizada exitosamente",
       data: noticia,
     };
   }

@@ -1,28 +1,31 @@
-import { IsString, IsOptional, IsNumber } from 'class-validator';
+import { IsString, IsOptional, IsNumber } from "class-validator";
 
 export class UpdateNewsDto {
-    
-    @IsString()
-    @IsOptional()
-    titulo: string;
+  @IsString()
+  @IsOptional()
+  titulo: string;
 
-    @IsString()
-    @IsOptional()
-    descripcion: string;
-      
-    @IsNumber()
-    @IsOptional()
-    carrera: number;
+  @IsString()
+  @IsOptional()
+  descripcion: string;
 
-    @IsString()
-    @IsOptional()
-    imagen: string;
+  @IsNumber()
+  @IsOptional()
+  carrera: number;
 
-    @IsString()
-    @IsOptional()
-    fecha: string;
+  @IsString()
+  @IsOptional()
+  imagen: string;
 
-    @IsNumber()
-    @IsOptional()
-    categoria: number;
+  @IsString()
+  @IsOptional()
+  fecha: string;
+
+  @IsNumber()
+  @IsOptional()
+  categoria: number;
+
+  @IsString()
+  @IsOptional()
+  estado: string;
 }
