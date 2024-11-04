@@ -11,7 +11,7 @@ const ItemNoticia = () => {
   const noticias = useSelector((state) => state.news);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [editNews, setEditNews] = useState("");
+  const [editNews, setEditNews] = useState(null);
   const despachador = useDispatch();
   const tipoUsuario = useSelector((state) => state.user.role);
   /*Con este estado ya no es  que pasemos el estado por medio de una prop*/
@@ -21,7 +21,7 @@ const ItemNoticia = () => {
       .then((response) => {
         despachador(readNews(response.data.data));
         setLoading(false);
-        console.log("data", response);
+        console.log("Noticias : ", response);
       })
       .catch((error) => {
         setError(error.message);
@@ -85,7 +85,7 @@ const ItemNoticia = () => {
     <Row className="w-100 d-flex align-items-center justify-content-center">
       {noticias.data.map((noticia) => (
         <Card key={noticia.idnoticia} className="p-4 my-1 tarjeta-noticia">
-          {editNews?.id === noticia.idnoticia ? (
+          {editNews?.idnoticia === noticia.idnoticia ? (
             <Form>
               <Row className="mb-3">
                 <Col
@@ -228,7 +228,7 @@ const ItemNoticia = () => {
                   <div className="d-flex justify-content-between align-items-center mb-2">
                     <small className="text-muted">{noticia.fecha}</small>
                     <Badge className="p-2 badge-categoria">
-                      {noticia.carrera}s
+                      {noticia.categoria[0].descripcion}
                     </Badge>
                   </div>
                   <Card.Title className="mt-2 titulo-noticia">

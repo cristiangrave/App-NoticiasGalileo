@@ -9,7 +9,7 @@ const ItemContacto = ({ userProp }) => {
   const allContacts = useSelector((state) => state.conctac);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [editContact, setEditedProduct] = useState("");
+  const [editContact, setEditedProduct] = useState(null);
   const dispatch = useDispatch();
   const tipoUsuario = useSelector((state) => state.user.role);
   /*useEffect : se ejecuta una vez a la hora de que renderize nuestro componente, pero se puede ejecutar mas veces con una dependencia(useEffect : tiene dos parametros , funcion , arreglo(dependencia))
@@ -99,7 +99,7 @@ const ItemContacto = ({ userProp }) => {
       <Row className="w-100 d-flex align-items-center justify-content-center">
         {allContacts.data.map((contacto) => (
           <Card className="p-4 my-1 tarjeta-noticia" key={contacto.idcontacto}>
-            {editContact?.id === contacto.idcontacto ? (
+            {editContact?.idcontacto === contacto.idcontacto ? (
               <Form>
                 <Row>
                   <Col
@@ -124,7 +124,7 @@ const ItemContacto = ({ userProp }) => {
                       <Form.Label>Nombre Contacto</Form.Label>
                       <Form.Control
                         type="text"
-                        value={editContact.name}
+                        value={editContact.nombre}
                         onChange={(e) =>
                           setEditedProduct({
                             ...editContact,
@@ -152,11 +152,11 @@ const ItemContacto = ({ userProp }) => {
                       <Form.Label>Correo Electronico</Form.Label>
                       <Form.Control
                         type="email"
-                        value={editContact.email}
+                        value={editContact.correo}
                         onChange={(e) =>
                           setEditedProduct({
                             ...editContact,
-                            email: e.target.value,
+                            correo: e.target.value,
                           })
                         }
                         placeholder="Correo Electronico "
@@ -185,11 +185,11 @@ const ItemContacto = ({ userProp }) => {
                         <Form.Label>Telefono</Form.Label>
                         <Form.Control
                           type="number  "
-                          value={editContact.phone}
+                          value={editContact.telefono}
                           onChange={(e) =>
                             setEditedProduct({
                               ...editContact,
-                              phone: e.target.value,
+                              telefono: e.target.value,
                             })
                           }
                         />
@@ -207,8 +207,8 @@ const ItemContacto = ({ userProp }) => {
                             })
                           }
                         >
-                          <option value={"activo"}>Activo</option>
-                          <option value={"inactivo"}>Inactivo</option>
+                          <option value={true}>Activo</option>
+                          <option value={false}>Inactivo</option>
                         </Form.Select>
                       </Form.Group>
                     </Col>
