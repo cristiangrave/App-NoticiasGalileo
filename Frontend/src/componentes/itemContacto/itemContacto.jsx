@@ -42,14 +42,17 @@ const ItemContacto = ({ userProp }) => {
   const handleClickEditContaco = () => {
     /*Con axios hacemos la petcion de tipo PUT a nuestro Backend para que se actualize en nuestro Backend y le pasamos los parametrode nuestro estado editContact */
     axios
-      .put(`http://localhost:3001/contactosEstudiantes/${editContact.id}`, {
-        name: editContact.name,
-        email: editContact.email,
-        phone: editContact.phone,
-        carrera: editContact.carrera,
-        puesto: editContact.puesto,
-        estado: editContact.estado,
-      })
+      .put(
+        `http://localhost:3001/contactosEstudiantes/${editContact.idcontacto}`,
+        {
+          nombre: editContact.name,
+          correo: editContact.email,
+          telefono: editContact.phone,
+          carrera: editContact.carrera,
+          puesto: editContact.puesto,
+          estado: editContact.estado,
+        }
+      )
       .then((res) => {
         Toast.fire({
           icon: "success",
@@ -105,8 +108,7 @@ const ItemContacto = ({ userProp }) => {
                   <Col
                     xs={12}
                     md={6}
-                    className="d-flex justify-content-center align-items-center text-center mb-3"
-                  >
+                    className="d-flex justify-content-center align-items-center text-center mb-3">
                     <Row className="justify-content-center align-items-center">
                       <Image
                         src="/icono-agregar-imagen.png"
@@ -205,8 +207,7 @@ const ItemContacto = ({ userProp }) => {
                               ...editContact,
                               estado: e.target.value,
                             })
-                          }
-                        >
+                          }>
                           <option value={true}>Activo</option>
                           <option value={false}>Inactivo</option>
                         </Form.Select>
@@ -219,8 +220,7 @@ const ItemContacto = ({ userProp }) => {
                     <Button
                       variant="secondary"
                       className="me-2"
-                      onClick={() => setEditedProduct(null)}
-                    >
+                      onClick={() => setEditedProduct(null)}>
                       Cancelar
                     </Button>
                     <Button variant="dark" onClick={handleClickEditContaco}>
@@ -245,26 +245,22 @@ const ItemContacto = ({ userProp }) => {
                   </div>
                   <Card.Text
                     className="mb-0 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}
-                  >
+                    style={{ fontSize: "1rem", color: "#333" }}>
                     Nombre: {contacto.nombre}
                   </Card.Text>
                   <Card.Text
                     className="mb-1 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}
-                  >
+                    style={{ fontSize: "1rem", color: "#333" }}>
                     Puesto: {contacto.puesto}
                   </Card.Text>
                   <Card.Text
                     className="mb-1 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}
-                  >
+                    style={{ fontSize: "1rem", color: "#333" }}>
                     Email: {contacto.correo}
                   </Card.Text>
                   <Card.Text
                     className="mb-1 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}
-                  >
+                    style={{ fontSize: "1rem", color: "#333" }}>
                     Tel: {contacto.telefono}
                   </Card.Text>
                   {tipoUsuario === "admin" && (
@@ -272,8 +268,7 @@ const ItemContacto = ({ userProp }) => {
                       <Button
                         variant="secondary"
                         className="btn-md"
-                        onClick={() => setEditedProduct(contacto)}
-                      >
+                        onClick={() => setEditedProduct(contacto)}>
                         Editar
                       </Button>
                     </div>
