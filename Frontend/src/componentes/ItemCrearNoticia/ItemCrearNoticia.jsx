@@ -54,7 +54,7 @@ const ItemCrearNoticia = () => {
     },
   });
   const handleGuardarNoticia = () => {
-    if (titulo && fecha && descripcion && carrera) {
+    if (titulo && descripcion) {
       const newNoticia = {
         titulo: titulo,
         descripcion: descripcion,
@@ -75,7 +75,6 @@ const ItemCrearNoticia = () => {
           });
           setTitulo("");
           setDescripcion("");
-          setCarrera("");
         })
         .catch((error) => {
           console.error(error);
@@ -127,6 +126,7 @@ const ItemCrearNoticia = () => {
                     <Form.Select
                       value={estado}
                       onChange={(e) => setEstado(e.target.value)}>
+                      <option selected>Selecciona..</option>
                       <option value={"activo"}>Activo</option>
                       <option value={"inactivo"}>No Activo</option>
                     </Form.Select>
@@ -139,8 +139,11 @@ const ItemCrearNoticia = () => {
                     <Form.Select
                       value={categoria}
                       onChange={(e) => setCategoria(e.target.value)}>
+                      <option selected>Selecciona..</option>
                       {allCategorias.data.map((categoria) => (
-                        <option value={categoria.idcategoria}>
+                        <option
+                          key={categoria.idcategoria}
+                          value={categoria.idcategoria}>
                           {categoria.nombre}
                         </option>
                       ))}
@@ -183,8 +186,9 @@ const ItemCrearNoticia = () => {
                 <Form.Select
                   value={carrera}
                   onChange={(e) => setCarrera(e.target.value)}>
+                  <option selected>Selecciona..</option>
                   {allCarreras.data.map((carrera) => (
-                    <option value={carrera.idcarrera}>
+                    <option key={carrera.idcarrera} value={carrera.idcarrera}>
                       {carrera.descripcion}
                     </option>
                   ))}
