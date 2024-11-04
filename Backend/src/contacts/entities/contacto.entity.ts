@@ -24,7 +24,7 @@ export class Contacto {
   @Column({ nullable: true, default: 0 })
   estado: boolean;
 
-  @Column()
+  @Column({ nullable: true })
   puesto: string;
 
   @Column({ nullable: true })

@@ -4,9 +4,7 @@ import {
   Column,
   Entity,
   JoinColumn,
-  ManyToMany,
   ManyToOne,
-  OneToMany,
   PrimaryGeneratedColumn,
 } from "typeorm";
 
@@ -27,7 +25,7 @@ export class Incripciones {
   carrera: Carrera;
 
   /*Este estado lo creo por si queremos dar de baja a un estudiante en una carrera */
-  @Column()
+  @Column({ default: "activo" })
   estado: string;
   /* tambien prodriamos guardar la fecha de inscripcion pero eso quedaria para la proxima */
 }
