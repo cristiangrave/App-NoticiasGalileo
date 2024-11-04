@@ -4,6 +4,8 @@ import { ContactsModule } from './contacts/contacts.module';
 import { NoticiasModule } from './noticias/noticias.module';
 import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { CarrerasModule } from './carreras/carreras.module';
+import { CategoriasModule } from './categorias/categorias.module';
 
 @Module({
   imports: [
@@ -16,6 +18,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       database: "proyecto_galileo",
       entities: [__dirname + "/../**/*.entity.js"],
       synchronize: true,
-    }),UsersModule, ContactsModule, NoticiasModule, AuthModule],
+    }),UsersModule, ContactsModule, NoticiasModule, AuthModule, CarrerasModule, CategoriasModule],
 })
 export class AppModule {}

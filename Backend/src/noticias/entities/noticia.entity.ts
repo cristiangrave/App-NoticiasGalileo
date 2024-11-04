@@ -1,5 +1,5 @@
 import { Column, Entity, JoinColumn, OneToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Categoria } from "./categoria.entity";
+import { Categoria } from "../../categorias/entities/categoria.entity";
 import { Carrera } from "src/carreras/entities/carrera.entity";
 
 
@@ -15,7 +15,7 @@ export class Noticia {
     @Column()
     descripcion: string;
 
-    @Column()
+    @Column({ default: 'activa '})
     estado: string;
 
     @Column({ nullable: true })
@@ -24,10 +24,10 @@ export class Noticia {
     @Column()
     fecha: string;
 
-    @OneToMany(() => Categoria, (categoria) => categoria.noticias, { eager: true })
+    @OneToMany(() => Categoria, (categoria) => categoria.noticia, { eager: true })
     categoria: Categoria[];
 
-    @ManyToOne(() => Carrera, (carrera) => carrera.noticias)
+    @ManyToOne(() => Carrera, (carrera) => carrera.noticia)
     @JoinColumn({ name: 'idcarrera'})
     carrera: Carrera;
 

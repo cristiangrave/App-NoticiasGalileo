@@ -1,10 +1,10 @@
-import { Injectable, NotFoundException } from '@nestjs/common';
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
 import { CreateNewsDto } from '../dtos/createNews.dto';
 import { UpdateNewsDto } from '../dtos/updateNews.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Noticia } from '../entities/noticia.entity';
 import { Repository } from 'typeorm';
-import { Categoria } from '../entities/categoria.entity';
+import { Categoria } from '../../categorias/entities/categoria.entity';
 import { Carrera } from 'src/carreras/entities/carrera.entity';
 
 @Injectable()

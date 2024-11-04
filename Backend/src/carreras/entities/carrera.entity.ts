@@ -18,7 +18,7 @@ export class Carrera {
   descripcion: string;
   /* One to Many una carrrea tiene mucha Noticias */
   @OneToMany(() => Noticia, (noticia) => noticia.carrera)
-  noticias: Noticia[];
+  noticia: Noticia[];
   /* OnetoMany : una carrera tiene muchas noticias  */
   @OneToMany(() => Contacto, (contacto) => contacto.carrera)
   contactos: Contacto[];
