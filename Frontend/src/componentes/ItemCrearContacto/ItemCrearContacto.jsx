@@ -1,11 +1,12 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Row, Col, Form, Button, Image } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ItemCrearContacto.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addContact } from "../../redux/reducers/contactSlice";
 import axios from "axios";
 import Swal from "sweetalert2";
+import { readCarrera } from "../../redux/reducers/carreraSlice";
 
 const ItemCrearContacto = () => {
   const dispatch = useDispatch();
@@ -15,6 +16,9 @@ const ItemCrearContacto = () => {
   const [course, setCourse] = useState("");
   const [puesto, setPuesto] = useState("");
   const [estado, setEstado] = useState("");
+  const [carrera, setCarrera] = useState("");
+  const allCarreras = useSelector((state) => state.carrera);
+
   const Toast = Swal.mixin({
     toast: true,
     position: "bottom-end",
@@ -26,16 +30,27 @@ const ItemCrearContacto = () => {
       toast.onmouseleave = Swal.resumeTimer;
     },
   });
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/carreras") // endpoint de contactos de Estudiantes
+      .then((response) => {
+        dispatch(readCarrera(response.data.data));
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+  }, [dispatch]);
   const handleCreateContact = () => {
-    if (name && email && phone && course && puesto) {
+    if (name && puesto && email && phone && carrera) {
       const dataContact = {
-        name: name,
-        email: email,
-        phone: phone,
-        carrera: course,
+        nombre: name,
+        correo: email,
+        telefono: phone,
+        estado: estado,
+        carrera: carrera,
         puesto: puesto,
         imagen: "imagen.png",
-        estado: estado,
       };
       axios
         .post("http://localhost:3001/contactosEstudiantes/", dataContact)
@@ -60,6 +75,7 @@ const ItemCrearContacto = () => {
         });
     }
   };
+
   return (
     <Row className="d-flex justify-content-center align-items-center">
       <Card className="p-4 my-4 tarjeta-contacto">
@@ -91,14 +107,15 @@ const ItemCrearContacto = () => {
                   placeholder="Nombre Contacto"
                 />
               </Form.Group>
-              <Form.Group controlId="formCategory" className="mb-3">
+              <Form.Group controlId="formCareer">
                 <Form.Label>Puesto</Form.Label>
-                <Form.Control
-                  type="text"
+                <Form.Select
                   value={puesto}
-                  onChange={(e) => setPuesto(e.target.value)}
-                  placeholder="Puesto que Desempeña"
-                />
+                  onChange={(e) => setPuesto(e.target.value)}>
+                  <option selected>Selecciona..</option>
+                  <option value={"Docente"}>Docente</option>
+                  <option value={"Administracion"}>Administracion</option>
+                </Form.Select>
               </Form.Group>
               <Form.Group controlId="formDate">
                 <Form.Label>Correo Electronico</Form.Label>
@@ -109,14 +126,18 @@ const ItemCrearContacto = () => {
                   placeholder="Correo Electronico "
                 />
               </Form.Group>
-              <Form.Group controlId="formDate">
+              <Form.Group controlId="formCareer">
                 <Form.Label>Carrera</Form.Label>
-                <Form.Control
-                  type="email"
-                  value={course}
-                  onChange={(e) => setCourse(e.target.value)}
-                  placeholder="Carrera"
-                />
+                <Form.Select
+                  value={carrera}
+                  onChange={(e) => setCarrera(e.target.value)}>
+                  <option selected>Selecciona..</option>
+                  {allCarreras.data.map((carrera) => (
+                    <option key={carrera.idcarrera} value={carrera.idcarrera}>
+                      {carrera.descripcion}
+                    </option>
+                  ))}
+                </Form.Select>
               </Form.Group>
             </Col>
           </Row>
@@ -126,9 +147,10 @@ const ItemCrearContacto = () => {
                 <Form.Group controlId="formCareer">
                   <Form.Label>Telefono</Form.Label>
                   <Form.Control
-                    type="number  "
+                    type="number"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
+                    placeholder="000-000"
                   />
                 </Form.Group>
               </Col>
@@ -138,6 +160,7 @@ const ItemCrearContacto = () => {
                   <Form.Select
                     value={estado}
                     onChange={(e) => setEstado(e.target.value)}>
+                    <option selected>Selecciona..</option>
                     <option value="activo">Activo</option>
                     <option value="inactivo">Inactivo</option>
                   </Form.Select>

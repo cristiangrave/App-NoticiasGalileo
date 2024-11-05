@@ -1,17 +1,19 @@
 import React, { useEffect, useState } from "react";
 import { Card, Row, Col, Button, Form, Image } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { readContact, updateContact } from "../../redux/reducers/contactSlice";
 import Swal from "sweetalert2";
-const ItemContacto = ({ userProp }) => {
+import { readCarrera } from "../../redux/reducers/carreraSlice";
+const ItemContacto = () => {
   const allContacts = useSelector((state) => state.conctac);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [editContact, setEditedProduct] = useState(null);
   const dispatch = useDispatch();
   const tipoUsuario = useSelector((state) => state.user.role);
+  const allCarreras = useSelector((state) => state.carrera);
+
   /*useEffect : se ejecuta una vez a la hora de que renderize nuestro componente, pero se puede ejecutar mas veces con una dependencia(useEffect : tiene dos parametros , funcion , arreglo(dependencia))
   bueno y aqui cada vez que utilizo el dispatch useEffect Renderiza de nuevo con los datos del GET para colocar datos actualizados :)*/
   useEffect(() => {
@@ -20,11 +22,19 @@ const ItemContacto = ({ userProp }) => {
       .then((res) => {
         dispatch(readContact(res.data.data));
         setLoading(false);
+        /*         console.log("contactos : ", res);
+         */
       })
       .catch((error) => {
         setError(error.message);
         setLoading(false);
       });
+    axios
+      .get("http://localhost:3001/carreras")
+      .then((response) => {
+        dispatch(readCarrera(response.data.data));
+      })
+      .catch((error) => console.error(error));
   }, [dispatch]);
   /* Configuraciones para el Sweetalert(lib para alertas) */
   const Toast = Swal.mixin({
@@ -41,14 +51,17 @@ const ItemContacto = ({ userProp }) => {
   const handleClickEditContaco = () => {
     /*Con axios hacemos la petcion de tipo PUT a nuestro Backend para que se actualize en nuestro Backend y le pasamos los parametrode nuestro estado editContact */
     axios
-      .put(`http://localhost:3001/contactosEstudiantes/${editContact.id}`, {
-        name: editContact.name,
-        email: editContact.email,
-        phone: editContact.phone,
-        carrera: editContact.carrera,
-        puesto: editContact.puesto,
-        estado: editContact.estado,
-      })
+      .put(
+        `http://localhost:3001/contactosEstudiantes/${editContact.idcontacto}`,
+        {
+          nombre: editContact.name,
+          correo: editContact.email,
+          telefono: editContact.phone,
+          carrera: editContact.carrera,
+          puesto: editContact.puesto,
+          estado: editContact.estado,
+        }
+      )
       .then((res) => {
         Toast.fire({
           icon: "success",
@@ -57,10 +70,10 @@ const ItemContacto = ({ userProp }) => {
         /* IMPORTATE RECORDAR QUE AL OTRO LADO RECIBIMOS UN OBJETO CON EL MISMO ORDEN DE DATOS EN UPTADE CONTACT */
         dispatch(
           updateContact({
-            id: editContact.id,
-            name: editContact.name,
-            email: editContact.email,
-            phone: editContact.phone,
+            id: editContact.idcontacto,
+            name: editContact.nombre,
+            email: editContact.correo,
+            phone: editContact.telefono,
             carrera: editContact.carrera,
             puesto: editContact.puesto,
             imagen: "imagen.png",
@@ -97,8 +110,8 @@ const ItemContacto = ({ userProp }) => {
     <>
       <Row className="w-100 d-flex align-items-center justify-content-center">
         {allContacts.data.map((contacto) => (
-          <Card className="p-4 my-1 tarjeta-noticia" key={contacto.id}>
-            {editContact?.id === contacto.id ? (
+          <Card className="p-4 my-1 tarjeta-noticia" key={contacto.idcontacto}>
+            {editContact?.idcontacto === contacto.idcontacto ? (
               <Form>
                 <Row>
                   <Col
@@ -119,24 +132,22 @@ const ItemContacto = ({ userProp }) => {
                     </Row>
                   </Col>
                   <Col xs={12} md={6} className="mb-3">
-                    <Form.Group controlId="formTitle" className="mb-3">
-                      <Form.Label>Nombre Contacto</Form.Label>
+                    <Form.Group controlId="formNombreContacto" className="mb-3">
+                      <Form.Label>Nombre</Form.Label>
                       <Form.Control
                         type="text"
-                        value={editContact.name}
+                        value={editContact.nombre}
                         onChange={(e) =>
                           setEditedProduct({
                             ...editContact,
                             name: e.target.value,
                           })
                         }
-                        placeholder="Nombre Contacto"
                       />
                     </Form.Group>
-                    <Form.Group controlId="formCategory" className="mb-3">
+                    <Form.Group controlId="selectPuesto">
                       <Form.Label>Puesto</Form.Label>
-                      <Form.Control
-                        type="text"
+                      <Form.Select
                         value={editContact.puesto}
                         onChange={(e) =>
                           setEditedProduct({
@@ -144,27 +155,29 @@ const ItemContacto = ({ userProp }) => {
                             puesto: e.target.value,
                           })
                         }
-                        placeholder="Puesto que Desempeña"
-                      />
+                      >
+                        <option value={""}>Selecciona..</option>
+                        <option value={"Docente"}>Docente</option>
+                        <option value={"Administracion"}>Administracion</option>
+                      </Form.Select>
                     </Form.Group>
-                    <Form.Group controlId="formDate">
+                    <Form.Group controlId="inputCorreo">
                       <Form.Label>Correo Electronico</Form.Label>
                       <Form.Control
                         type="email"
-                        value={editContact.email}
+                        value={editContact.correo}
                         onChange={(e) =>
                           setEditedProduct({
                             ...editContact,
-                            email: e.target.value,
+                            correo: e.target.value,
                           })
                         }
                         placeholder="Correo Electronico "
                       />
                     </Form.Group>
-                    <Form.Group controlId="formDate">
+                    <Form.Group controlId="formCareer">
                       <Form.Label>Carrera</Form.Label>
-                      <Form.Control
-                        type="text"
+                      <Form.Select
                         value={editContact.carrera}
                         onChange={(e) =>
                           setEditedProduct({
@@ -172,8 +185,17 @@ const ItemContacto = ({ userProp }) => {
                             carrera: e.target.value,
                           })
                         }
-                        placeholder="Carrera"
-                      />
+                      >
+                        <option value={""}>Selecciona..</option>
+                        {allCarreras.data.map((carrera) => (
+                          <option
+                            key={carrera.idcarrera}
+                            value={carrera.idcarrera}
+                          >
+                            {carrera.descripcion}
+                          </option>
+                        ))}
+                      </Form.Select>
                     </Form.Group>
                   </Col>
                 </Row>
@@ -183,12 +205,12 @@ const ItemContacto = ({ userProp }) => {
                       <Form.Group controlId="formCareer">
                         <Form.Label>Telefono</Form.Label>
                         <Form.Control
-                          type="number  "
-                          value={editContact.phone}
+                          type="number"
+                          value={editContact.telefono}
                           onChange={(e) =>
                             setEditedProduct({
                               ...editContact,
-                              phone: e.target.value,
+                              telefono: e.target.value,
                             })
                           }
                         />
@@ -246,7 +268,7 @@ const ItemContacto = ({ userProp }) => {
                     className="mb-0 text-muted"
                     style={{ fontSize: "1rem", color: "#333" }}
                   >
-                    Nombre: {contacto.name}
+                    Nombre: {contacto.nombre}
                   </Card.Text>
                   <Card.Text
                     className="mb-1 text-muted"
@@ -258,13 +280,13 @@ const ItemContacto = ({ userProp }) => {
                     className="mb-1 text-muted"
                     style={{ fontSize: "1rem", color: "#333" }}
                   >
-                    Email: {contacto.email}
+                    Email: {contacto.correo}
                   </Card.Text>
                   <Card.Text
                     className="mb-1 text-muted"
                     style={{ fontSize: "1rem", color: "#333" }}
                   >
-                    Tel: {contacto.phone}
+                    Tel: {contacto.telefono}
                   </Card.Text>
                   {tipoUsuario === "admin" && (
                     <div className="d-flex justify-content-end">

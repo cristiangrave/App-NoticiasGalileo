@@ -4,24 +4,29 @@ import {
   IsNotEmpty,
   IsNumber,
   IsOptional,
+  IsBoolean,
 } from "class-validator";
 
 export class CreateContactDto {
   @IsString()
   @IsNotEmpty()
-  readonly name: string;
+  readonly nombre: string;
 
   @IsEmail()
   @IsNotEmpty()
-  readonly email: string;
+  readonly correo: string;
 
   @IsNumber()
   @IsNotEmpty()
-  readonly phone: number;
+  readonly telefono: number;
 
   @IsString()
   @IsNotEmpty()
-  readonly carrera: string;
+  readonly estado: string;
+
+  @IsNumber()
+  @IsNotEmpty()
+  readonly carrera: number;
 
   @IsString()
   @IsNotEmpty()
@@ -30,8 +35,4 @@ export class CreateContactDto {
   @IsString()
   @IsOptional()
   readonly imagen: string;
-
-  @IsString()
-  @IsOptional()
-  readonly estado: string;
 }

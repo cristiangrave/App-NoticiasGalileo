@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { readNews, updateNew } from "../../redux/reducers/newsSlice";
 import Swal from "sweetalert2";
+import { readCategoria } from "../../redux/reducers/categoriaSlice";
+import { readCarrera } from "../../redux/reducers/carreraSlice";
 
 const ItemNoticia = () => {
   const noticias = useSelector((state) => state.news);
@@ -14,6 +16,8 @@ const ItemNoticia = () => {
   const [editNews, setEditNews] = useState(null);
   const despachador = useDispatch();
   const tipoUsuario = useSelector((state) => state.user.role);
+  const allCategorias = useSelector((state) => state.categoria);
+  const allCarreras = useSelector((state) => state.carrera);
   /*Con este estado ya no es  que pasemos el estado por medio de una prop*/
   useEffect(() => {
     axios
@@ -26,6 +30,22 @@ const ItemNoticia = () => {
         setError(error.message);
         setLoading(false);
       });
+
+    /*   carrera y otra sobre categorias */
+    /* consulta para tener las categorias */
+    axios
+      .get("http://localhost:3001/categorias")
+      .then((response) => {
+        despachador(readCategoria(response.data.data));
+      })
+      .catch((error) => console.error(error));
+    /* consulta para poder tener las carreras */
+    axios
+      .get("http://localhost:3001/carreras")
+      .then((response) => {
+        despachador(readCarrera(response.data.data));
+      })
+      .catch((error) => console.error(error));
   }, [despachador]);
   const Toast = Swal.mixin({
     toast: true,
@@ -43,22 +63,33 @@ const ItemNoticia = () => {
   }
 
   if (error) {
-    return <div className="alert alert-danger">Error Noticias {error} </div>;
+    return <div className="alert alert-danger">Error Noticias : {error} </div>;
   }
+  const editarNoticia = (idNoticia) => {
+    axios
+      .get(`http://localhost:3001/noticiasEstudiantes/${idNoticia}`)
+      .then((response) => {
+        setEditNews(response.data.data);
+        console.log("noticia para editar", editNews);
+      })
+      .catch((error) => console.error(error));
+  };
+
   const handleUpdateNew = () => {
     axios
-      .put(`http://localhost:3001/noticiasEstudiantes/${editNews.id}`, {
+      .put(`http://localhost:3001/noticiasEstudiantes/${editNews.idnoticia}`, {
         titulo: editNews.titulo,
         descripcion: editNews.descripcion,
         carrera: editNews.carrera,
-        imagen: editNews.imagen,
+        imagen: "imagen.png",
         fecha: editNews.fecha,
         estado: editNews.estado,
       })
       .then(() => {
+        console.log("Esto va Para el Back", editNews);
         despachador(
           updateNew({
-            id: editNews.id,
+            id: editNews.idnoticia,
             titulo: editNews.titulo,
             descripcion: editNews.descripcion,
             carrera: editNews.carrera,
@@ -83,14 +114,15 @@ const ItemNoticia = () => {
   return (
     <Row className="w-100 d-flex align-items-center justify-content-center">
       {noticias.data.map((noticia) => (
-        <Card key={noticia.id} className="p-4 my-1 tarjeta-noticia">
-          {editNews?.id === noticia.id ? (
+        <Card key={noticia.idnoticia} className="p-4 my-1 tarjeta-noticia">
+          {editNews?.idnoticia === noticia.idnoticia ? (
             <Form>
               <Row className="mb-3">
                 <Col
                   xs={12}
                   md={4}
-                  className="d-flex justify-content-center align-items-center">
+                  className="d-flex justify-content-center align-items-center"
+                >
                   <Row>
                     <Image
                       src="/icono-agregar-imagen.png"
@@ -125,9 +157,14 @@ const ItemNoticia = () => {
                           value={editNews.estado}
                           onChange={(e) =>
                             setEditNews({ ...editNews, estado: e.target.value })
-                          }>
-                          <option value={"activo"}>Activo</option>
-                          <option value={"inactivo"}>No Activo</option>
+                          }
+                        >
+                          <option value={"activo"} key={1}>
+                            Activo
+                          </option>
+                          <option value={"inactivo"} key={2}>
+                            No Activo
+                          </option>
                         </Form.Select>
                       </Form.Group>
                     </Col>
@@ -135,14 +172,27 @@ const ItemNoticia = () => {
                     <Col xs={12} md={6} className="mb-3">
                       <Form.Group controlId="formCategory">
                         <Form.Label>Categoría</Form.Label>
-                        <Form.Select>
-                          <option>Categoria 1</option>
-                          <option>Categoria 2</option>
-                          <option>Categoria 3</option>
+                        <Form.Select
+                          value={editNews.categoria}
+                          onChange={(e) =>
+                            setEditNews({
+                              ...editNews,
+                              categoria: e.target.value,
+                            })
+                          }
+                        >
+                          <option value={""}>Selecciona..</option>
+                          {allCategorias.data.map((categoria) => (
+                            <option
+                              key={categoria.idcategoria}
+                              value={categoria}
+                            >
+                              {categoria.nombre}
+                            </option>
+                          ))}
                         </Form.Select>
                       </Form.Group>
                     </Col>
-
                     <Col xs={12} md={6} className="mb-3">
                       <Form.Group controlId="formDate">
                         <Form.Label>Fecha Publicación</Form.Label>
@@ -186,10 +236,17 @@ const ItemNoticia = () => {
                       value={editNews.carrera}
                       onChange={(e) =>
                         setEditNews({ ...editNews, carrera: e.target.value })
-                      }>
-                      <option>Carrera 1</option>
-                      <option>Carrera 2</option>
-                      <option>Carrera 3</option>
+                      }
+                    >
+                      <option value={""}>Selecciona...</option>
+                      {allCarreras.data.map((carrera) => (
+                        <option
+                          key={carrera.idcarrera}
+                          value={carrera.idcarrera}
+                        >
+                          {carrera.descripcion}
+                        </option>
+                      ))}
                     </Form.Select>
                   </Form.Group>
                 </Col>
@@ -199,7 +256,8 @@ const ItemNoticia = () => {
                   <Button
                     variant="secondary"
                     className="me-2"
-                    onClick={() => setEditNews(null)}>
+                    onClick={() => setEditNews(null)}
+                  >
                     Cancelar
                   </Button>
                   <Button variant="dark" onClick={handleUpdateNew}>
@@ -223,7 +281,7 @@ const ItemNoticia = () => {
                   <div className="d-flex justify-content-between align-items-center mb-2">
                     <small className="text-muted">{noticia.fecha}</small>
                     <Badge className="p-2 badge-categoria">
-                      {noticia.carrera}s
+                      {"categoria noticia.categoria"}
                     </Badge>
                   </div>
                   <Card.Title className="mt-2 titulo-noticia">
@@ -236,7 +294,8 @@ const ItemNoticia = () => {
                   <Card.Body>
                     <Card.Text
                       className="mt-0"
-                      style={{ fontSize: "1rem", color: "#333" }}>
+                      style={{ fontSize: "1rem", color: "#333" }}
+                    >
                       {noticia.descripcion}
                     </Card.Text>
                     <p className="text-muted " style={{ fontSize: "0.9rem" }}>
@@ -248,7 +307,8 @@ const ItemNoticia = () => {
                       <Button
                         variant="secondary"
                         className="btn-md"
-                        onClick={() => setEditNews(noticia)}>
+                        onClick={(e) => editarNoticia(noticia.idnoticia)}
+                      >
                         Editar
                       </Button>
                     </div>

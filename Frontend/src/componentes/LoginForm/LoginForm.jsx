@@ -43,7 +43,7 @@ const LoginForm = () => {
       setToken(access_token);
       localStorage.setItem("token", access_token);
 
-      /*console.log("Token recibido:", access_token);
+      /*       console.log("Token recibido:", access_token);
        */
       if (access_token) {
         usar(autorizar());
@@ -69,7 +69,8 @@ const LoginForm = () => {
       /* console.log(rol, usuario);
        */
     } catch (error) {
-      console.log("ningún rol encontrado");
+      /* console.log("ningún rol encontrado");
+      console.log(error) */
     }
   };
 

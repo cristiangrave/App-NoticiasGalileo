@@ -1,11 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Card, Row, Col, Form, Button, Image } from "react-bootstrap";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./ItemCrearNoticia.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
 import { addNews } from "../../redux/reducers/newsSlice";
 import axios from "axios";
+import { readCategoria } from "../../redux/reducers/categoriaSlice";
+import { readCarrera } from "../../redux/reducers/carreraSlice";
 
 const ItemCrearNoticia = () => {
   /* se creo el estado de la fecha para que agarre la fecha actual  */
@@ -13,11 +15,33 @@ const ItemCrearNoticia = () => {
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [carrera, setCarrera] = useState("");
+  const [categoria, setCategoria] = useState("");
   const [estado, setEstado] = useState("");
-
+  const allCategorias = useSelector((state) => state.categoria);
+  const allCarreras = useSelector((state) => state.carrera);
+  const despachador = useDispatch();
   /*   const [imagen, setImagen] = useState("");
    */
-  const despachador = useDispatch();
+
+  useEffect(() => {
+    /* esto lo hago para que a la hora de que se lean las categorias y carreras tengan datos de la base de datos */
+    /* consulta para tener las categorias */
+    axios
+      .get("http://localhost:3001/categorias")
+      .then((response) => {
+        despachador(readCategoria(response.data.data));
+      })
+      .catch((error) => console.error(error));
+    /* consulta para poder tener las carreras */
+    axios
+      .get("http://localhost:3001/carreras")
+      .then((response) => {
+        console.log("Categorias : ", response);
+        despachador(readCarrera(response.data.data));
+      })
+      .catch((error) => console.error(error));
+  }, [despachador]);
+
   const Toast = Swal.mixin({
     toast: true,
     position: "bottom-end",
@@ -30,7 +54,7 @@ const ItemCrearNoticia = () => {
     },
   });
   const handleGuardarNoticia = () => {
-    if (fecha && titulo && descripcion && carrera) {
+    if (titulo && descripcion) {
       const newNoticia = {
         titulo: titulo,
         descripcion: descripcion,
@@ -38,8 +62,9 @@ const ItemCrearNoticia = () => {
         imagen: "imagen.png",
         fecha: fecha,
         estado: estado,
+        categoria: categoria,
       };
-      console.log(newNoticia);
+      console.log("Nueva Noticia : ", newNoticia);
       despachador(addNews(newNoticia));
       axios
         .post("http://localhost:3001/noticiasEstudiantes/", newNoticia)
@@ -50,7 +75,6 @@ const ItemCrearNoticia = () => {
           });
           setTitulo("");
           setDescripcion("");
-          setCarrera("");
         })
         .catch((error) => {
           console.error(error);
@@ -70,8 +94,7 @@ const ItemCrearNoticia = () => {
             <Col
               xs={12}
               md={4}
-              className="d-flex justify-content-center align-items-center"
-            >
+              className="d-flex justify-content-center align-items-center">
               <Row>
                 <Image
                   src="/icono-agregar-imagen.png"
@@ -102,8 +125,8 @@ const ItemCrearNoticia = () => {
                     <Form.Label>Estado</Form.Label>
                     <Form.Select
                       value={estado}
-                      onChange={(e) => setEstado(e.target.value)}
-                    >
+                      onChange={(e) => setEstado(e.target.value)}>
+                      <option selected>Selecciona..</option>
                       <option value={"activo"}>Activo</option>
                       <option value={"inactivo"}>No Activo</option>
                     </Form.Select>
@@ -113,10 +136,17 @@ const ItemCrearNoticia = () => {
                 <Col xs={12} md={6} className="mb-3">
                   <Form.Group controlId="formCategory">
                     <Form.Label>Categoría</Form.Label>
-                    <Form.Select>
-                      <option>Categoria 1</option>
-                      <option>Categoria 2</option>
-                      <option>Categoria 3</option>
+                    <Form.Select
+                      value={categoria}
+                      onChange={(e) => setCategoria(e.target.value)}>
+                      <option selected>Selecciona..</option>
+                      {allCategorias.data.map((categoria) => (
+                        <option
+                          key={categoria.idcategoria}
+                          value={categoria.idcategoria}>
+                          {categoria.nombre}
+                        </option>
+                      ))}
                     </Form.Select>
                   </Form.Group>
                 </Col>
@@ -155,11 +185,13 @@ const ItemCrearNoticia = () => {
                 <Form.Label>Carrera</Form.Label>
                 <Form.Select
                   value={carrera}
-                  onChange={(e) => setCarrera(e.target.value)}
-                >
-                  <option>Carrera 1</option>
-                  <option>Carrera 2</option>
-                  <option>Carrera 3</option>
+                  onChange={(e) => setCarrera(e.target.value)}>
+                  <option selected>Selecciona..</option>
+                  {allCarreras.data.map((carrera) => (
+                    <option key={carrera.idcarrera} value={carrera.idcarrera}>
+                      {carrera.descripcion}
+                    </option>
+                  ))}
                 </Form.Select>
               </Form.Group>
             </Col>

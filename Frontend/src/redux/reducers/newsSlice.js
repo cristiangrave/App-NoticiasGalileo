@@ -16,10 +16,11 @@ export const newsSlice = createSlice({
       const { id, titulo, descripcion, carrera, imagen, fecha, estado } =
         action.payload;
       /* aqui se espera el objeto que vamos a destructurar */
-      const noticias = state.data.find((noticia) => noticia.id === id);
+      const noticias = state.data.find((noticia) => noticia.idnoticia === id);
       if (noticias) {
         /* si se encuentra el objeto entonces insertamos los datos dentro de el arreglo
          */
+        console.log("encontramos algo");
         noticias.titulo = titulo;
         noticias.descripcion = descripcion;
         noticias.carrera = carrera;

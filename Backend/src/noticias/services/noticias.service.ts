@@ -1,94 +1,97 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
-import { CreateNewsDto } from "../controllers/createNews.dto";
-import { UpdateNewsDto } from "../controllers/updateNews.dto";
-
-export interface Noticia {
-  id: number;
-  titulo: string;
-  descripcion: string;
-  carrera: string;
-  imagen: string;
-  fecha: string;
-  estado: string;
-}
+import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { CreateNewsDto } from '../dtos/createNews.dto';
+import { UpdateNewsDto } from '../dtos/updateNews.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Noticia } from '../entities/noticia.entity';
+import { Repository } from 'typeorm';
+import { Categoria } from '../../categorias/entities/categoria.entity';
+import { Carrera } from 'src/carreras/entities/carrera.entity';
 
 @Injectable()
 export class NoticiaService {
-  private noticias: Noticia[] = [
-    {
-      id: 1,
-      titulo: "Charla Ingenieria",
-      descripcion:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam laudantium eius at enim corporis rerum quae aspernatur placeat dolores! Iure quaerat autem vel veniam animi culpa at est voluptatibus debitis.",
-      carrera: "Ingenieria En Sistemas",
-      imagen: "imagen-noticia.png",
-      fecha: "2024-10-25",
-      estado: "activo",
-    },
-    {
-      id: 2,
-      titulo: "Charla Ingenieria",
-      descripcion:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam laudantium eius at enim corporis rerum quae aspernatur placeat dolores! Iure quaerat autem vel veniam animi culpa at est voluptatibus debitis.",
-      carrera: "Ingenieria en Redes Computacionales",
-      imagen: "imagen-noticia.png",
-      fecha: "2024-10-22",
-      estado: "activo",
-    },
-    {
-      id: 3,
-      titulo: "Charla Ingenieria",
-      descripcion:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam laudantium eius at enim corporis rerum quae aspernatur placeat dolores! Iure quaerat autem vel veniam animi culpa at est voluptatibus debitis.",
-      carrera: "Ingenieria en Ciberseguridad",
-      imagen: "imagen-noticia.png",
-      fecha: "2024-10-28",
-      estado: "activo",
-    },
-    {
-      id: 4,
-      titulo: "Charla Ingenieria",
-      descripcion:
-        "Lorem ipsum dolor sit amet consectetur adipisicing elit. Quibusdam laudantium eius at enim corporis rerum quae aspernatur placeat dolores! Iure quaerat autem vel veniam animi culpa at est voluptatibus debitis.",
-      carrera: "Ingenieria en Redes",
-      imagen: "imagen-noticia.png",
-      fecha: "14 de Octubre de 2024",
-      estado: "activo",
-    },
-    // Agrega más contactos simulados aquí
-  ];
+  constructor( 
+    @InjectRepository(Noticia)
+    private readonly noticiaRepository: Repository<Noticia>,
+
+    @InjectRepository(Categoria)
+    private readonly categoriaRepository: Repository<Categoria>,
+
+    @InjectRepository(Carrera)
+    private readonly carreraRepository: Repository<Carrera>,
+  ) {}
 
   // Obtener todos los contactos
-  findAll(): Noticia[] {
-    return this.noticias;
+  async findAll(): Promise<Noticia[]> {
+    return this.noticiaRepository.find();
   }
 
   // Obtener un contacto por ID
-  findOne(id: number): Noticia {
-    return this.noticias.find((contact) => contact.id === id);
+  async findOne(idnoticia: string): Promise<Noticia> {
+    const noticia = await this.noticiaRepository.findOne({
+      where: {idnoticia},
+    });
+
+    if(!noticia) {
+      throw new NotFoundException(`Noticia con ID ${idnoticia} no encontrada`);
+    }
+
+    return noticia;
   }
 
   // Crear una noticia nueva
-  create(createNewsDto: CreateNewsDto) {
-    const newNews = { id: Date.now(), ...createNewsDto };
-    this.noticias.push(newNews);
-    return newNews;
+  async create(createNewsDto: CreateNewsDto): Promise<Noticia> {
+    // Obtener las entidades relacionadas de Categoria y Carrera
+    const categoria = await this.categoriaRepository.findOne({ where: { idcategoria: createNewsDto.categoria }})
+    const carrera = await this.carreraRepository.findOne({ where: { idcarrera: createNewsDto.carrera } });
+
+    if (!categoria) {
+      throw new NotFoundException(`Categoria con ID ${createNewsDto.categoria} no encontrada`);
+    }
+    if (!carrera) {
+      throw new NotFoundException(`Carrera con ID ${createNewsDto.carrera} no encontrada`);
+    }
+
+    // Crear y asignar los valores a la noticia
+    const newNews = this.noticiaRepository.create({
+      ...createNewsDto, categoria: [categoria], carrera: carrera
+    });
+
+    return this.noticiaRepository.save(newNews);
   }
 
   // Editar un contacto existente
-  update(id: number, updateNewsDto: UpdateNewsDto) {
-    const newsIndex = this.noticias.findIndex((news) => news.id == id);
+  async update(idnoticia: string, updateNewsDto: UpdateNewsDto): Promise<Noticia>{
+    const editNew = await this.findOne(idnoticia);
+    
+    if (!editNew) {
+      throw new NotFoundException(`Noticia con ID ${idnoticia} no encontrada`);
+    }
 
-    // Si no encuentra el contacto por ID
-    if (newsIndex == -1) {
-      throw new NotFoundException(`Noticia con ID ${id} no encontrada`);
+    // Obtener entidades actualizadas si es necesario
+    if (updateNewsDto.categoria) {
+      const categoria = await this.categoriaRepository.findOne({ where: { idcategoria: updateNewsDto.categoria } });
+      if (!categoria) {
+        throw new NotFoundException(`Categoria con ID ${updateNewsDto.categoria} no encontrada`);
+      }
+      editNew.categoria = [categoria];
+    }
+
+    if (updateNewsDto.carrera) {
+      const carrera = await this.carreraRepository.findOne({ where: { idcarrera: updateNewsDto.carrera } });
+      if (!carrera) {
+        throw new NotFoundException(`Carrera con ID ${updateNewsDto.carrera} no encontrada`);
+      }
+      editNew.carrera = carrera;
     }
 
     // Si encuentra el contacto con el ID y le Edita los datos
-    this.noticias[newsIndex] = {
-      ...this.noticias[newsIndex],
-      ...updateNewsDto,
-    };
-    return this.noticias[newsIndex];
+    Object.assign(editNew, updateNewsDto);
+    return await this.noticiaRepository.save(editNew);
+  }
+
+  async findByEstado(estado: string): Promise<Noticia[]> {
+    return this.noticiaRepository.find({ where: {estado}});
   }
 }
+
+export { Noticia }
