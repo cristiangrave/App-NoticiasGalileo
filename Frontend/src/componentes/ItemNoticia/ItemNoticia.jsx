@@ -233,18 +233,12 @@ const ItemNoticia = () => {
                   <Form.Group controlId="formCareer">
                     <Form.Label>Carrera</Form.Label>
                     <Form.Select
-                      value={editNews.carrera.idcarrera}
+                      value={editNews.carrera}
                       onChange={(e) =>
-                        setEditNews({
-                          ...editNews,
-                          carrera: {
-                            ...editNews.carrera,
-                            idcarrera: e.target.value,
-                          },
-                        })
+                        setEditNews({ ...editNews, carrera: e.target.value })
                       }
                     >
-                      <option value={"0"}>Selecciona...</option>
+                      <option value={""}>Selecciona...</option>
                       {allCarreras.data.map((carrera) => (
                         <option
                           key={carrera.idcarrera}
