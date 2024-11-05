@@ -72,7 +72,7 @@ export class NoticiasController {
           // Generar un nombre único para la imagen
           const randomName = Array(32)
             .fill(null)
-            .map(() => Math.round(Math.random() * 16).toString(16))
+            .map(() => Math.round(Math.random() * 10).toString(10))
             .join("");
           const fileExt = extname(file.originalname); // Obtener la extensión del archivo original
           cb(null, `${randomName}${fileExt}`); // Generar el nombre completo del archivo
