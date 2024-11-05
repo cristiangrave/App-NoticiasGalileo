@@ -17,9 +17,9 @@ const contactSlice = createSlice({
       const contact = state.data.find((contacto) => contacto.idcontacto === id);
       if (contact) {
         /* si contact si  tiene algo y logra encontrar algo dentro de el objeto de data entonces ahi metemos los datos dentro del objeto encontrado */
-        contact.name = name;
-        contact.email = email;
-        contact.phone = phone;
+        contact.nombre = name;
+        contact.correo = email;
+        contact.telefono = phone;
         contact.carrera = carrera;
         contact.puesto = puesto;
         contact.imagen = imagen;

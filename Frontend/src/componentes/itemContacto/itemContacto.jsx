@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { Card, Row, Col, Button, Form, Image } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { readContact, updateContact } from "../../redux/reducers/contactSlice";
 import Swal from "sweetalert2";
-const ItemContacto = ({ userProp }) => {
+import { readCarrera } from "../../redux/reducers/carreraSlice";
+const ItemContacto = () => {
   const allContacts = useSelector((state) => state.conctac);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -22,7 +22,8 @@ const ItemContacto = ({ userProp }) => {
       .then((res) => {
         dispatch(readContact(res.data.data));
         setLoading(false);
-        console.log("contactos : ", res);
+        /*         console.log("contactos : ", res);
+         */
       })
       .catch((error) => {
         setError(error.message);
@@ -69,10 +70,10 @@ const ItemContacto = ({ userProp }) => {
         /* IMPORTATE RECORDAR QUE AL OTRO LADO RECIBIMOS UN OBJETO CON EL MISMO ORDEN DE DATOS EN UPTADE CONTACT */
         dispatch(
           updateContact({
-            id: editContact.id,
-            name: editContact.name,
-            email: editContact.email,
-            phone: editContact.phone,
+            id: editContact.idcontacto,
+            name: editContact.nombre,
+            email: editContact.correo,
+            phone: editContact.telefono,
             carrera: editContact.carrera,
             puesto: editContact.puesto,
             imagen: "imagen.png",
@@ -116,7 +117,8 @@ const ItemContacto = ({ userProp }) => {
                   <Col
                     xs={12}
                     md={6}
-                    className="d-flex justify-content-center align-items-center text-center mb-3">
+                    className="d-flex justify-content-center align-items-center text-center mb-3"
+                  >
                     <Row className="justify-content-center align-items-center">
                       <Image
                         src="/icono-agregar-imagen.png"
@@ -130,8 +132,8 @@ const ItemContacto = ({ userProp }) => {
                     </Row>
                   </Col>
                   <Col xs={12} md={6} className="mb-3">
-                    <Form.Group controlId="formTitle" className="mb-3">
-                      <Form.Label>Nombre Contacto</Form.Label>
+                    <Form.Group controlId="formNombreContacto" className="mb-3">
+                      <Form.Label>Nombre</Form.Label>
                       <Form.Control
                         type="text"
                         value={editContact.nombre}
@@ -141,13 +143,11 @@ const ItemContacto = ({ userProp }) => {
                             name: e.target.value,
                           })
                         }
-                        placeholder="Nombre Contacto"
                       />
                     </Form.Group>
-                    <Form.Group controlId="formCategory" className="mb-3">
+                    <Form.Group controlId="selectPuesto">
                       <Form.Label>Puesto</Form.Label>
-                      <Form.Control
-                        type="text"
+                      <Form.Select
                         value={editContact.puesto}
                         onChange={(e) =>
                           setEditedProduct({
@@ -155,10 +155,13 @@ const ItemContacto = ({ userProp }) => {
                             puesto: e.target.value,
                           })
                         }
-                        placeholder="Puesto que Desempeña"
-                      />
+                      >
+                        <option value={""}>Selecciona..</option>
+                        <option value={"Docente"}>Docente</option>
+                        <option value={"Administracion"}>Administracion</option>
+                      </Form.Select>
                     </Form.Group>
-                    <Form.Group controlId="formDate">
+                    <Form.Group controlId="inputCorreo">
                       <Form.Label>Correo Electronico</Form.Label>
                       <Form.Control
                         type="email"
@@ -181,14 +184,14 @@ const ItemContacto = ({ userProp }) => {
                             ...editContact,
                             carrera: e.target.value,
                           })
-                        }>
-                        <option selected value={0}>
-                          Selecciona..
-                        </option>
+                        }
+                      >
+                        <option value={""}>Selecciona..</option>
                         {allCarreras.data.map((carrera) => (
                           <option
                             key={carrera.idcarrera}
-                            value={carrera.idcarrera}>
+                            value={carrera.idcarrera}
+                          >
                             {carrera.descripcion}
                           </option>
                         ))}
@@ -202,7 +205,7 @@ const ItemContacto = ({ userProp }) => {
                       <Form.Group controlId="formCareer">
                         <Form.Label>Telefono</Form.Label>
                         <Form.Control
-                          type="number  "
+                          type="number"
                           value={editContact.telefono}
                           onChange={(e) =>
                             setEditedProduct({
@@ -223,9 +226,10 @@ const ItemContacto = ({ userProp }) => {
                               ...editContact,
                               estado: e.target.value,
                             })
-                          }>
-                          <option value={true}>Activo</option>
-                          <option value={false}>Inactivo</option>
+                          }
+                        >
+                          <option value={"activo"}>Activo</option>
+                          <option value={"inactivo"}>Inactivo</option>
                         </Form.Select>
                       </Form.Group>
                     </Col>
@@ -236,7 +240,8 @@ const ItemContacto = ({ userProp }) => {
                     <Button
                       variant="secondary"
                       className="me-2"
-                      onClick={() => setEditedProduct(null)}>
+                      onClick={() => setEditedProduct(null)}
+                    >
                       Cancelar
                     </Button>
                     <Button variant="dark" onClick={handleClickEditContaco}>
@@ -261,22 +266,26 @@ const ItemContacto = ({ userProp }) => {
                   </div>
                   <Card.Text
                     className="mb-0 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}>
+                    style={{ fontSize: "1rem", color: "#333" }}
+                  >
                     Nombre: {contacto.nombre}
                   </Card.Text>
                   <Card.Text
                     className="mb-1 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}>
+                    style={{ fontSize: "1rem", color: "#333" }}
+                  >
                     Puesto: {contacto.puesto}
                   </Card.Text>
                   <Card.Text
                     className="mb-1 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}>
+                    style={{ fontSize: "1rem", color: "#333" }}
+                  >
                     Email: {contacto.correo}
                   </Card.Text>
                   <Card.Text
                     className="mb-1 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}>
+                    style={{ fontSize: "1rem", color: "#333" }}
+                  >
                     Tel: {contacto.telefono}
                   </Card.Text>
                   {tipoUsuario === "admin" && (
@@ -284,7 +293,8 @@ const ItemContacto = ({ userProp }) => {
                       <Button
                         variant="secondary"
                         className="btn-md"
-                        onClick={() => setEditedProduct(contacto)}>
+                        onClick={() => setEditedProduct(contacto)}
+                      >
                         Editar
                       </Button>
                     </div>

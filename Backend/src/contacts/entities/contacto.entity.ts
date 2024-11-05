@@ -24,7 +24,7 @@ export class Contacto {
   @Column({ default: "activo" })
   estado: string;
 
-  @Column({ default: "catedratico" })
+  @Column({ default: "Docente" })
   puesto: string;
 
   @Column({ nullable: true })

@@ -121,7 +121,8 @@ const ItemNoticia = () => {
                 <Col
                   xs={12}
                   md={4}
-                  className="d-flex justify-content-center align-items-center">
+                  className="d-flex justify-content-center align-items-center"
+                >
                   <Row>
                     <Image
                       src="/icono-agregar-imagen.png"
@@ -156,9 +157,14 @@ const ItemNoticia = () => {
                           value={editNews.estado}
                           onChange={(e) =>
                             setEditNews({ ...editNews, estado: e.target.value })
-                          }>
-                          <option value={"activo"}>Activo</option>
-                          <option value={"inactivo"}>No Activo</option>
+                          }
+                        >
+                          <option value={"activo"} key={1}>
+                            Activo
+                          </option>
+                          <option value={"inactivo"} key={2}>
+                            No Activo
+                          </option>
                         </Form.Select>
                       </Form.Group>
                     </Col>
@@ -173,21 +179,20 @@ const ItemNoticia = () => {
                               ...editNews,
                               categoria: e.target.value,
                             })
-                          }>
-                          <option selected value={0}>
-                            Selecciona..
-                          </option>
+                          }
+                        >
+                          <option value={""}>Selecciona..</option>
                           {allCategorias.data.map((categoria) => (
                             <option
                               key={categoria.idcategoria}
-                              value={categoria}>
+                              value={categoria}
+                            >
                               {categoria.nombre}
                             </option>
                           ))}
                         </Form.Select>
                       </Form.Group>
                     </Col>
-
                     <Col xs={12} md={6} className="mb-3">
                       <Form.Group controlId="formDate">
                         <Form.Label>Fecha Publicación</Form.Label>
@@ -228,17 +233,23 @@ const ItemNoticia = () => {
                   <Form.Group controlId="formCareer">
                     <Form.Label>Carrera</Form.Label>
                     <Form.Select
-                      value={editNews.carrera}
+                      value={editNews.carrera.idcarrera}
                       onChange={(e) =>
-                        setEditNews({ ...editNews, carrera: e.target.value })
-                      }>
-                      <option selected value={0}>
-                        Selecciona..
-                      </option>
+                        setEditNews({
+                          ...editNews,
+                          carrera: {
+                            ...editNews.carrera,
+                            idcarrera: e.target.value,
+                          },
+                        })
+                      }
+                    >
+                      <option value={"0"}>Selecciona...</option>
                       {allCarreras.data.map((carrera) => (
                         <option
                           key={carrera.idcarrera}
-                          value={carrera.idcarrera}>
+                          value={carrera.idcarrera}
+                        >
                           {carrera.descripcion}
                         </option>
                       ))}
@@ -251,7 +262,8 @@ const ItemNoticia = () => {
                   <Button
                     variant="secondary"
                     className="me-2"
-                    onClick={() => setEditNews(null)}>
+                    onClick={() => setEditNews(null)}
+                  >
                     Cancelar
                   </Button>
                   <Button variant="dark" onClick={handleUpdateNew}>
@@ -288,7 +300,8 @@ const ItemNoticia = () => {
                   <Card.Body>
                     <Card.Text
                       className="mt-0"
-                      style={{ fontSize: "1rem", color: "#333" }}>
+                      style={{ fontSize: "1rem", color: "#333" }}
+                    >
                       {noticia.descripcion}
                     </Card.Text>
                     <p className="text-muted " style={{ fontSize: "0.9rem" }}>
@@ -300,7 +313,8 @@ const ItemNoticia = () => {
                       <Button
                         variant="secondary"
                         className="btn-md"
-                        onClick={(e) => editarNoticia(noticia.idnoticia)}>
+                        onClick={(e) => editarNoticia(noticia.idnoticia)}
+                      >
                         Editar
                       </Button>
                     </div>
