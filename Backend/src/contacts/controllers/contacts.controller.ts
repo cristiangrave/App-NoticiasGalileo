@@ -10,8 +10,7 @@ import {
   Put,
   UseInterceptors,
   UploadedFile,
-  HttpException,
-  Query,
+  HttpException
 } from "@nestjs/common";
 import { ContactsService, Contacto } from "../services/contacts.service";
 import { CreateContactDto } from "../dtos/createContact.dto";

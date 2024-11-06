@@ -1,4 +1,4 @@
-import { Column, Entity, ManyToOne, PrimaryGeneratedColumn, JoinColumn} from "typeorm";
+import { Column, Entity, ManyToMany, PrimaryGeneratedColumn, JoinColumn, JoinTable} from "typeorm";
 import { Noticia } from "../../noticias/entities/noticia.entity";
 
 @Entity('categorias')
@@ -13,8 +13,7 @@ export class Categoria {
     @Column({ nullable: true })
     descripcion: string;
 
-    @ManyToOne(() => Noticia, (noticia) => noticia.categoria)
-    @JoinColumn({ name: "idnoticia" })
-    noticia: Noticia;
+    @ManyToMany(() => Noticia, (noticia) => noticia.categoria)
+    noticia: Noticia[];
 
 }

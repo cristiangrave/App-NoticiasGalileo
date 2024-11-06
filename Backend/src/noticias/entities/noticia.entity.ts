@@ -1,4 +1,4 @@
-import { Column, Entity, JoinColumn, OneToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
+import { Column, Entity, JoinColumn, JoinTable, ManyToMany, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { Categoria } from "../../categorias/entities/categoria.entity";
 import { Carrera } from "src/carreras/entities/carrera.entity";
 
@@ -24,7 +24,8 @@ export class Noticia {
     @Column()
     fecha: string;
 
-    @OneToMany(() => Categoria, (categoria) => categoria.noticia, { eager: true })
+    @ManyToMany(() => Categoria, (categoria) => categoria.noticia, { eager: true })
+    @JoinTable()
     categoria: Categoria[];
 
     @ManyToOne(() => Carrera, (carrera) => carrera.noticia)

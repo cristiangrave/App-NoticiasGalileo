@@ -1,4 +1,4 @@
-import { Inject, Injectable, NotFoundException } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreateNewsDto } from '../dtos/createNews.dto';
 import { UpdateNewsDto } from '../dtos/updateNews.dto';
 import { InjectRepository } from '@nestjs/typeorm';

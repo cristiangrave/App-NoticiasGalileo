@@ -1,5 +1,4 @@
 import { configureStore } from "@reduxjs/toolkit";
-import optionReducer from "./reducers/optionSlice";
 import userSlice from "./reducers/userSlice";
 import contactSlice from "./reducers/contactSlice";
 import newsSlice from "./reducers/newsSlice";

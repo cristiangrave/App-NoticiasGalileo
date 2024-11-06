@@ -42,9 +42,7 @@ export class ContactsService {
     });
 
     if (!carrera) {
-      throw new NotFoundException(
-        `Carrera con ID ${createContactDto.carrera} no encontrada`
-      );
+      throw new NotFoundException(`Carrera con ID ${createContactDto.carrera} no encontrada`);
     }
     // Crear y asignar los valores a la contact
     const newContact = this.contactoRepository.create({
