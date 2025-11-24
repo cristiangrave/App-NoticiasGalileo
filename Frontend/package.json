@@ -11,9 +11,9 @@
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
     "axios": "^1.7.7",
-    "bootstrap": "^5.3.3",
+    "bootstrap": "^5.3.8",
     "react": "^18.3.1",
-    "react-bootstrap": "^2.10.5",
+    "react-bootstrap": "^2.10.10",
     "react-dom": "^18.3.1",
     "react-redux": "^9.1.2",
     "sweetalert2": "^11.14.4",
@@ -45,7 +45,11 @@
     ]
   },
   "devDependencies": {
+    "@tailwindcss/postcss": "^4.1.17",
     "@vitejs/plugin-react": "^4.3.3",
+    "autoprefixer": "^10.4.22",
+    "postcss": "^8.5.6",
+    "tailwindcss": "^4.1.17",
     "vite": "^5.4.10",
     "vite-tsconfig-paths": "^5.0.1"
   }

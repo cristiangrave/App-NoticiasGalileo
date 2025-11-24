@@ -1,10 +1,42 @@
 import React, { useEffect, useState } from "react";
-import { Card, Row, Col, Button, Form, Image } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
 import { readContact, updateContact } from "../../redux/reducers/contactSlice";
 import Swal from "sweetalert2";
+
+const DUMMY_CONTACTS = [
+  {
+    id: 1,
+    name: "Ing. Juan Pérez",
+    email: "jperez@galileo.edu",
+    phone: "24238000",
+    carrera: "Ingeniería en Sistemas",
+    puesto: "Director de Carrera",
+    imagen: "user.jpg",
+    estado: "activo",
+  },
+  {
+    id: 2,
+    name: "Licda. María López",
+    email: "mlopez@galileo.edu",
+    phone: "24238001",
+    carrera: "Administración de Empresas",
+    puesto: "Secretaria Académica",
+    imagen: "user.jpg",
+    estado: "activo",
+  },
+  {
+    id: 3,
+    name: "Dr. Carlos Ruiz",
+    email: "cruiz@galileo.edu",
+    phone: "24238002",
+    carrera: "Ingeniería Electrónica",
+    puesto: "Catedrático Titular",
+    imagen: "user.jpg",
+    estado: "activo",
+  },
+];
+
 const ItemContacto = ({ userProp }) => {
   const allContacts = useSelector((state) => state.conctac);
   const [loading, setLoading] = useState(true);
@@ -12,21 +44,26 @@ const ItemContacto = ({ userProp }) => {
   const [editContact, setEditedProduct] = useState(null);
   const dispatch = useDispatch();
   const tipoUsuario = useSelector((state) => state.user.role);
-  /*useEffect : se ejecuta una vez a la hora de que renderize nuestro componente, pero se puede ejecutar mas veces con una dependencia(useEffect : tiene dos parametros , funcion , arreglo(dependencia))
-  bueno y aqui cada vez que utilizo el dispatch useEffect Renderiza de nuevo con los datos del GET para colocar datos actualizados :)*/
+
   useEffect(() => {
-    axios
-      .get("http://localhost:3001/contactosEstudiantes")
-      .then((res) => {
-        dispatch(readContact(res.data.data));
+    const fetchContacts = async () => {
+      try {
+        // Intentar llamar al backend
+        // const res = await axios.get("http://localhost:3001/contactosEstudiantes");
+        // dispatch(readContact(res.data.data));
+
+        // Usar dummy data por ahora
+        throw new Error("Backend no disponible, usando datos de prueba");
+      } catch (err) {
+        console.log("Usando datos dummy para contactos:", err.message);
+        dispatch(readContact(DUMMY_CONTACTS));
+      } finally {
         setLoading(false);
-      })
-      .catch((error) => {
-        setError(error.message);
-        setLoading(false);
-      });
+      }
+    };
+    fetchContacts();
   }, [dispatch]);
-  /* Configuraciones para el Sweetalert(lib para alertas) */
+
   const Toast = Swal.mixin({
     toast: true,
     position: "bottom-end",
@@ -38,252 +75,195 @@ const ItemContacto = ({ userProp }) => {
       toast.onmouseleave = Swal.resumeTimer;
     },
   });
-  const handleClickEditContaco = () => {
-    /*Con axios hacemos la petcion de tipo PUT a nuestro Backend para que se actualize en nuestro Backend y le pasamos los parametrode nuestro estado editContact */
-    axios
-      .put(`http://localhost:3001/contactosEstudiantes/${editContact.id}`, {
-        name: editContact.name,
-        email: editContact.email,
-        phone: editContact.phone,
-        carrera: editContact.carrera,
-        puesto: editContact.puesto,
-        estado: editContact.estado,
-      })
-      .then((res) => {
-        Toast.fire({
-          icon: "success",
-          title: "Contacto Editado Correctamente",
-        });
-        /* IMPORTATE RECORDAR QUE AL OTRO LADO RECIBIMOS UN OBJETO CON EL MISMO ORDEN DE DATOS EN UPTADE CONTACT */
-        dispatch(
-          updateContact({
-            id: editContact.id,
-            name: editContact.name,
-            email: editContact.email,
-            phone: editContact.phone,
-            carrera: editContact.carrera,
-            puesto: editContact.puesto,
-            imagen: "imagen.png",
-            estado: editContact.estado,
-          })
-        );
-        setEditedProduct(null);
-        /*Con el despachador solo estamos actualizando el estado en el Fronted*/
-      })
-      .catch((error) => {
-        Toast.fire({
-          icon: "success",
-          title: "Ocurrio un Error " + error,
-        });
+
+  const handleClickEditContaco = async () => {
+    try {
+      /*
+      await axios.put(`http://localhost:3001/contactosEstudiantes/${editContact.id}`, {
+        ...editContact
       });
+      */
+
+      await new Promise(resolve => setTimeout(resolve, 500));
+
+      dispatch(
+        updateContact({
+          ...editContact,
+          imagen: "imagen.png",
+        })
+      );
+      setEditedProduct(null);
+
+      Toast.fire({
+        icon: "success",
+        title: "Contacto Editado Correctamente",
+      });
+    } catch (error) {
+      Toast.fire({
+        icon: "error",
+        title: "Ocurrió un Error al editar",
+      });
+    }
   };
+
   if (loading) {
     return (
-      <>
-        <div className="alert alert-info">Cargando contactos...</div>
-      </>
+      <div className="flex justify-center items-center h-64">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-indigo-600"></div>
+      </div>
     );
   }
 
   if (error) {
-    return (
-      <>
-        <div className="alert alert-danger">Error Contactos : {error} </div>;
-      </>
-    );
+    return <div className="p-4 text-red-600 bg-red-50 rounded-lg">Error Contactos : {error} </div>;
   }
 
   return (
-    <>
-      <Row className="w-100 d-flex align-items-center justify-content-center">
-        {allContacts.data.map((contacto) => (
-          <Card className="p-4 my-1 tarjeta-noticia" key={contacto.id}>
-            {editContact?.id === contacto.id ? (
-              <Form>
-                <Row>
-                  <Col
-                    xs={12}
-                    md={6}
-                    className="d-flex justify-content-center align-items-center text-center mb-3"
-                  >
-                    <Row className="justify-content-center align-items-center">
-                      <Image
-                        src="/icono-agregar-imagen.png"
-                        onClick={() => {
-                          console.log("click en imagen hacer algo como");
-                        }}
-                        roundedCircle
-                        rounded
-                      />
-                      <Form.Control type="file" size="sm" />
-                    </Row>
-                  </Col>
-                  <Col xs={12} md={6} className="mb-3">
-                    <Form.Group controlId="formTitle" className="mb-3">
-                      <Form.Label>Nombre Contacto</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={editContact.name}
-                        onChange={(e) =>
-                          setEditedProduct({
-                            ...editContact,
-                            name: e.target.value,
-                          })
-                        }
-                        placeholder="Nombre Contacto"
-                      />
-                    </Form.Group>
-                    <Form.Group controlId="formCategory" className="mb-3">
-                      <Form.Label>Puesto</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={editContact.puesto}
-                        onChange={(e) =>
-                          setEditedProduct({
-                            ...editContact,
-                            puesto: e.target.value,
-                          })
-                        }
-                        placeholder="Puesto que Desempeña"
-                      />
-                    </Form.Group>
-                    <Form.Group controlId="formDate">
-                      <Form.Label>Correo Electronico</Form.Label>
-                      <Form.Control
-                        type="email"
-                        value={editContact.email}
-                        onChange={(e) =>
-                          setEditedProduct({
-                            ...editContact,
-                            email: e.target.value,
-                          })
-                        }
-                        placeholder="Correo Electronico "
-                      />
-                    </Form.Group>
-                    <Form.Group controlId="formDate">
-                      <Form.Label>Carrera</Form.Label>
-                      <Form.Control
-                        type="text"
-                        value={editContact.carrera}
-                        onChange={(e) =>
-                          setEditedProduct({
-                            ...editContact,
-                            carrera: e.target.value,
-                          })
-                        }
-                        placeholder="Carrera"
-                      />
-                    </Form.Group>
-                  </Col>
-                </Row>
-                <Col xs={12} md={12}>
-                  <Row>
-                    <Col xs={12} md={6} className="mb-3">
-                      <Form.Group controlId="formCareer">
-                        <Form.Label>Telefono</Form.Label>
-                        <Form.Control
-                          type="number  "
-                          value={editContact.phone}
-                          onChange={(e) =>
-                            setEditedProduct({
-                              ...editContact,
-                              phone: e.target.value,
-                            })
-                          }
-                        />
-                      </Form.Group>
-                    </Col>
-                    <Col xs={12} md={6} className="mb-3">
-                      <Form.Group controlId="formStatus" className="mb-3">
-                        <Form.Label>Estado</Form.Label>
-                        <Form.Select
-                          value={editContact.estado}
-                          onChange={(e) =>
-                            setEditedProduct({
-                              ...editContact,
-                              estado: e.target.value,
-                            })
-                          }
-                        >
-                          <option value={"activo"}>Activo</option>
-                          <option value={"inactivo"}>Inactivo</option>
-                        </Form.Select>
-                      </Form.Group>
-                    </Col>
-                  </Row>
-                </Col>
-                <Row className="mt-2">
-                  <Col className="d-flex justify-content-end">
-                    <Button
-                      variant="secondary"
-                      className="me-2"
-                      onClick={() => setEditedProduct(null)}
-                    >
-                      Cancelar
-                    </Button>
-                    <Button variant="dark" onClick={handleClickEditContaco}>
-                      Guardar Editar
-                    </Button>
-                  </Col>
-                </Row>
-              </Form>
-            ) : (
-              <Row className="g-0">
-                <Col xs={12} md={6} className="order-md-1 order-2">
-                  <Card.Img
-                    src="/user.jpg"
-                    variant="top"
-                    alt="Imagen de noticia"
-                    className="rounded-3"
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 w-full max-w-7xl mx-auto">
+      {allContacts.data && allContacts.data.map((contacto) => (
+        <div key={contacto.id} className="bg-white rounded-xl shadow-md hover:shadow-lg transition-all duration-300 border border-gray-100 overflow-hidden flex flex-col">
+          {editContact?.id === contacto.id ? (
+            // FORMULARIO DE EDICIÓN
+            <div className="p-6 flex-1 flex flex-col">
+              <div className="flex justify-center mb-6">
+                <div className="w-24 h-24 bg-gray-100 rounded-full flex items-center justify-center border-2 border-dashed border-gray-300 cursor-pointer hover:border-indigo-500">
+                  <img src="/icono-agregar-imagen.png" alt="Upload" className="w-10 h-10 opacity-50" />
+                </div>
+              </div>
+
+              <div className="space-y-3 flex-1">
+                <div>
+                  <label className="text-xs font-medium text-gray-700">Nombre</label>
+                  <input
+                    type="text"
+                    value={editContact.name}
+                    onChange={(e) => setEditedProduct({ ...editContact, name: e.target.value })}
+                    className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"
+                    placeholder="Nombre Contacto"
                   />
-                </Col>
-                <Col xs={12} md={6} className="order-md-2 order-1 ps-2">
-                  <div className="d-flex justify-content-between align-items-center mb-2">
-                    <h5 className="text-muted">{contacto.carrera}</h5>
-                  </div>
-                  <Card.Text
-                    className="mb-0 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-700">Puesto</label>
+                  <input
+                    type="text"
+                    value={editContact.puesto}
+                    onChange={(e) => setEditedProduct({ ...editContact, puesto: e.target.value })}
+                    className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"
+                    placeholder="Puesto"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-700">Email</label>
+                  <input
+                    type="email"
+                    value={editContact.email}
+                    onChange={(e) => setEditedProduct({ ...editContact, email: e.target.value })}
+                    className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"
+                    placeholder="Email"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-700">Teléfono</label>
+                  <input
+                    type="number"
+                    value={editContact.phone}
+                    onChange={(e) => setEditedProduct({ ...editContact, phone: e.target.value })}
+                    className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"
+                    placeholder="Teléfono"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-700">Carrera</label>
+                  <input
+                    type="text"
+                    value={editContact.carrera}
+                    onChange={(e) => setEditedProduct({ ...editContact, carrera: e.target.value })}
+                    className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none text-sm"
+                    placeholder="Carrera"
+                  />
+                </div>
+                <div>
+                  <label className="text-xs font-medium text-gray-700">Estado</label>
+                  <select
+                    value={editContact.estado}
+                    onChange={(e) => setEditedProduct({ ...editContact, estado: e.target.value })}
+                    className="w-full px-3 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 outline-none text-sm bg-white"
                   >
-                    Nombre: {contacto.name}
-                  </Card.Text>
-                  <Card.Text
-                    className="mb-1 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}
+                    <option value="activo">Activo</option>
+                    <option value="inactivo">Inactivo</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="flex justify-end gap-2 mt-6 pt-4 border-t border-gray-100">
+                <button
+                  onClick={() => setEditedProduct(null)}
+                  className="px-3 py-1.5 text-xs font-medium text-gray-600 hover:bg-gray-100 rounded-md"
+                >
+                  Cancelar
+                </button>
+                <button
+                  onClick={handleClickEditContaco}
+                  className="px-3 py-1.5 text-xs font-medium text-white bg-indigo-600 hover:bg-indigo-700 rounded-md shadow-sm"
+                >
+                  Guardar
+                </button>
+              </div>
+            </div>
+          ) : (
+            // VISTA DE TARJETA
+            <>
+              <div className="p-6 flex flex-col items-center text-center border-b border-gray-50 bg-gradient-to-b from-white to-gray-50/50">
+                <div className="relative mb-4">
+                  <img
+                    src="/user.jpg"
+                    alt={contacto.name}
+                    className="w-24 h-24 rounded-full object-cover border-4 border-white shadow-md"
+                    onError={(e) => { e.target.src = "https://ui-avatars.com/api/?name=" + contacto.name + "&background=random" }}
+                  />
+                  <span className={`absolute bottom-1 right-1 w-4 h-4 rounded-full border-2 border-white ${contacto.estado === 'activo' ? 'bg-green-500' : 'bg-gray-400'}`}></span>
+                </div>
+                <h3 className="text-lg font-bold text-gray-900 mb-1">{contacto.name}</h3>
+                <p className="text-sm text-indigo-600 font-medium mb-2">{contacto.puesto}</p>
+                <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-gray-100 text-gray-800">
+                  {contacto.carrera}
+                </span>
+              </div>
+
+              <div className="p-6 bg-white flex-1 flex flex-col justify-center space-y-3">
+                <div className="flex items-center text-sm text-gray-600 group hover:text-indigo-600 transition-colors">
+                  <svg className="w-5 h-5 mr-3 text-gray-400 group-hover:text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                  <span className="truncate">{contacto.email}</span>
+                </div>
+                <div className="flex items-center text-sm text-gray-600 group hover:text-indigo-600 transition-colors">
+                  <svg className="w-5 h-5 mr-3 text-gray-400 group-hover:text-indigo-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                  </svg>
+                  <span>{contacto.phone}</span>
+                </div>
+              </div>
+
+              {tipoUsuario === "admin" && (
+                <div className="px-6 py-4 bg-gray-50 border-t border-gray-100 flex justify-end">
+                  <button
+                    onClick={() => setEditedProduct(contacto)}
+                    className="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors flex items-center gap-1"
                   >
-                    Puesto: {contacto.puesto}
-                  </Card.Text>
-                  <Card.Text
-                    className="mb-1 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}
-                  >
-                    Email: {contacto.email}
-                  </Card.Text>
-                  <Card.Text
-                    className="mb-1 text-muted"
-                    style={{ fontSize: "1rem", color: "#333" }}
-                  >
-                    Tel: {contacto.phone}
-                  </Card.Text>
-                  {tipoUsuario === "admin" && (
-                    <div className="d-flex justify-content-end">
-                      <Button
-                        variant="secondary"
-                        className="btn-md"
-                        onClick={() => setEditedProduct(contacto)}
-                      >
-                        Editar
-                      </Button>
-                    </div>
-                  )}
-                </Col>
-              </Row>
-            )}
-          </Card>
-        ))}
-      </Row>
-    </>
+                    Editar
+                    <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z" />
+                    </svg>
+                  </button>
+                </div>
+              )}
+            </>
+          )}
+        </div>
+      ))}
+    </div>
   );
 };
+
 export default ItemContacto;

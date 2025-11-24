@@ -1,12 +1,9 @@
 import "./App.css";
-import "bootstrap/dist/css/bootstrap.min.css";
 import NavbarNoticiasContacto from "./componentes/NavbarNoticias/NavbarNoticias.jsx";
 import ContactList from "./componentes/ItemContactList/ContactList.jsx";
 import { useSelector } from "react-redux";
 import React, { useState } from "react"; /* el use stage es  de react */
 import NoticiasList from "./componentes/itemNoticiaList/noticiaList.jsx";
-import ButtonsList from "./componentes/buttonsList/buttonList.jsx";
-import { Row, Col, Container } from "react-bootstrap";
 import ButtonsListAdmin from "./componentes/buttonListAdmin/buttonListAdmin.jsx";
 import ItemCrearNoticia from "./componentes/ItemCrearNoticia/ItemCrearNoticia.jsx";
 import ItemCrearContacto from "./componentes/ItemCrearContacto/ItemCrearContacto.jsx";
@@ -32,20 +29,20 @@ function App() {
       {useAuth === "autorizado" && (
         <>
           <NavbarNoticiasContacto />
-          <Container className="mt-1">
+          <div className="container mx-auto mt-1 px-4">
             <ButtonsListAdmin
               onViewChange={handleNavClick}
               crearItem={handleCreateItem}
             />
-            <Row>
-              <Col>
+            <div className="flex flex-wrap">
+              <div className="w-full">
                 {view === "noticias" && <NoticiasList />}
                 {view === "contactos" && <ContactList />}
                 {view === "crearNoticia" && <ItemCrearNoticia />}
                 {view === "crearContacto" && <ItemCrearContacto />}
-              </Col>
-            </Row>
-          </Container>
+              </div>
+            </div>
+          </div>
         </>
       )}
     </>
