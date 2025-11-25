@@ -1,102 +1,80 @@
-.stars-container {
+/* Fondo base */
+.login-background {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+    inset: 0;
+    background-color: #0f172a;
+    /* Slate 900 */
     overflow: hidden;
+    z-index: 0;
 }
 
-.stars,
-.stars2,
-.stars3 {
+/* Orbes de luz difuminados */
+.blob {
     position: absolute;
-    top: -50%;
-    left: -50%;
-    width: 200%;
-    height: 200%;
-    background: transparent;
-    transition: transform 0.3s ease-out;
-    will-change: transform;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.6;
+    animation: float 10s infinite ease-in-out;
 }
 
-.stars {
-    background-image:
-        radial-gradient(2px 2px at 20px 30px, white, transparent),
-        radial-gradient(2px 2px at 60px 70px, white, transparent),
-        radial-gradient(1px 1px at 50px 50px, white, transparent),
-        radial-gradient(1px 1px at 130px 80px, white, transparent),
-        radial-gradient(2px 2px at 90px 10px, white, transparent),
-        radial-gradient(1px 1px at 150px 120px, white, transparent),
-        radial-gradient(1px 1px at 180px 60px, white, transparent);
-    background-repeat: repeat;
-    background-size: 200px 200px;
-    animation: moveStars1 60s linear infinite;
+.blob-1 {
+    top: -10%;
+    left: -10%;
+    width: 500px;
+    height: 500px;
+    background: #4f46e5;
+    /* Indigo */
+    animation-delay: 0s;
 }
 
-.stars2 {
-    background-image:
-        radial-gradient(1px 1px at 40px 60px, white, transparent),
-        radial-gradient(1px 1px at 110px 90px, white, transparent),
-        radial-gradient(1px 1px at 150px 30px, white, transparent),
-        radial-gradient(2px 2px at 70px 120px, white, transparent),
-        radial-gradient(1px 1px at 100px 140px, white, transparent);
-    background-repeat: repeat;
-    background-size: 250px 250px;
-    animation: moveStars2 90s linear infinite;
+.blob-2 {
+    bottom: -10%;
+    right: -10%;
+    width: 500px;
+    height: 500px;
+    background: #ec4899;
+    /* Pink */
+    animation-delay: -2s;
 }
 
-.stars3 {
-    background-image:
-        radial-gradient(1px 1px at 80px 10px, white, transparent),
-        radial-gradient(1px 1px at 160px 120px, white, transparent),
-        radial-gradient(1px 1px at 30px 80px, white, transparent),
-        radial-gradient(2px 2px at 120px 50px, white, transparent),
-        radial-gradient(1px 1px at 200px 100px, white, transparent);
-    background-repeat: repeat;
-    background-size: 300px 300px;
-    animation: moveStars3 120s linear infinite;
+.blob-3 {
+    top: 40%;
+    left: 40%;
+    width: 400px;
+    height: 400px;
+    background: #06b6d4;
+    /* Cyan */
+    animation-delay: -4s;
+    opacity: 0.4;
 }
 
-/* Animación de movimiento lento diagonal para cada capa */
-@keyframes moveStars1 {
-    0% {
-        background-position: 0 0;
-    }
+/* Animación de flotación suave */
+@keyframes float {
 
+    0%,
     100% {
-        background-position: 200px 200px;
+        transform: translate(0, 0) scale(1);
+    }
+
+    33% {
+        transform: translate(30px, -50px) scale(1.1);
+    }
+
+    66% {
+        transform: translate(-20px, 20px) scale(0.9);
     }
 }
 
-@keyframes moveStars2 {
-    0% {
-        background-position: 0 0;
-    }
-
-    100% {
-        background-position: -250px 250px;
-    }
-}
-
-@keyframes moveStars3 {
-    0% {
-        background-position: 0 0;
-    }
-
-    100% {
-        background-position: 300px -300px;
-    }
-}
-
+/* Animación de entrada de la card */
 .animate-fade-in {
-    animation: fade-in 0.6s ease-out;
+    animation: fade-in 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    /* Easing suave */
 }
 
 @keyframes fade-in {
     from {
         opacity: 0;
-        transform: translateY(20px);
+        transform: translateY(30px);
     }
 
     to {

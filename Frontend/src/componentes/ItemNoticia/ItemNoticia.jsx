@@ -207,45 +207,51 @@ const ItemNoticia = () => {
               </div>
             </div>
           ) : (
-            // VISTA DE TARJETA
-            <div className="flex flex-col md:flex-row">
-              {/* Imagen */}
-              <div className="md:w-1/3 h-48 md:h-auto relative overflow-hidden group">
+            // VISTA DE TARJETA MODERNA
+            <div className="flex flex-col md:flex-row h-full">
+              {/* Imagen con efecto zoom */}
+              <div className="md:w-2/5 h-56 md:h-auto relative overflow-hidden group">
+                <div className="absolute inset-0 bg-gray-900/10 group-hover:bg-transparent transition-colors duration-300 z-10"></div>
                 <img
                   src="imagen-noticia.png"
                   alt="Noticia"
-                  className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-500"
+                  className="w-full h-full object-cover transform group-hover:scale-110 transition-transform duration-700"
                   onError={(e) => { e.target.src = "https://placehold.co/600x400?text=Noticia" }}
                 />
-                <div className="absolute top-0 left-0 bg-indigo-600 text-white text-xs font-bold px-3 py-1 rounded-br-lg">
-                  {noticia.carrera}
+                <div className="absolute top-4 left-4 z-20">
+                  <span className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold bg-white/90 backdrop-blur-sm text-indigo-600 shadow-sm">
+                    {noticia.carrera}
+                  </span>
                 </div>
               </div>
 
               {/* Contenido */}
-              <div className="p-6 md:w-2/3 flex flex-col justify-between">
+              <div className="p-6 md:p-8 md:w-3/5 flex flex-col justify-between bg-white relative">
                 <div>
-                  <div className="flex justify-between items-start mb-2">
-                    <h3 className="text-xl font-bold text-gray-900 leading-tight hover:text-indigo-600 transition-colors cursor-pointer">
-                      {noticia.titulo}
-                    </h3>
-                    <span className="text-xs text-gray-400 whitespace-nowrap ml-2">
+                  <div className="flex justify-between items-start mb-3">
+                    <span className="text-xs font-medium text-gray-400 flex items-center gap-1">
+                      <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
                       {noticia.fecha}
                     </span>
                   </div>
-                  <p className="text-gray-600 text-sm leading-relaxed mb-4">
+
+                  <h3 className="text-2xl font-bold text-gray-900 mb-3 leading-tight group-hover:text-indigo-600 transition-colors cursor-pointer">
+                    {noticia.titulo}
+                  </h3>
+
+                  <p className="text-gray-600 text-base leading-relaxed line-clamp-3">
                     {noticia.descripcion}
                   </p>
                 </div>
 
                 {tipoUsuario === "admin" && (
-                  <div className="flex justify-end pt-4 border-t border-gray-100">
+                  <div className="flex justify-end pt-6 mt-2">
                     <button
                       onClick={() => setEditNews(noticia)}
-                      className="text-sm font-medium text-indigo-600 hover:text-indigo-800 transition-colors flex items-center gap-1"
+                      className="group/btn flex items-center gap-2 px-4 py-2 rounded-lg text-sm font-medium text-indigo-600 bg-indigo-50 hover:bg-indigo-100 transition-all duration-200"
                     >
-                      Editar Noticia
-                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      Editar
+                      <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4 transform group-hover/btn:translate-x-0.5 transition-transform" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
                       </svg>
                     </button>

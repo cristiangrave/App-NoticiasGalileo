@@ -27,14 +27,14 @@ function App() {
     <>
       {useAuth === "noAutorizado" && <LoginForm></LoginForm>}
       {useAuth === "autorizado" && (
-        <>
+        <div className="min-h-screen bg-gray-50/50">
           <NavbarNoticiasContacto />
-          <div className="container mx-auto mt-1 px-4">
+          <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
             <ButtonsListAdmin
               onViewChange={handleNavClick}
               crearItem={handleCreateItem}
             />
-            <div className="flex flex-wrap">
+            <div className="mt-8">
               <div className="w-full">
                 {view === "noticias" && <NoticiasList />}
                 {view === "contactos" && <ContactList />}
@@ -43,7 +43,7 @@ function App() {
               </div>
             </div>
           </div>
-        </>
+        </div>
       )}
     </>
   );
