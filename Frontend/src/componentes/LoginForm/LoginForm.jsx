@@ -70,61 +70,136 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4">
-      <div className="bg-white p-10 md:p-12 rounded-2xl shadow-xl w-full max-w-md border border-gray-100">
-        <div className="flex flex-col items-center mb-8 p-4">
-          <img
-            src="/logo-noslogan.png"
-            alt="Logo Universidad Galileo"
-            className="h-24 mb-4 object-contain"
-          />
-          <h2 className="text-2xl md:text-3xl font-bold text-gray-800">Bienvenido</h2>
-          <p className="text-gray-500 text-sm md:text-base">Inicia sesión para continuar</p>
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-teal-600 p-6">
+      {/* Animated background elements */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
+        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-indigo-400 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+      </div>
+
+      <div className="backdrop-blur-xl bg-white/10 p-8 md:p-12 rounded-3xl shadow-2xl w-full max-w-xl border border-white/20 transform transition-all duration-500 hover:scale-[1.02] animate-fade-in">
+        {/* Logo and header */}
+        <div className="flex flex-col items-center mb-10">
+          <div className="bg-white/20 backdrop-blur-md p-4 rounded-2xl mb-6 transform transition-transform duration-300 hover:rotate-6">
+            <img
+              src="/logo-noslogan.png"
+              alt="Logo Universidad Galileo"
+              className="h-20 w-auto object-contain"
+            />
+          </div>
+          <h2 className="text-3xl md:text-4xl font-bold text-white mb-3 tracking-tight">
+            Bienvenido
+          </h2>
+          <p className="text-white/80 text-base md:text-lg">
+            Inicia sesión para continuar
+          </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-6 p-4">
-          <div className="space-y-2">
-            <label for="username" className="block text-sm font-medium text-gray-700 mb-1 font-semibold">Username</label>
-            <input
-              id="username"
-              type="text"
-              placeholder="Ej. usuario@galileo.edu"
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-              required
-              className="w-full mt-2 px-4 py-3 rounded-lg border border-gray-300 focus:ring-3 focus:bg-teal-900 focus:border-teal-900 transition-all outline-none bg-gray-50 focus:bg-white"
-            />
+        <form onSubmit={handleSubmit} className="space-y-6 px-4 md:px-8">
+          {/* Username field */}
+          <div className="group">
+            <label htmlFor="username" className="block text-base font-semibold text-white/90 mb-3">
+              Usuario
+            </label>
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg className="h-5 w-5 text-white/60 group-focus-within:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
+                </svg>
+              </div>
+              <input
+                id="username"
+                type="text"
+                placeholder="usuario@galileo.edu"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+                required
+                className="w-full pl-12 pr-4 py-3.5 rounded-xl border-2 border-white/30 bg-white/10 backdrop-blur-md text-white text-base placeholder-white/50 focus:border-white focus:bg-white/20 focus:outline-none focus:ring-4 focus:ring-white/20 transition-all duration-300"
+              />
+            </div>
           </div>
 
-          <div className="space-y-2">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700 mb-1 font-semibold text-sm">
+          {/* Password field */}
+          <div className="group">
+            <label htmlFor="password" className="block text-base font-semibold text-white/90 mb-3">
               Contraseña
             </label>
-            <input
-              id="password"
-              type="password"
-              placeholder="••••••••"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-              required
-              className="w-full mt-2 px-4 py-3 rounded-lg border border-gray-300 focus:ring-3 focus:bg-teal-900 focus:border-teal-900 transition-all outline-none bg-gray-50 focus:bg-white"
-            />
+            <div className="relative">
+              <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                <svg className="h-5 w-5 text-white/60 group-focus-within:text-white transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" />
+                </svg>
+              </div>
+              <input
+                id="password"
+                type="password"
+                placeholder="••••••••"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                required
+                className="w-full pl-12 pr-4 py-3.5 rounded-xl border-2 border-white/30 bg-white/10 backdrop-blur-md text-white text-base placeholder-white/50 focus:border-white focus:bg-white/20 focus:outline-none focus:ring-4 focus:ring-white/20 transition-all duration-300"
+              />
+            </div>
           </div>
 
+          {/* Submit button */}
           <button
             type="submit"
-            className="w-full mt-4 bg-galileo text-white font-semibold py-3 px-4 rounded-full shadow-md  rounded rounded-full "
+            className="w-full mt-8 bg-white text-teal-600 font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-2xl hover:bg-white/95 transform hover:-translate-y-1 transition-all duration-300 text-lg"
           >
             Iniciar Sesión
           </button>
         </form>
 
-        <div className="mt-6 text-center">
-          <p className="text-xs text-gray-400">
+        {/* Footer */}
+        <div className="mt-10 text-center">
+          <p className="text-sm text-white/60">
             © 2024 Universidad Galileo. Todos los derechos reservados.
           </p>
         </div>
       </div>
+
+      <style jsx>{`
+        @keyframes blob {
+          0%, 100% {
+            transform: translate(0, 0) scale(1);
+          }
+          33% {
+            transform: translate(30px, -50px) scale(1.1);
+          }
+          66% {
+            transform: translate(-20px, 20px) scale(0.9);
+          }
+        }
+        
+        .animate-blob {
+          animation: blob 7s infinite;
+        }
+        
+        .animation-delay-2000 {
+          animation-delay: 2s;
+        }
+        
+        .animation-delay-4000 {
+          animation-delay: 4s;
+        }
+
+        @keyframes fade-in {
+          from {
+            opacity: 0;
+            transform: translateY(20px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+
+        .animate-fade-in {
+          animation: fade-in 0.6s ease-out;
+        }
+      `}</style>
     </div>
   );
 };

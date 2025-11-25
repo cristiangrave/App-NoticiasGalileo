@@ -1,7 +1,4 @@
 import React, { useState } from "react";
-import { Card, Row, Col, Form, Button, Image } from "react-bootstrap";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./ItemCrearContacto.css";
 import { useDispatch } from "react-redux";
 import { addContact } from "../../redux/reducers/contactSlice";
 import axios from "axios";
@@ -14,7 +11,8 @@ const ItemCrearContacto = () => {
   const [phone, setPhone] = useState("");
   const [course, setCourse] = useState("");
   const [puesto, setPuesto] = useState("");
-  const [estado, setEstado] = useState("");
+  const [estado, setEstado] = useState("activo");
+
   const Toast = Swal.mixin({
     toast: true,
     position: "bottom-end",
@@ -26,7 +24,8 @@ const ItemCrearContacto = () => {
       toast.onmouseleave = Swal.resumeTimer;
     },
   });
-  const handleCreateContact = () => {
+
+  const handleCreateContact = async () => {
     if (name && email && phone && course && puesto) {
       const dataContact = {
         name: name,
@@ -37,127 +36,165 @@ const ItemCrearContacto = () => {
         imagen: "imagen.png",
         estado: estado,
       };
-      axios
-        .post("http://localhost:3001/contactosEstudiantes/", dataContact)
-        .then(() => {
-          Toast.fire({
-            icon: "success",
-            title: "Contacto Guardado Correctamente",
-          });
-          dispatch(addContact(dataContact));
-          setName("");
-          setEmail("");
-          setPhone("");
-          setCourse("");
-          setPuesto("");
-        })
-        .catch((error) => {
-          Toast.fire({
-            icon: "danger",
-            title: "Error al Crear Contacto Nuevo : " + error,
-          });
-          console.error(error);
+
+      try {
+        /*
+        await axios.post("http://localhost:3001/contactosEstudiantes/", dataContact);
+        */
+
+        // Simulación de guardado
+        await new Promise(resolve => setTimeout(resolve, 500));
+
+        dispatch(addContact(dataContact));
+
+        Toast.fire({
+          icon: "success",
+          title: "Contacto Guardado Correctamente (Simulado)",
         });
+
+        // Limpiar campos
+        setName("");
+        setEmail("");
+        setPhone("");
+        setCourse("");
+        setPuesto("");
+        setEstado("activo");
+      } catch (error) {
+        Toast.fire({
+          icon: "error",
+          title: "Error al Crear Contacto",
+        });
+        console.error(error);
+      }
+    } else {
+      Toast.fire({
+        icon: "warning",
+        title: "Por favor complete todos los campos requeridos",
+      });
     }
   };
+
   return (
-    <Row className="d-flex justify-content-center align-items-center">
-      <Card className="p-4 my-4 tarjeta-contacto">
-        <Form>
-          <Row>
-            <Col
-              xs={12}
-              md={6}
-              className="d-flex justify-content-center align-items-center text-center mb-3">
-              <Row className="justify-content-center align-items-center">
-                <Image
+    <div className="flex justify-center items-center w-full p-4">
+      <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-4xl border border-gray-100">
+        <div className="mb-6 border-b pb-4">
+          <h2 className="text-2xl font-bold text-gray-800">Crear Nuevo Contacto</h2>
+          <p className="text-gray-500 text-sm">Complete la información del contacto académico.</p>
+        </div>
+
+        <form onSubmit={(e) => e.preventDefault()}>
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
+            {/* Sección de Imagen */}
+            <div className="md:col-span-4 flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300 hover:border-indigo-500 transition-colors cursor-pointer group">
+              <div className="relative w-32 h-32 mb-2 overflow-hidden rounded-full bg-gray-200 flex items-center justify-center group-hover:scale-105 transition-transform">
+                <img
                   src="/icono-agregar-imagen.png"
-                  onClick={() => {
-                    console.log("click en imagen hacer algo como");
-                  }}
-                  roundedCircle
-                  rounded
+                  alt="Agregar imagen"
+                  className="w-16 h-16 opacity-50 group-hover:opacity-80"
                 />
-                <Form.Control type="file" size="sm" />
-              </Row>
-            </Col>
-            <Col xs={12} md={6} className="mb-3">
-              <Form.Group controlId="formTitle" className="mb-3">
-                <Form.Label>Nombre Contacto</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Nombre Contacto"
-                />
-              </Form.Group>
-              <Form.Group controlId="formCategory" className="mb-3">
-                <Form.Label>Puesto</Form.Label>
-                <Form.Control
-                  type="text"
-                  value={puesto}
-                  onChange={(e) => setPuesto(e.target.value)}
-                  placeholder="Puesto que Desempeña"
-                />
-              </Form.Group>
-              <Form.Group controlId="formDate">
-                <Form.Label>Correo Electronico</Form.Label>
-                <Form.Control
-                  type="email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  placeholder="Correo Electronico "
-                />
-              </Form.Group>
-              <Form.Group controlId="formDate">
-                <Form.Label>Carrera</Form.Label>
-                <Form.Control
-                  type="email"
-                  value={course}
-                  onChange={(e) => setCourse(e.target.value)}
-                  placeholder="Carrera"
-                />
-              </Form.Group>
-            </Col>
-          </Row>
-          <Col xs={12} md={12}>
-            <Row>
-              <Col xs={12} md={6} className="mb-3">
-                <Form.Group controlId="formCareer">
-                  <Form.Label>Telefono</Form.Label>
-                  <Form.Control
-                    type="number  "
+              </div>
+              <span className="text-sm text-gray-500 font-medium group-hover:text-indigo-600">Subir Foto de Perfil</span>
+              <input type="file" className="hidden" />
+            </div>
+
+            {/* Campos del Formulario */}
+            <div className="md:col-span-8 space-y-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Nombre Completo</label>
+                  <input
+                    type="text"
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
+                    placeholder="Ej. Ing. Juan Pérez"
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Puesto</label>
+                  <input
+                    type="text"
+                    value={puesto}
+                    onChange={(e) => setPuesto(e.target.value)}
+                    placeholder="Ej. Director de Carrera"
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Correo Electrónico</label>
+                  <input
+                    type="email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="correo@galileo.edu"
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Teléfono</label>
+                  <input
+                    type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
+                    placeholder="24238000"
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
                   />
-                </Form.Group>
-              </Col>
-              <Col xs={12} md={6} className="mb-3">
-                <Form.Group controlId="formStatus" className="mb-3">
-                  <Form.Label>Estado</Form.Label>
-                  <Form.Select
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Carrera</label>
+                  <input
+                    type="text"
+                    value={course}
+                    onChange={(e) => setCourse(e.target.value)}
+                    placeholder="Ej. Ingeniería en Sistemas"
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-sm font-medium text-gray-700 mb-1">Estado</label>
+                  <select
                     value={estado}
-                    onChange={(e) => setEstado(e.target.value)}>
+                    onChange={(e) => setEstado(e.target.value)}
+                    className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all bg-white"
+                  >
                     <option value="activo">Activo</option>
                     <option value="inactivo">Inactivo</option>
-                  </Form.Select>
-                </Form.Group>
-              </Col>
-            </Row>
-          </Col>
-          <Row className="mt-2">
-            <Col className="d-flex justify-content-end">
-              <Button variant="secondary" className="me-2">
-                Cancelar
-              </Button>
-              <Button variant="dark" onClick={handleCreateContact}>
-                Guardar
-              </Button>
-            </Col>
-          </Row>
-        </Form>
-      </Card>
-    </Row>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div className="mt-8 flex justify-end space-x-3 border-t pt-4">
+            <button
+              type="button"
+              className="px-6 py-2 rounded-lg bg-gray-200 text-gray-700 font-medium hover:bg-gray-300 transition-colors"
+              onClick={() => {
+                setName("");
+                setEmail("");
+                setPhone("");
+                setCourse("");
+                setPuesto("");
+              }}
+            >
+              Cancelar
+            </button>
+            <button
+              type="button"
+              className="px-6 py-2 rounded-lg bg-indigo-600 text-white font-medium hover:bg-indigo-700 shadow-md hover:shadow-lg transition-all transform hover:-translate-y-0.5"
+              onClick={handleCreateContact}
+            >
+              Guardar Contacto
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
   );
 };
 
