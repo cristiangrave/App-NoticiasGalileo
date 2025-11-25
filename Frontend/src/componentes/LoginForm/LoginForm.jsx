@@ -3,10 +3,12 @@ import { useDispatch } from "react-redux";
 import { autorizar } from "../../redux/reducers/authSlice";
 import { setUser, setUserRole } from "../../redux/reducers/userSlice";
 import Swal from "sweetalert2";
+import "./LoginForm.css";
 
 const LoginForm = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const dispatch = useDispatch();
 
   const Toast = Swal.mixin({
@@ -70,15 +72,16 @@ const LoginForm = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-teal-600 p-6">
-      {/* Animated background elements */}
-      <div className="absolute inset-0 overflow-hidden">
-        <div className="absolute -top-40 -right-40 w-80 h-80 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob"></div>
-        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-indigo-500 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-2000"></div>
-        <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-80 h-80 bg-indigo-400 rounded-full mix-blend-multiply filter blur-xl opacity-70 animate-blob animation-delay-4000"></div>
+    <div className="min-h-screen flex items-center justify-center relative overflow-hidden bg-gradient-to-b from-gray-900 via-blue-900 to-gray-900 p-6">
+      {/* Starfield background */}
+      <div className="stars-container">
+        <div className="stars"></div>
+        <div className="stars2"></div>
+        <div className="stars3"></div>
       </div>
 
-      <div className="backdrop-blur-xl bg-white/10 p-8 md:p-12 rounded-3xl shadow-2xl w-full max-w-xl border border-white/20 transform transition-all duration-500 hover:scale-[1.02] animate-fade-in">
+      {/* Glassmorphism card */}
+      <div className="backdrop-blur-xl bg-white/10 p-8 md:p-12 rounded-3xl shadow-2xl w-full max-w-xl border border-white/20 transform transition-all duration-500 hover:scale-[1.02] animate-fade-in relative z-10">
         {/* Logo and header */}
         <div className="flex flex-col items-center mb-10">
           <div className="bg-white/20 backdrop-blur-md p-4 rounded-2xl mb-6 transform transition-transform duration-300 hover:rotate-6">
@@ -146,7 +149,7 @@ const LoginForm = () => {
           {/* Submit button */}
           <button
             type="submit"
-            className="w-full mt-8 bg-white text-teal-600 font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-2xl hover:bg-white/95 transform hover:-translate-y-1 transition-all duration-300 text-lg"
+            className="w-full mt-8 bg-white text-blue-900 font-bold py-4 px-6 rounded-xl shadow-lg hover:shadow-2xl hover:bg-white/95 transform hover:-translate-y-1 transition-all duration-300 text-lg"
           >
             Iniciar Sesión
           </button>
@@ -161,28 +164,67 @@ const LoginForm = () => {
       </div>
 
       <style jsx>{`
-        @keyframes blob {
-          0%, 100% {
-            transform: translate(0, 0) scale(1);
-          }
-          33% {
-            transform: translate(30px, -50px) scale(1.1);
-          }
-          66% {
-            transform: translate(-20px, 20px) scale(0.9);
-          }
+        .stars-container {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          overflow: hidden;
         }
-        
-        .animate-blob {
-          animation: blob 7s infinite;
+
+        .stars, .stars2, .stars3 {
+          position: absolute;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: transparent;
         }
-        
-        .animation-delay-2000 {
+
+        .stars {
+          background-image: 
+            radial-gradient(2px 2px at 20px 30px, white, transparent),
+            radial-gradient(2px 2px at 60px 70px, white, transparent),
+            radial-gradient(1px 1px at 50px 50px, white, transparent),
+            radial-gradient(1px 1px at 130px 80px, white, transparent),
+            radial-gradient(2px 2px at 90px 10px, white, transparent);
+          background-repeat: repeat;
+          background-size: 200px 200px;
+          animation: twinkle 3s ease-in-out infinite;
+        }
+
+        .stars2 {
+          background-image: 
+            radial-gradient(1px 1px at 40px 60px, white, transparent),
+            radial-gradient(1px 1px at 110px 90px, white, transparent),
+            radial-gradient(1px 1px at 150px 30px, white, transparent),
+            radial-gradient(2px 2px at 70px 120px, white, transparent);
+          background-repeat: repeat;
+          background-size: 250px 250px;
+          animation: twinkle 4s ease-in-out infinite;
+          animation-delay: 1s;
+        }
+
+        .stars3 {
+          background-image: 
+            radial-gradient(1px 1px at 80px 10px, white, transparent),
+            radial-gradient(1px 1px at 160px 120px, white, transparent),
+            radial-gradient(1px 1px at 30px 80px, white, transparent),
+            radial-gradient(2px 2px at 120px 50px, white, transparent);
+          background-repeat: repeat;
+          background-size: 300px 300px;
+          animation: twinkle 5s ease-in-out infinite;
           animation-delay: 2s;
         }
-        
-        .animation-delay-4000 {
-          animation-delay: 4s;
+
+        @keyframes twinkle {
+          0%, 100% {
+            opacity: 0.5;
+          }
+          50% {
+            opacity: 1;
+          }
         }
 
         @keyframes fade-in {
