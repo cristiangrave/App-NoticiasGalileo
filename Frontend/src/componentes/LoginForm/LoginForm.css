@@ -11,11 +11,13 @@
 .stars2,
 .stars3 {
     position: absolute;
-    top: 0;
-    left: 0;
+    top: -50%;
+    left: -50%;
     width: 200%;
     height: 200%;
     background: transparent;
+    transition: transform 0.3s ease-out;
+    will-change: transform;
 }
 
 .stars {
@@ -29,7 +31,7 @@
         radial-gradient(1px 1px at 180px 60px, white, transparent);
     background-repeat: repeat;
     background-size: 200px 200px;
-    animation: moveStars 50s linear infinite;
+    animation: moveStars1 60s linear infinite;
 }
 
 .stars2 {
@@ -41,7 +43,7 @@
         radial-gradient(1px 1px at 100px 140px, white, transparent);
     background-repeat: repeat;
     background-size: 250px 250px;
-    animation: moveStars 100s linear infinite;
+    animation: moveStars2 90s linear infinite;
 }
 
 .stars3 {
@@ -53,16 +55,37 @@
         radial-gradient(1px 1px at 200px 100px, white, transparent);
     background-repeat: repeat;
     background-size: 300px 300px;
-    animation: moveStars 150s linear infinite;
+    animation: moveStars3 120s linear infinite;
 }
 
-@keyframes moveStars {
-    from {
-        transform: translateY(-50%);
+/* Animación de movimiento lento diagonal para cada capa */
+@keyframes moveStars1 {
+    0% {
+        background-position: 0 0;
     }
 
-    to {
-        transform: translateY(0);
+    100% {
+        background-position: 200px 200px;
+    }
+}
+
+@keyframes moveStars2 {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: -250px 250px;
+    }
+}
+
+@keyframes moveStars3 {
+    0% {
+        background-position: 0 0;
+    }
+
+    100% {
+        background-position: 300px -300px;
     }
 }
 
