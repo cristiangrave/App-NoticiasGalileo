@@ -4,13 +4,19 @@ import Swal from "sweetalert2";
 import { addNews } from "../../redux/reducers/newsSlice";
 import axios from "axios";
 
-const ItemCrearNoticia = () => {
+const ItemCrearNoticia = ({ onViewChange }) => {
   const [fecha, setFecha] = useState(new Date().toISOString().split("T")[0]);
   const [titulo, setTitulo] = useState("");
   const [descripcion, setDescripcion] = useState("");
   const [carrera, setCarrera] = useState("");
   const [estado, setEstado] = useState("activo");
   const [categoria, setCategoria] = useState("Categoria 1");
+
+  const handleViewChange = (view) => {
+    onViewChange(view);
+  };
+
+
 
   const dispatch = useDispatch();
 
@@ -187,6 +193,7 @@ const ItemCrearNoticia = () => {
                 setTitulo("");
                 setDescripcion("");
                 setCarrera("");
+                handleViewChange("noticias");
               }}
             >
               Cancelar

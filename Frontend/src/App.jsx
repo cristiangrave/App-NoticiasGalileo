@@ -38,8 +38,8 @@ function App() {
               <div className="w-full">
                 {view === "noticias" && <NoticiasList />}
                 {view === "contactos" && <ContactList />}
-                {view === "crearNoticia" && <ItemCrearNoticia />}
-                {view === "crearContacto" && <ItemCrearContacto />}
+                {view === "crearNoticia" && <ItemCrearNoticia onViewChange={handleNavClick} />}
+                {view === "crearContacto" && <ItemCrearContacto onViewChange={handleNavClick} />}
               </div>
             </div>
           </div>
