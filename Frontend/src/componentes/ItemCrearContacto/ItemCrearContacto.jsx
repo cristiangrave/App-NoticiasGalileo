@@ -4,7 +4,7 @@ import { addContact } from "../../redux/reducers/contactSlice";
 import axios from "axios";
 import Swal from "sweetalert2";
 
-const ItemCrearContacto = () => {
+const ItemCrearContacto = ({ onViewChange }) => {
   const dispatch = useDispatch();
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -13,6 +13,9 @@ const ItemCrearContacto = () => {
   const [puesto, setPuesto] = useState("");
   const [estado, setEstado] = useState("activo");
 
+  const handleViewChange = (view) => {
+    onViewChange(view);
+  };
   const Toast = Swal.mixin({
     toast: true,
     position: "bottom-end",
@@ -180,6 +183,7 @@ const ItemCrearContacto = () => {
                 setPhone("");
                 setCourse("");
                 setPuesto("");
+                handleViewChange("contactos");
               }}
             >
               Cancelar

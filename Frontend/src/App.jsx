@@ -22,6 +22,7 @@ function App() {
       setView("crearContacto");
     }
   };
+
   /*Utilizando hook createContext: Esto lo hago para poder pasar el  tipo de usuarios a los componentes que la utilizan para no pasar la prop directamente en el componente */
   return (
     <>
@@ -30,10 +31,13 @@ function App() {
         <div className="min-h-screen bg-gray-50/50">
           <NavbarNoticiasContacto />
           <div className="max-w-7xl mx-auto py-8 px-4 sm:px-6 lg:px-8">
-            <ButtonsListAdmin
-              onViewChange={handleNavClick}
-              crearItem={handleCreateItem}
-            />
+            {view === "crearNoticia" || view === "crearContacto" ?
+              null
+              : <ButtonsListAdmin
+                onViewChange={handleNavClick}
+                crearItem={handleCreateItem}
+              />
+            }
             <div className="mt-8">
               <div className="w-full">
                 {view === "noticias" && <NoticiasList />}
