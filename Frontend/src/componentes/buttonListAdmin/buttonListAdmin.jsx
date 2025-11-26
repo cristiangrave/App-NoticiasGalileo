@@ -23,7 +23,12 @@ const ButtonsListAdmin = ({ onViewChange, crearItem }) => {
               className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${activeView === "noticias"
                 ? "bg-indigo-50 text-indigo-700 shadow-sm ring-1 ring-indigo-200"
                 : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+<<<<<<< HEAD
                 }`}>
+=======
+                }`}
+            >
+>>>>>>> 1905b78acf92aa795995a604c90ec2d40660a717
               <FontAwesomeIcon icon={faNewspaper} />
               Noticias
             </button>
@@ -32,7 +37,12 @@ const ButtonsListAdmin = ({ onViewChange, crearItem }) => {
               className={`flex items-center gap-2 px-6 py-2.5 rounded-lg text-sm font-medium transition-all duration-200 ${activeView === "contactos"
                 ? "bg-indigo-50 text-indigo-700 shadow-sm ring-1 ring-indigo-200"
                 : "text-gray-600 hover:text-gray-900 hover:bg-gray-50"
+<<<<<<< HEAD
                 }`}>
+=======
+                }`}
+            >
+>>>>>>> 1905b78acf92aa795995a604c90ec2d40660a717
               <FontAwesomeIcon icon={faAddressBook} />
               Contactos
             </button>
