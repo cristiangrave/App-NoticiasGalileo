@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { useDispatch } from "react-redux";
 import Swal from "sweetalert2";
 import { addNews } from "../../redux/reducers/newsSlice";
@@ -11,6 +11,8 @@ const ItemCrearNoticia = ({ onViewChange }) => {
   const [carrera, setCarrera] = useState("");
   const [estado, setEstado] = useState("activo");
   const [categoria, setCategoria] = useState("Categoria 1");
+  const [imagenPreview, setImagenPreview] = useState(null);
+  const fileInputRef = useRef(null);
 
   const handleViewChange = (view) => {
     onViewChange(view);
@@ -31,6 +33,24 @@ const ItemCrearNoticia = ({ onViewChange }) => {
       toast.onmouseleave = Swal.resumeTimer;
     },
   });
+
+  const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      if (file.type === "image/png" || file.type === "image/jpeg") {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImagenPreview(reader.result);
+        };
+        reader.readAsDataURL(file);
+      } else {
+        Toast.fire({
+          icon: "error",
+          title: "Formato de imagen no válido. Solo PNG o JPEG.",
+        });
+      }
+    }
+  };
 
   const handleGuardarNoticia = async () => {
     if (fecha && titulo && descripcion && carrera) {
@@ -69,6 +89,7 @@ const ItemCrearNoticia = ({ onViewChange }) => {
         setDescripcion("");
         setCarrera("");
         setEstado("activo");
+        setImagenPreview(null);
 
       } catch (error) {
         console.error(error);
@@ -92,22 +113,38 @@ const ItemCrearNoticia = ({ onViewChange }) => {
           <h2 className="text-2xl font-bold text-gray-800">Crear Nueva Noticia</h2>
           <p className="text-gray-500 text-sm">Complete la información para publicar una nueva noticia.</p>
         </div>
-
         <form onSubmit={(e) => e.preventDefault()}>
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-            {/* Sección de Imagen */}
-            <div className="md:col-span-4 flex flex-col items-center justify-center p-4 bg-gray-50 rounded-lg border-2 border-dashed border-gray-300 hover:border-indigo-500 transition-colors cursor-pointer group">
-              <div className="relative w-32 h-32 mb-2 overflow-hidden rounded-full bg-gray-200 flex items-center justify-center group-hover:scale-105 transition-transform">
-                <img
-                  src="/icono-agregar-imagen.png"
-                  alt="Agregar imagen"
-                  className="w-16 h-16 opacity-50 group-hover:opacity-80"
-                />
+            <div
+              className="md:col-span-4 flex flex-col items-center justify-center p-4 bg-gray-50 rounded-xl border-2 border-dashed border-gray-300 hover:border-indigo-500 transition-colors cursor-pointer group"
+              onClick={() => fileInputRef.current.click()}
+            >
+              <div className="relative w-full mb-2 overflow-hidden rounded-lg bg-gray-200 flex items-center justify-center group-hover:scale-105 transition-transform">
+                {imagenPreview ? (
+                  <img
+                    src={imagenPreview}
+                    alt="Vista previa"
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <img
+                    src="/icono-agregar-imagen.png"
+                    alt="Agregar imagen"
+                    className="w-16 h-16 opacity-50 group-hover:opacity-80 cursor-pointer transition-opacity w-full h-full object-cover"
+                  />
+                )}
               </div>
-              <span className="text-sm text-gray-500 font-medium group-hover:text-indigo-600">Subir Imagen</span>
-              <input type="file" className="hidden" />
+              <span className="text-sm text-gray-500 font-medium group-hover:text-indigo-600 hover:underline">
+                {imagenPreview ? "Cambiar Imagen" : "Subir Imagen"}
+              </span>
+              <input
+                type="file"
+                className="hidden"
+                ref={fileInputRef}
+                accept="image/png, image/jpeg"
+                onChange={handleImageChange}
+              />
             </div>
-
             {/* Campos del Formulario */}
             <div className="md:col-span-8 space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -121,7 +158,6 @@ const ItemCrearNoticia = ({ onViewChange }) => {
                     className="w-full px-4 py-2 rounded-lg border border-gray-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none transition-all"
                   />
                 </div>
-
                 <div>
                   <label className="block text-sm font-medium text-gray-700 mb-1">Estado</label>
                   <select
@@ -193,6 +229,7 @@ const ItemCrearNoticia = ({ onViewChange }) => {
                 setTitulo("");
                 setDescripcion("");
                 setCarrera("");
+                setImagenPreview(null);
                 handleViewChange("noticias");
               }}
             >

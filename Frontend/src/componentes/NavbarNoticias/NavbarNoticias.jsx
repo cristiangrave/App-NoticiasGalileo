@@ -1,8 +1,8 @@
 import CustomUser from "../customUser/CustomUser";
 
 const NavbarNoticiasContacto = () => (
-  <nav className="bg-white/50 backdrop-blur-md sticky top-0 z-50 border-b rounded-b-lg border-gray-200/50 shadow-sm transition-all duration-300">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+  <nav className=" bg-white/50 backdrop-blur-md sticky top-0 z-50 border-b rounded-b-lg border-gray-200/50 shadow-sm transition-all duration-300">
+    <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="flex justify-between items-center h-20">
         {/* Logo Section */}
         <div className="flex-shrink-0 flex items-center group cursor-pointer">
